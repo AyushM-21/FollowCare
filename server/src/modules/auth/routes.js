@@ -10,6 +10,7 @@ import { validateBody } from '../../middleware/validate.js';
 import { authenticate } from '../../middleware/auth.js';
 import { recordAuditLog } from '../../middleware/audit.js';
 import { rateLimit } from '../../middleware/rateLimit.js';
+import { startSession } from '../../middleware/session.js';
 
 export const authRouter = Router();
 
@@ -85,10 +86,7 @@ authRouter.post(
     const permissions = Array.from(permsSet);
 
     // Save session
-    req.session.userId = user.id;
-    await new Promise((resolve, reject) => {
-      req.session.save(err => err ? reject(err) : resolve());
-    });
+    await startSession(req, { userId: user.id });
 
     await recordAuditLog({
       req,
@@ -242,11 +240,7 @@ authRouter.post(
     const patient = ptRes.rows[0];
 
     // Create patient session with 10 min idle timeout
-    req.session.patientId = patient.id;
-    req.session.cookie.maxAge = 10 * 60 * 1000;
-    await new Promise((resolve, reject) => {
-      req.session.save(err => err ? reject(err) : resolve());
-    });
+    await startSession(req, { patientId: patient.id }, 10 * 60 * 1000);
 
     await recordAuditLog({
       req,

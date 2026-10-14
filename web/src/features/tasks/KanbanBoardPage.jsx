@@ -11,6 +11,7 @@
  * (full drag-and-drop can be added later per ARCHITECTURE.md §10.3).
  */
 
+import { normalizeReasons, formatRule } from '../../lib/priority.js';
 import React, { useState, useCallback } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useTasksBoard } from '../../api/queries.js';
@@ -230,14 +231,14 @@ function TaskDrawer({ task, onClose }) {
             </div>
           )}
           {/* Priority reasons */}
-          {task.priorityReasons && Object.keys(task.priorityReasons).length > 0 && (
+          {normalizeReasons(task.priorityReasons).length > 0 && (
             <div>
               <p className="text-slate-500 mb-1">Priority reasons</p>
               <ul className="text-xs text-slate-600 space-y-0.5">
-                {Object.entries(task.priorityReasons).map(([k, v]) => (
-                  <li key={k} className="flex items-center gap-1">
+                {normalizeReasons(task.priorityReasons).map((r) => (
+                  <li key={r.rule} className="flex items-center gap-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-amber-400 flex-shrink-0" />
-                    {k}: <span className="font-medium">+{v}</span>
+                    {formatRule(r.rule)}: <span className="font-medium">+{r.points}</span>
                   </li>
                 ))}
               </ul>

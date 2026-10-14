@@ -23,3 +23,20 @@ export const sessionMiddleware = session({
     maxAge: 15 * 60 * 1000 // 15-minute staff idle timeout per ARCHITECTURE.md Section 11
   }
 });
+
+/**
+ * Start a fresh session holding exactly ONE identity (staff user OR patient).
+ * Regenerating drops any previous identity (a browser shares one cookie across
+ * ports on localhost, so a staff login and a patient login would otherwise merge)
+ * and prevents session fixation.
+ */
+export function startSession(req, identity, maxAgeMs) {
+  return new Promise((resolve, reject) => {
+    req.session.regenerate((err) => {
+      if (err) return reject(err);
+      Object.assign(req.session, identity);
+      if (maxAgeMs) req.session.cookie.maxAge = maxAgeMs;
+      req.session.save((saveErr) => (saveErr ? reject(saveErr) : resolve()));
+    });
+  });
+}

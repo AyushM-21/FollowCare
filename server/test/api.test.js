@@ -411,4 +411,36 @@ describe('FollowCare Backend MVP Domain Modules & APIs Integration Suite', () =>
       }
     });
   });
+  describe('8. One identity per session (shared browser cookie)', () => {
+    const phone = '+919876543210';
+    async function otpFor(agent) {
+      const r = await agent.post('/api/patient-auth/otp/request').send({ phone });
+      return r.body.debugCode;
+    }
+
+    it('patient login on a browser that already has a staff session yields a patient-only session', async () => {
+      const agent = request.agent(app);
+      await agent.post('/api/auth/login').send({ email: 'coord.rahul@followcare.org', password: 'Password123!' }).expect(200);
+      await agent.get('/api/dashboard/metrics').expect(200);
+
+      const code = await otpFor(agent);
+      await agent.post('/api/patient-auth/otp/verify').send({ phone, code }).expect(200);
+
+      await agent.get('/api/me/follow-ups').expect(200);       // patient endpoints work
+      const staffCall = await agent.get('/api/dashboard/metrics');
+      expect([401, 403]).toContain(staffCall.status);          // staff identity is gone
+    });
+
+    it('staff login on a browser that already has a patient session yields a staff-only session', async () => {
+      const agent = request.agent(app);
+      const code = await otpFor(agent);
+      await agent.post('/api/patient-auth/otp/verify').send({ phone, code }).expect(200);
+      await agent.get('/api/me/follow-ups').expect(200);
+
+      await agent.post('/api/auth/login').send({ email: 'coord.rahul@followcare.org', password: 'Password123!' }).expect(200);
+      await agent.get('/api/dashboard/metrics').expect(200);
+      const patientCall = await agent.get('/api/me/follow-ups');
+      expect(patientCall.status).toBe(403);
+    });
+  });
 });

@@ -4,6 +4,7 @@
  * Shows transparent scoring with priority_reasons per ARCHITECTURE.md §9.5
  */
 
+import { normalizeReasons, formatRule } from '../../lib/priority.js';
 import React from 'react';
 import { usePriorityQueue } from '../../api/queries.js';
 import { LoadingSpinner } from '../../components/common/LoadingSpinner.jsx';
@@ -18,7 +19,7 @@ const URGENCY_STYLES = {
 
 function PriorityCard({ item }) {
   const urgencyStyle = URGENCY_STYLES[item.urgency] || 'text-slate-600 bg-slate-50';
-  const reasons = item.priority_reasons || {};
+  const reasons = normalizeReasons(item.priority_reasons);
 
   return (
     <div className="bg-white rounded-lg border border-slate-200 p-4 shadow-sm hover:border-brand-200 transition-colors">
@@ -39,11 +40,11 @@ function PriorityCard({ item }) {
             </p>
           )}
           {/* Priority reasons — transparent scoring */}
-          {Object.keys(reasons).length > 0 && (
+          {reasons.length > 0 && (
             <div className="mt-2 flex flex-wrap gap-1">
-              {Object.entries(reasons).map(([k, v]) => (
-                <span key={k} className="text-xs px-1.5 py-0.5 rounded bg-amber-50 text-amber-700 border border-amber-100">
-                  {k.replace(/_/g, ' ')}: +{v}
+              {reasons.map((r) => (
+                <span key={r.rule} className="text-xs px-1.5 py-0.5 rounded bg-amber-50 text-amber-700 border border-amber-100">
+                  {formatRule(r.rule)}: +{r.points}
                 </span>
               ))}
             </div>
