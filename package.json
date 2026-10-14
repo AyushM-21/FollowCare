@@ -1,0 +1,22 @@
+{
+  "name": "followcare",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Hospital follow-up management system",
+  "workspaces": [
+    "packages/*",
+    "server",
+    "web"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev -w server\" \"npm run dev -w web\"",
+    "build": "npm run build -w packages/shared && npm run build -w web",
+    "test": "npm run test -w server",
+    "migrate": "npm run migrate -w server",
+    "seed": "npm run seed -w server",
+    "worker": "npm run worker -w server"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "name": "followcare-server",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node src/index.js",
+    "worker": "node src/worker.js",
+    "migrate": "node src/lib/migrate.js",
+    "seed": "node src/lib/seed.js",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@followcare/shared": "*",
+    "bcryptjs": "^2.4.3",
+    "bullmq": "^5.8.0",
+    "connect-pg-simple": "^9.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "helmet": "^7.1.0",
+    "ioredis": "^5.4.1",
+    "node-cron": "^3.0.3",
+    "pg": "^8.12.0",
+    "pino": "^9.2.0",
+    "pino-http": "^10.1.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "supertest": "^7.0.0",
+    "vitest": "^1.6.0"
+  }
+}

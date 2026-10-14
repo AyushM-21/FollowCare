@@ -1,0 +1,16 @@
+{
+  "name": "@followcare/shared",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "scripts": {
+    "build": "echo 'Shared package is standard ESM, no build required'"
+  },
+  "dependencies": {
+    "zod": "^3.23.8"
+  }
+}
