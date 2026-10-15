@@ -9,6 +9,8 @@ import { AppError } from './errorHandler.js';
  */
 export function rateLimit({ name, windowSec, max, keyFn = (req) => req.ip }) {
   return async function rateLimitMiddleware(req, res, next) {
+    // Vitest sets NODE_ENV=test; repeated test runs must not trip real limits (set RATE_LIMIT_IN_TEST=1 to exercise them)
+    if (process.env.NODE_ENV === 'test' && !process.env.RATE_LIMIT_IN_TEST) return next();
     try {
       const id = keyFn(req);
       if (!id) return next();

@@ -1,5 +1,7 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
+import crypto from 'crypto';
 import request from 'supertest';
+import { encrypt, hashPhone } from '../src/lib/crypto.js';
 import { app } from '../src/index.js';
 import { pool } from '../src/config/db.js';
 import { redis } from '../src/config/redis.js';
@@ -441,6 +443,62 @@ describe('FollowCare Backend MVP Domain Modules & APIs Integration Suite', () =>
       await agent.get('/api/dashboard/metrics').expect(200);
       const patientCall = await agent.get('/api/me/follow-ups');
       expect(patientCall.status).toBe(403);
+    });
+  });
+  describe('9. Patient-to-patient isolation', () => {
+    let otherPlanId;
+    let otherPatientId;
+
+    beforeAll(async () => {
+      const phone = '+919800000077';
+      const dept = (await pool.query(`SELECT id FROM departments WHERE code = 'CARD'`)).rows[0].id;
+      const creator = (await pool.query(`SELECT id FROM users WHERE email = 'doctor.sharma@followcare.org'`)).rows[0].id;
+      const pt = await pool.query(
+        `INSERT INTO patients (hospital_reg_no, full_name_enc, primary_phone_enc, phone_hash, assigned_department_id)
+         VALUES ($1, $2, $3, $4, $5) RETURNING id`,
+        ['ISO-' + crypto.randomBytes(3).toString('hex'), encrypt('Other Patient'), encrypt(phone), hashPhone(phone), dept]
+      );
+      otherPatientId = pt.rows[0].id;
+      const plan = await pool.query(
+        `INSERT INTO follow_up_plans (patient_id, department_id, window_start, window_end, urgency, reason_category, channel, status, created_by)
+         VALUES ($1, $2, CURRENT_DATE + 2, CURRENT_DATE + 9, 'routine', 'routine_review', 'in_person', 'active', $3) RETURNING id`,
+        [otherPatientId, dept, creator]
+      );
+      otherPlanId = plan.rows[0].id;
+    });
+
+    afterAll(async () => {
+      await pool.query(`DELETE FROM patients WHERE id = $1`, [otherPatientId]);
+    });
+
+    let patientA;
+    beforeAll(async () => {
+      patientA = request.agent(app);
+      const o = await patientA.post('/api/patient-auth/otp/request').send({ phone: '+919876543210' });
+      await patientA.post('/api/patient-auth/otp/verify').send({ phone: '+919876543210', code: o.body.debugCode }).expect(200);
+    });
+
+    it("does not list another patient's follow-ups", async () => {
+      const a = patientA;
+      const res = await a.get('/api/me/follow-ups').expect(200);
+      const ids = JSON.stringify(res.body);
+      expect(ids).not.toContain(otherPlanId);
+    });
+
+    it("cannot acknowledge another patient's plan", async () => {
+      const a = patientA;
+      const res = await a.post(`/api/me/follow-ups/${otherPlanId}/acknowledge`);
+      expect([403, 404]).toContain(res.status);
+      const row = await pool.query(`SELECT ack_status FROM follow_up_plans WHERE id = $1`, [otherPlanId]);
+      expect(row.rows[0].ack_status).not.toBe('acknowledged');
+    });
+
+    it("cannot report a barrier against another patient's plan", async () => {
+      const a = patientA;
+      const res = await a.post('/api/me/barriers').send({ plan_id: otherPlanId, barrier_type: 'travel', note: 'x' });
+      expect([403, 404]).toContain(res.status);
+      const t = await pool.query(`SELECT count(*)::int AS n FROM tasks WHERE plan_id = $1`, [otherPlanId]);
+      expect(t.rows[0].n).toBe(0);
     });
   });
 });

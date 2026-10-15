@@ -131,6 +131,7 @@ function TaskDrawer({ task, onClose }) {
   const [contactChannel, setContactChannel] = useState('phone_call');
   const [contactOutcome, setContactOutcome] = useState('reached');
   const [contactNotes, setContactNotes] = useState('');
+  const [contactLogged, setContactLogged] = useState('');
   const [showContactForm, setShowContactForm] = useState(false);
 
   const invalidate = () => {
@@ -156,7 +157,12 @@ function TaskDrawer({ task, onClose }) {
   // Log contact attempt
   const contactMutation = useMutation({
     mutationFn: (data) => api.post(`/api/tasks/${task.id}/contact-attempts`, data),
-    onSuccess: () => { setContactNotes(''); setShowContactForm(false); invalidate(); }
+    onSuccess: (_data, vars) => {
+      setContactNotes('');
+      setShowContactForm(false);
+      setContactLogged(`Contact attempt logged (${vars.outcome.replace(/_/g, ' ')}) at ${new Date().toLocaleTimeString()}`);
+      invalidate();
+    }
   });
 
   const handleStatusSave = () => {
@@ -358,6 +364,12 @@ function TaskDrawer({ task, onClose }) {
                 )}
               </form>
             )}
+          </div>
+        )}
+
+        {contactLogged && (
+          <div className="mx-4 mt-3 rounded-md bg-emerald-50 border border-emerald-200 px-3 py-2 text-xs text-emerald-800" role="status">
+            {contactLogged}
           </div>
         )}
 
