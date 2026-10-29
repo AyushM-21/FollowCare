@@ -258,6 +258,20 @@ appointmentsRouter.patch(
 
       await client.query('COMMIT');
 
+      await recordAuditLog({
+        req,
+        action: 'update',
+        entityType: 'appointments',
+        entityId: id,
+        patientId: appt.patient_id,
+        departmentId: appt.department_id,
+        metadata: {
+          previousStatus: appt.status,
+          newStatus: status || appt.status,
+          rescheduled: Boolean(scheduled_at)
+        }
+      });
+
       res.status(200).json({
         message: 'Appointment status updated',
         appointment: updated.rows[0]
