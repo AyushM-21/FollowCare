@@ -8,7 +8,8 @@
     "worker": "node src/worker.js",
     "migrate": "node src/lib/migrate.js",
     "seed": "node src/lib/seed.js",
-    "test": "vitest run"
+    "test": "vitest run",
+    "import:dataset": "node src/scripts/import-dataset.js"
   },
   "dependencies": {
     "@followcare/shared": "*",
