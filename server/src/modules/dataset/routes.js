@@ -7,9 +7,7 @@ export const datasetRouter = Router();
 
 // Dataset explorer is available only to staff roles. The imported dataset is synthetic
 // and intentionally kept separate from live follow-up plans, patients, and task scoring.
-datasetRouter.use(authenticate, requireRole('admin', 'coordinator'));
-
-datasetRouter.get('/dataset/summary', async (_req, res, next) => {
+datasetRouter.get('/dataset/summary', authenticate, requireRole('admin', 'coordinator'), async (_req, res, next) => {
   try {
     const [patients, followups, risks, statuses, levels] = await Promise.all([
       pool.query('SELECT COUNT(*)::int AS count FROM imported_dataset_patients'),
@@ -45,7 +43,7 @@ datasetRouter.get('/dataset/summary', async (_req, res, next) => {
   }
 });
 
-datasetRouter.get('/dataset/followups', async (req, res, next) => {
+datasetRouter.get('/dataset/followups', authenticate, requireRole('admin', 'coordinator'), async (req, res, next) => {
   try {
     const rawLimit = Number.parseInt(String(req.query.limit || '20'), 10);
     const limit = Number.isFinite(rawLimit) ? Math.min(Math.max(rawLimit, 1), 100) : 20;
@@ -88,7 +86,7 @@ datasetRouter.get('/dataset/followups', async (req, res, next) => {
   }
 });
 
-datasetRouter.get('/dataset/risk', async (req, res, next) => {
+datasetRouter.get('/dataset/risk', authenticate, requireRole('admin', 'coordinator'), async (req, res, next) => {
   try {
     const rawLimit = Number.parseInt(String(req.query.limit || '10'), 10);
     const limit = Number.isFinite(rawLimit) ? Math.min(Math.max(rawLimit, 1), 50) : 10;
