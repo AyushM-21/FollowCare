@@ -79,6 +79,7 @@ describe('FollowCare Backend MVP Domain Modules & APIs Integration Suite', () =>
       expect(res.body.permissions).toContain('plan:approve');
       expect(res.body.departments[0].code).toBe('CARD');
       expect(res.headers['set-cookie']).toBeDefined();
+      expect(res.headers['set-cookie'].join(';')).toMatch(/Max-Age=900/);
     });
 
     it('authenticates Coordinator Rahul and establishes coordinator session', async () => {
@@ -177,6 +178,7 @@ describe('FollowCare Backend MVP Domain Modules & APIs Integration Suite', () =>
       expect(res.status).toBe(200);
       expect(res.body.patient.hospitalRegNo).toBe('FC-1001');
       expect(res.headers['set-cookie']).toBeDefined();
+      expect(res.headers['set-cookie'].join(';')).toMatch(/Max-Age=600/);
     });
   });
 
