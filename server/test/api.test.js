@@ -228,6 +228,58 @@ describe('FollowCare Backend MVP Domain Modules & APIs Integration Suite', () =>
       expect(after.rows[0].count).toBe(before.rows[0].count);
     });
 
+    it('prevents Cardiology doctor from booking an Oncology appointment', async () => {
+      const before = await pool.query(
+        `SELECT count(*)::int AS count FROM appointments WHERE patient_id = $1`,
+        [oncoPatientId]
+      );
+
+      const res = await doctorAgent
+        .post('/api/appointments')
+        .send({
+          patient_id: oncoPatientId,
+          department_id: oncoDeptId,
+          scheduled_at: '2026-11-15T10:00:00.000Z',
+          walk_in: false
+        });
+
+      expect(res.status).toBe(403);
+      expect(res.body.title).toBe('Forbidden');
+      expect(res.body.detail.toLowerCase()).toContain('department');
+
+      const after = await pool.query(
+        `SELECT count(*)::int AS count FROM appointments WHERE patient_id = $1`,
+        [oncoPatientId]
+      );
+      expect(after.rows[0].count).toBe(before.rows[0].count);
+    });
+
+    it('prevents Cardiology doctor from changing an Oncology task status', async () => {
+      const taskRes = await pool.query(
+        `SELECT id, status FROM tasks WHERE department_id = $1 ORDER BY created_at ASC LIMIT 1`,
+        [oncoDeptId]
+      );
+      expect(taskRes.rowCount).toBe(1);
+      const oncologyTask = taskRes.rows[0];
+
+      const res = await doctorAgent
+        .patch(`/api/tasks/${oncologyTask.id}/status`)
+        .send({
+          status: oncologyTask.status === 'in_progress' ? 'awaiting_response' : 'in_progress',
+          comment: 'Cross-department isolation test'
+        });
+
+      expect(res.status).toBe(403);
+      expect(res.body.title).toBe('Forbidden');
+      expect(res.body.detail.toLowerCase()).toContain('department');
+
+      const after = await pool.query(
+        `SELECT status FROM tasks WHERE id = $1`,
+        [oncologyTask.id]
+      );
+      expect(after.rows[0].status).toBe(oncologyTask.status);
+    });
+
     it('returns masked phone number and logs audit entry when viewing patient', async () => {
       const res = await doctorAgent.get(`/api/patients/${cardPatientId}`);
 
