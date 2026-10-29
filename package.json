@@ -14,7 +14,8 @@
     "test": "npm run test -w server",
     "migrate": "npm run migrate -w server",
     "seed": "npm run seed -w server",
-    "worker": "npm run worker -w server"
+    "worker": "npm run worker -w server",
+    "import:dataset": "npm run import:dataset -w server"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
