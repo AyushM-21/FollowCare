@@ -21,6 +21,7 @@ import { priorityRouter } from './modules/priority/routes.js';
 import { appointmentsRouter } from './modules/appointments/routes.js';
 import { patientPortalRouter } from './modules/patient-portal/routes.js';
 import { privacyRouter } from './modules/privacy/routes.js';
+import { datasetRouter } from './modules/dataset/routes.js';
 
 export const app = express();
 
@@ -89,6 +90,7 @@ api.use(priorityRouter);
 api.use(appointmentsRouter);
 api.use(patientPortalRouter);
 api.use(privacyRouter);
+api.use(datasetRouter);
 
 app.use('/api', api);
 
