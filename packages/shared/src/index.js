@@ -201,6 +201,27 @@ export const ROLE_PERMISSIONS = {
 };
 
 // Validation Schemas
+
+export const CreateAppointmentSchema = z.object({
+  plan_id: z.string().uuid().nullable().optional(),
+  patient_id: z.string().uuid(),
+  department_id: z.string().uuid(),
+  clinician_id: z.string().uuid().nullable().optional(),
+  scheduled_at: z.string().refine((value) => !Number.isNaN(Date.parse(value)), {
+    message: 'Invalid appointment date/time'
+  }),
+  walk_in: z.boolean().default(false)
+});
+
+export const UpdateAppointmentSchema = z.object({
+  status: z.enum(['requested', 'scheduled', 'confirmed', 'checked_in', 'attended', 'missed', 'cancelled', 'rescheduled']).optional(),
+  scheduled_at: z.string().refine((value) => !Number.isNaN(Date.parse(value)), {
+    message: 'Invalid appointment date/time'
+  }).optional()
+}).refine((value) => value.status !== undefined || value.scheduled_at !== undefined, {
+  message: 'At least one of status or scheduled_at must be provided'
+});
+
 export const LoginSchema = z.object({
   email: z.string().email(),
   password: z.string().min(6)
