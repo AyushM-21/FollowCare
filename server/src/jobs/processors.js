@@ -6,13 +6,13 @@
 import { pool } from '../config/db.js';
 import { logger } from '../config/logger.js';
 import { decrypt } from '../lib/crypto.js';
-import { MockNotificationProvider } from '../modules/integrations/sms-provider/index.js';
+import { createNotificationProvider } from '../modules/integrations/sms-provider/index.js';
 
 export const MAX_DELIVERY_ATTEMPTS = 3;
 const RETRY_BASE_MINUTES = 15;
 const CLINIC_TZ = process.env.CLINIC_TZ || 'Asia/Kolkata';
 
-const provider = new MockNotificationProvider();
+const provider = createNotificationProvider();
 
 // ── helpers ──────────────────────────────────────────────────────────────────
 
@@ -122,8 +122,14 @@ export async function dispatchDueReminders({ limit = 50 } = {}) {
            SELECT 1 FROM patient_consents
             WHERE patient_id = $1 AND consent_type = 'reminders'
               AND granted = TRUE AND revoked_at IS NULL
+         )
+         UNION ALL
+         SELECT 1 WHERE $2::text = 'whatsapp' AND NOT EXISTS (
+           SELECT 1 FROM patient_consents
+            WHERE patient_id = $1 AND consent_type = 'whatsapp_contact'
+              AND granted = TRUE AND revoked_at IS NULL
          )`,
-        [r.patient_id]
+        [r.patient_id, r.preferred_channel]
       );
       if (blocked.rowCount > 0 || ['cancelled', 'completed', 'superseded'].includes(r.plan_status)) {
         await client.query(`UPDATE reminders SET status = 'suppressed' WHERE id = $1`, [r.id]);
@@ -151,8 +157,10 @@ export async function dispatchDueReminders({ limit = 50 } = {}) {
         language: r.preferred_language || 'en'
       });
 
-      if (result.status === 'delivered') {
-        await client.query(`UPDATE reminders SET status = 'delivered' WHERE id = $1`, [r.id]);
+      if (result.status === 'delivered' || result.status === 'sent') {
+        // Twilio's API acceptance is not proof of delivery. Keep its state as 'sent'
+        // until the signed status callback confirms delivery or failure.
+        await client.query(`UPDATE reminders SET status = $2::delivery_status WHERE id = $1`, [r.id, result.status]);
         stats.sent++;
         continue;
       }

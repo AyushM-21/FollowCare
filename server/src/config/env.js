@@ -34,5 +34,10 @@ export const config = {
   clientUrl: process.env.CLIENT_URL || 'http://localhost:5173',
   notifyProvider: process.env.NOTIFY_PROVIDER || 'mock',
   failRate: parseFloat(process.env.FAIL_RATE || '0.0'),
+  twilioAccountSid: process.env.TWILIO_ACCOUNT_SID || '',
+  twilioAuthToken: process.env.TWILIO_AUTH_TOKEN || '',
+  twilioFromNumber: process.env.TWILIO_FROM_NUMBER || '',
+  twilioWhatsappFrom: process.env.TWILIO_WHATSAPP_FROM || '',
+  publicApiUrl: process.env.PUBLIC_API_URL || '',
   nodeEnv: process.env.NODE_ENV || 'development'
 };

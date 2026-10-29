@@ -17,12 +17,12 @@ const created = { patients: [] };
 let deptId;
 let creatorId;
 
-async function makePatient({ phone, quiet = NEVER_QUIET, consent = true }) {
+async function makePatient({ phone, quiet = NEVER_QUIET, consent = true, channel = 'sms' }) {
   const reg = `JT-${crypto.randomBytes(4).toString('hex')}`;
   const r = await pool.query(
-    `INSERT INTO patients (hospital_reg_no, full_name_enc, primary_phone_enc, phone_hash, quiet_hours, assigned_department_id)
-     VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`,
-    [reg, encrypt('Job Test Patient'), encrypt(phone), hashPhone(phone), quiet, deptId]
+    `INSERT INTO patients (hospital_reg_no, full_name_enc, primary_phone_enc, phone_hash, quiet_hours, assigned_department_id, preferred_channel)
+     VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id`,
+    [reg, encrypt('Job Test Patient'), encrypt(phone), hashPhone(phone), quiet, deptId, channel]
   );
   const patientId = r.rows[0].id;
   created.patients.push(patientId);
@@ -180,6 +180,31 @@ describe('Background jobs', () => {
       [[missingReminder.rows[0].id, revokedReminder.rows[0].id]]
     );
     expect(deliveries.rows[0].n).toBe(0);
+  });
+
+  it('suppresses WhatsApp reminders unless channel-specific consent is active', async () => {
+    const pid = await makePatient({
+      phone: '+919812300006',
+      channel: 'whatsapp',
+      consent: true
+    });
+    const planId = await makePlan(pid, { windowStart: dayOffset(1), windowEnd: dayOffset(8) });
+    await pool.query(
+      `INSERT INTO reminders (plan_id, patient_id, recipient_id, scheduled_for)
+       VALUES ($1, $2, $2, NOW() - INTERVAL '1 minute')`,
+      [planId, pid]
+    );
+
+    await dispatchDueReminders();
+
+    const reminder = await pool.query(`SELECT status FROM reminders WHERE plan_id = $1`, [planId]);
+    expect(reminder.rows[0].status).toBe('suppressed');
+    const delivery = await pool.query(
+      `SELECT count(*)::int AS n FROM reminder_deliveries rd
+       JOIN reminders r ON r.id = rd.reminder_id WHERE r.plan_id = $1`,
+      [planId]
+    );
+    expect(delivery.rows[0].n).toBe(0);
   });
 
   it('defers (does not drop) reminders that fall in quiet hours', async () => {

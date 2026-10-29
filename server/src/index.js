@@ -22,6 +22,7 @@ import { appointmentsRouter } from './modules/appointments/routes.js';
 import { patientPortalRouter } from './modules/patient-portal/routes.js';
 import { privacyRouter } from './modules/privacy/routes.js';
 import { datasetRouter } from './modules/dataset/routes.js';
+import { twilioWebhookRouter } from './modules/integrations/sms-provider/webhook.js';
 
 export const app = express();
 
@@ -91,6 +92,7 @@ api.use(appointmentsRouter);
 api.use(patientPortalRouter);
 api.use(privacyRouter);
 api.use(datasetRouter);
+api.use(twilioWebhookRouter);
 
 app.use('/api', api);
 
