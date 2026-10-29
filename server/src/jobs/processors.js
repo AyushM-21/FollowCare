@@ -191,7 +191,7 @@ export async function dispatchDueReminders({ limit = 50 } = {}) {
     await client.query('COMMIT');
   } catch (err) {
     await client.query('ROLLBACK');
-    logger.error({ err: err.message }, 'reminder.dispatch failed');
+    logger.error({ errorName: err.name }, 'reminder.dispatch failed');
     throw err;
   } finally {
     client.release();
@@ -234,7 +234,7 @@ export async function sweepOverdueWindows() {
     await client.query('COMMIT');
   } catch (err) {
     await client.query('ROLLBACK');
-    logger.error({ err: err.message }, 'window.sweep failed');
+    logger.error({ errorName: err.name }, 'window.sweep failed');
     throw err;
   } finally {
     client.release();
@@ -268,7 +268,7 @@ export async function markNoShows() {
     await client.query('COMMIT');
   } catch (err) {
     await client.query('ROLLBACK');
-    logger.error({ err: err.message }, 'appointment.noshow failed');
+    logger.error({ errorName: err.name }, 'appointment.noshow failed');
     throw err;
   } finally {
     client.release();
