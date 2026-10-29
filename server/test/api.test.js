@@ -188,6 +188,15 @@ describe('FollowCare Backend MVP Domain Modules & APIs Integration Suite', () =>
       expect(patientRemainingMs).toBeGreaterThan(9 * 60 * 1000);
       expect(patientRemainingMs).toBeLessThanOrEqual(10 * 60 * 1000);
     });
+
+    it('rejects reuse of an OTP after successful verification', async () => {
+      const res = await request(app)
+        .post('/api/patient-auth/otp/verify')
+        .send({ phone: '+919876543210', code: otpCode });
+
+      expect(res.status).toBe(400);
+      expect(res.body.detail).toBe('Invalid or expired verification code');
+    });
   });
 
   // ==========================================================================
