@@ -336,7 +336,9 @@ describe('FollowCare Backend MVP Domain Modules & APIs Integration Suite', () =>
       expect(res.status).toBe(200);
       expect(res.body.patient.hospitalRegNo).toBe('FC-1001');
       expect(res.body.patient.fullName).toBe('Aarav Mehta');
-      expect(res.body.patient.phone).toMatch(/^\+91 •••• \d{3}$/); // Masked format
+      expect(res.body.patient.phone).toMatch(/^\+91 •••• \d{3}$/);
+      expect(res.body.patient.email).toBeNull(); // Hidden without an active assigned task
+      expect(res.body.patient.address).toBeNull(); // Masked format
 
       // Verify audit log entry was written
       const auditRes = await pool.query(
