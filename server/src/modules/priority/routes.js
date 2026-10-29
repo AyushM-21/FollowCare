@@ -14,6 +14,7 @@ export const priorityRouter = Router();
 priorityRouter.get(
   '/priority-queue',
   authenticate,
+  requirePermission(Permissions.TASK_WORK),
   deptScope(),
   async (req, res, next) => {
     try {
