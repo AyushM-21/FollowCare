@@ -145,6 +145,18 @@ plansRouter.post(
         ]
       );
 
+      // Build the initial task checklist from plan-required tests and documents.
+      const checklistLabels = [
+        ...required_tests.map((item) => `Required test: ${item}`),
+        ...required_documents.map((item) => `Required document: ${item}`)
+      ];
+      for (const label of checklistLabels) {
+        await client.query(
+          'INSERT INTO task_checklist_items (task_id, label) VALUES ($1, $2)',
+          [taskRes.rows[0].id, label]
+        );
+      }
+
       // Queue generic reminders only for plans that are already clinician-approved
       if (initialStatus === 'active') {
         await scheduleRemindersForPlan(client, {
