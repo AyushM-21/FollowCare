@@ -114,7 +114,15 @@ export async function dispatchDueReminders({ limit = 50 } = {}) {
       const blocked = await client.query(
         `SELECT 1 FROM notification_suppressions WHERE patient_id = $1
          UNION ALL
-         SELECT 1 FROM patient_consents WHERE patient_id = $1 AND consent_type = 'reminders' AND granted = FALSE`,
+         SELECT 1 FROM patient_consents
+          WHERE patient_id = $1 AND consent_type = 'reminders'
+            AND (granted = FALSE OR revoked_at IS NOT NULL)
+         UNION ALL
+         SELECT 1 WHERE NOT EXISTS (
+           SELECT 1 FROM patient_consents
+            WHERE patient_id = $1 AND consent_type = 'reminders'
+              AND granted = TRUE AND revoked_at IS NULL
+         )`,
         [r.patient_id]
       );
       if (blocked.rowCount > 0 || ['cancelled', 'completed', 'superseded'].includes(r.plan_status)) {

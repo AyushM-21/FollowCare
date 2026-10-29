@@ -115,6 +115,37 @@ describe('FollowCare Backend MVP Domain Modules & APIs Integration Suite', () =>
       expect(res.body.user.role).toBe('doctor');
     });
 
+    it('invalidates the session after logout', async () => {
+      const agent = request.agent(app);
+      const login = await agent
+        .post('/api/auth/login')
+        .send({ email: 'coord.rahul@followcare.org', password: 'Password123!' });
+      expect(login.status).toBe(200);
+
+      const logout = await agent.post('/api/auth/logout');
+      expect(logout.status).toBe(200);
+      expect(logout.body.message).toBe('Logged out successfully');
+
+      const me = await agent.get('/api/auth/me');
+      expect(me.status).toBe(401);
+    });
+
+    it('returns the same public OTP message for registered and unregistered numbers', async () => {
+      const registered = await request(app)
+        .post('/api/patient-auth/otp/request')
+        .send({ phone: '+919876543210' });
+      const unregistered = await request(app)
+        .post('/api/patient-auth/otp/request')
+        .send({ phone: '+910000000002' });
+
+      expect(registered.status).toBe(200);
+      expect(unregistered.status).toBe(200);
+      expect(registered.body.message).toBe(unregistered.body.message);
+      expect(registered.body.expiresInSeconds).toBe(unregistered.body.expiresInSeconds);
+      // The development-only OTP is intentionally not part of the public response contract.
+      expect(unregistered.body.debugCode).toBeUndefined();
+    });
+
     it('requests patient OTP with generic anti-enumeration response', async () => {
       const res = await request(app)
         .post('/api/patient-auth/otp/request')
