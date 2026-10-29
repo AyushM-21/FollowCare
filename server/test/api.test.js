@@ -198,6 +198,36 @@ describe('FollowCare Backend MVP Domain Modules & APIs Integration Suite', () =>
       expect(res.body.detail).toContain('unauthorized department');
     });
 
+    it('prevents Cardiology doctor from creating a plan in Oncology for an Oncology patient', async () => {
+      const before = await pool.query(
+        `SELECT count(*)::int AS count FROM follow_up_plans WHERE patient_id = $1`,
+        [oncoPatientId]
+      );
+
+      const res = await doctorAgent
+        .post('/api/plans')
+        .send({
+          patient_id: oncoPatientId,
+          department_id: oncoDeptId,
+          window_start: '2026-11-10',
+          window_end: '2026-11-17',
+          urgency: 'routine',
+          reason_category: 'Department isolation test',
+          channel: 'in_person',
+          instructions_text: 'Synthetic test instructions'
+        });
+
+      expect(res.status).toBe(403);
+      expect(res.body.title).toBe('Forbidden');
+      expect(res.body.detail.toLowerCase()).toContain('department');
+
+      const after = await pool.query(
+        `SELECT count(*)::int AS count FROM follow_up_plans WHERE patient_id = $1`,
+        [oncoPatientId]
+      );
+      expect(after.rows[0].count).toBe(before.rows[0].count);
+    });
+
     it('returns masked phone number and logs audit entry when viewing patient', async () => {
       const res = await doctorAgent.get(`/api/patients/${cardPatientId}`);
 
