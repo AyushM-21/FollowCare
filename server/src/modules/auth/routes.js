@@ -20,7 +20,7 @@ export const authRouter = Router();
 
 authRouter.post(
   '/auth/login',
-  rateLimit({ name: 'login', windowSec: 900, max: 10, keyFn: (req) => `${req.ip}:${String(req.body?.email || '').toLowerCase()}` }),
+  rateLimit({ name: 'login', windowSec: 900, max: 10, keyFn: (req) => `${req.ip}:${String(req.body?.email || '').toLowerCase()}`, failClosed: true }),
   validateBody(LoginSchema),
   async (req, res, next) => {
   try {
@@ -168,9 +168,9 @@ const OTP_MAX_ATTEMPTS = 5;
 
 authRouter.post(
   '/patient-auth/otp/request',
-  rateLimit({ name: 'otp-req-ip', windowSec: 600, max: 20 }),
+  rateLimit({ name: 'otp-req-ip', windowSec: 600, max: 20, failClosed: true }),
   validateBody(PatientOtpRequestSchema),
-  rateLimit({ name: 'otp-req-phone', windowSec: 600, max: 5, keyFn: (req) => hashPhone(req.body.phone) }),
+  rateLimit({ name: 'otp-req-phone', windowSec: 600, max: 5, keyFn: (req) => hashPhone(req.body.phone), failClosed: true }),
   async (req, res, next) => {
     try {
       const { phone } = req.body;
@@ -204,7 +204,7 @@ authRouter.post(
 
 authRouter.post(
   '/patient-auth/otp/verify',
-  rateLimit({ name: 'otp-verify-ip', windowSec: 600, max: 30 }),
+  rateLimit({ name: 'otp-verify-ip', windowSec: 600, max: 30, failClosed: true }),
   validateBody(PatientOtpVerifySchema),
   async (req, res, next) => {
   try {
