@@ -296,6 +296,35 @@ describe('FollowCare Backend MVP Domain Modules & APIs Integration Suite', () =>
       );
       expect(auditRes.rowCount).toBe(1);
     });
+    it('prevents audit log updates and deletes', async () => {
+      const auditRes = await pool.query(
+        `SELECT id, metadata FROM audit_logs
+         WHERE patient_id = $1 AND action = 'view'
+         ORDER BY created_at DESC LIMIT 1`,
+        [cardPatientId]
+      );
+      expect(auditRes.rowCount).toBe(1);
+      const auditId = auditRes.rows[0].id;
+
+      await expect(
+        pool.query(
+          `UPDATE audit_logs SET metadata = '{"tampered": true}'::jsonb WHERE id = $1`,
+          [auditId]
+        )
+      ).rejects.toThrow(/append-only/i);
+
+      await expect(
+        pool.query(`DELETE FROM audit_logs WHERE id = $1`, [auditId])
+      ).rejects.toThrow(/append-only/i);
+
+      const after = await pool.query(
+        `SELECT metadata FROM audit_logs WHERE id = $1`,
+        [auditId]
+      );
+      expect(after.rowCount).toBe(1);
+      expect(after.rows[0].metadata).not.toHaveProperty('tampered');
+    });
+
   });
 
   // ==========================================================================
