@@ -20,6 +20,7 @@ import {
   Calendar,
   AlertTriangle,
   ShieldCheck,
+  Database,
   ChevronLeft,
   ChevronRight,
   LogOut,
@@ -64,6 +65,12 @@ const NAV_ITEMS = [
     to: '/staff/priority',
     label: 'Priority Queue',
     icon: AlertTriangle,
+    roles: [UserRole.ADMIN, UserRole.COORDINATOR]
+  },
+  {
+    to: '/staff/dataset',
+    label: 'Dataset Explorer',
+    icon: Database,
     roles: [UserRole.ADMIN, UserRole.COORDINATOR]
   },
   {
