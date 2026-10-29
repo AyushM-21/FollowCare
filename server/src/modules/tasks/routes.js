@@ -320,10 +320,12 @@ tasksRouter.patch(
       const escalatedAt = status === TaskStatus.ESCALATED ? new Date() : null;
       const updated = await client.query(
         `UPDATE tasks SET
-          status = $1,
-          completed_at = CASE WHEN $2::timestamptz IS NOT NULL THEN $2
-                              WHEN $1 <> 'completed' THEN NULL ELSE completed_at END,
-          escalated_at = CASE WHEN $3::timestamptz IS NOT NULL THEN $3 ELSE escalated_at END,
+          status = $1::task_status,
+          completed_at = CASE WHEN $2::timestamptz IS NOT NULL THEN $2::timestamptz
+                              WHEN $1::task_status <> 'completed'::task_status
+                              THEN NULL ELSE completed_at END,
+          escalated_at = CASE WHEN $3::timestamptz IS NOT NULL
+                              THEN $3::timestamptz ELSE escalated_at END,
           updated_at = CURRENT_TIMESTAMP
          WHERE id = $4 RETURNING *`,
         [status, completedAt, escalatedAt, id]

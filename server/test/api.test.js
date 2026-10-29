@@ -307,7 +307,7 @@ describe('FollowCare Backend MVP Domain Modules & APIs Integration Suite', () =>
           comment: 'Initiated outbound call attempt to patient'
         });
 
-      expect(res.status).toBe(200);
+            expect(res.status).toBe(200);
       expect(res.body.task.status).toBe('in_progress');
 
       // Verify comment was logged in task_comments
