@@ -17,6 +17,7 @@ export const appointmentsRouter = Router();
 appointmentsRouter.get(
   '/appointments',
   authenticate,
+  requirePermission(Permissions.APPOINTMENT_BOOK),
   deptScope(),
   async (req, res, next) => {
     try {
@@ -97,6 +98,30 @@ appointmentsRouter.post(
       }
 
 
+      const patientRes = await client.query(
+        `SELECT assigned_department_id, status FROM patients WHERE id = $1 AND deleted_at IS NULL`,
+        [patient_id]
+      );
+      if (patientRes.rowCount === 0) {
+        return next(new AppError('Patient not found', 404));
+      }
+      if (patientRes.rows[0].assigned_department_id && patientRes.rows[0].assigned_department_id !== department_id) {
+        return next(new AppError('Appointment department must match the patient assigned department', 400));
+      }
+      if (patientRes.rows[0].status !== 'active') {
+        return next(new AppError('Appointments can only be booked for active patients', 400));
+      }
+
+      if (clinician_id) {
+        const clinicianRes = await client.query(
+          `SELECT 1 FROM department_members WHERE user_id = $1 AND department_id = $2 AND active = TRUE`,
+          [clinician_id, department_id]
+        );
+        if (clinicianRes.rowCount === 0) {
+          return next(new AppError('Clinician must be an active member of the selected department', 400));
+        }
+      }
+
       if (plan_id) {
         const planRes = await client.query(
           `SELECT patient_id, department_id FROM follow_up_plans WHERE id = $1 AND deleted_at IS NULL`,
@@ -174,6 +199,19 @@ appointmentsRouter.patch(
       }
 
       const appt = apptRes.rows[0];
+      const allowedTransitions = {
+        requested: ['scheduled', 'confirmed', 'cancelled'],
+        scheduled: ['confirmed', 'checked_in', 'attended', 'missed', 'cancelled', 'rescheduled'],
+        confirmed: ['checked_in', 'attended', 'missed', 'cancelled', 'rescheduled'],
+        checked_in: ['attended', 'cancelled'],
+        attended: [],
+        missed: ['scheduled', 'confirmed', 'rescheduled', 'cancelled'],
+        cancelled: [],
+        rescheduled: ['scheduled', 'confirmed', 'cancelled']
+      };
+      if (status && status !== appt.status && !allowedTransitions[appt.status]?.includes(status)) {
+        return next(new AppError(`Invalid appointment status transition: ${appt.status} -> ${status}`, 409, 'https://followcare.org/errors/conflict'));
+      }
       if (req.departmentIds !== null && !req.departmentIds.includes(appt.department_id)) {
         return next(new AppError('Forbidden: Access to department denied', 403));
       }
