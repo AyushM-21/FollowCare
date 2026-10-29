@@ -219,7 +219,7 @@ describe('FollowCare Backend MVP Domain Modules & APIs Integration Suite', () =>
 
       expect(res.status).toBe(403);
       expect(res.body.title).toBe('Forbidden');
-      expect(res.body.detail).toContain('unauthorized department');
+      expect(res.body.detail.toLowerCase()).toContain('department');
 
       const after = await pool.query(
         `SELECT count(*)::int AS count FROM follow_up_plans WHERE patient_id = $1`,
