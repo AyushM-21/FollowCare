@@ -14,13 +14,15 @@ export function errorHandler(err, req, res, next) {
   const status = err.statusCode || (err.status ? Number(err.status) : 500);
   const type = err.type || (status === 400 ? 'https://followcare.org/errors/bad-request' : 'about:blank');
   const title = err.title || (status === 404 ? 'Not Found' : status === 403 ? 'Forbidden' : status === 401 ? 'Unauthorized' : 'Internal Server Error');
-  const detail = err.message || 'An unexpected error occurred';
-  const instance = req.originalUrl;
+  const isServerError = status >= 500;
+  // Never reflect query strings or internal exception details in public responses.
+  const instance = req.path || req.originalUrl?.split('?')[0] || '/';
   const requestId = req.id || res.getHeader('X-Request-Id');
+  const detail = isServerError ? 'An unexpected error occurred' : (err.message || 'An unexpected error occurred');
 
-  // Log error using PHI-safe logger
-  if (status >= 500) {
-    logger.error({ err, requestId, instance, status }, `Internal Error: ${detail}`);
+  if (isServerError) {
+    // Avoid serializing exception messages/stacks that may contain patient data or secrets.
+    logger.error({ requestId, instance, status, errorName: err.name }, 'Internal server error');
   } else {
     logger.warn({ requestId, instance, status }, `Client Error: ${detail}`);
   }
@@ -34,7 +36,8 @@ export function errorHandler(err, req, res, next) {
     requestId
   };
 
-  if (err.details || err.errors) {
+  // Validation issues contain field names/messages, not submitted values.
+  if (!isServerError && (err.details || err.errors)) {
     problemDetails.invalidParams = err.details || err.errors;
   }
 
