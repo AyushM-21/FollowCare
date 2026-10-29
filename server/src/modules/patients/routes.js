@@ -138,8 +138,8 @@ patientsRouter.get(
 
       const fullName = decrypt(patient.full_name_enc);
       const rawPhone = decrypt(patient.primary_phone_enc);
-      const email = decrypt(patient.email_enc);
-      const address = decrypt(patient.address_enc);
+      const email = canViewUnmaskedPhone ? decrypt(patient.email_enc) : null;
+      const address = canViewUnmaskedPhone ? decrypt(patient.address_enc) : null;
 
       // Audit log entry for PHI view
       await recordAuditLog({
@@ -149,7 +149,8 @@ patientsRouter.get(
         entityId: patient.id,
         patientId: patient.id,
         departmentId: patient.assigned_department_id,
-        metadata: { unmaskedContactViewed: canViewUnmaskedPhone }
+        metadata: { unmaskedContactViewed: canViewUnmaskedPhone },
+        required: true
       });
 
       res.status(200).json({
