@@ -69,8 +69,11 @@ twilioWebhookRouter.post('/webhooks/twilio/status', async (req, res) => {
   }
 
   const errorCode = req.body?.ErrorCode ? `TWILIO_${String(req.body.ErrorCode).replace(/[^0-9A-Za-z_-]/g, '').slice(0, 40)}` : null;
+  let client;
   try {
-    const update = await pool.query(
+    client = await pool.connect();
+    await client.query('BEGIN');
+    const update = await client.query(
       `UPDATE reminder_deliveries
           SET status = CASE
                 WHEN status IN ('delivered', 'failed', 'suppressed') THEN status
@@ -86,12 +89,13 @@ twilioWebhookRouter.post('/webhooks/twilio/status', async (req, res) => {
                 ELSE delivered_at
               END
         WHERE provider_message_id = $1
+          AND status NOT IN ('delivered', 'failed', 'suppressed')
         RETURNING reminder_id, status, attempt`,
       [providerMessageId, status, errorCode]
     );
 
     for (const row of update.rows) {
-      const latestAttempt = await pool.query(
+      const latestAttempt = await client.query(
         `SELECT NOT EXISTS (
            SELECT 1 FROM reminder_deliveries
             WHERE reminder_id = $1 AND attempt > $2
@@ -101,13 +105,13 @@ twilioWebhookRouter.post('/webhooks/twilio/status', async (req, res) => {
       if (!latestAttempt.rows?.[0]?.is_latest) continue;
 
       if (row.status === 'delivered') {
-        await pool.query(
+        await client.query(
           `UPDATE reminders SET status = 'delivered' WHERE id = $1`,
           [row.reminder_id]
         );
       } else if (row.status === 'failed') {
         if (Number(row.attempt) < 3) {
-          await pool.query(
+          await client.query(
             `UPDATE reminders
                 SET status = 'queued',
                     scheduled_for = NOW() + ($2 || ' minutes')::interval
@@ -115,11 +119,11 @@ twilioWebhookRouter.post('/webhooks/twilio/status', async (req, res) => {
             [row.reminder_id, String(15 * Number(row.attempt))]
           );
         } else {
-          await pool.query(
+          await client.query(
             `UPDATE reminders SET status = 'failed' WHERE id = $1 AND status <> 'delivered'`,
             [row.reminder_id]
           );
-          await pool.query(
+          await client.query(
             `UPDATE patient_contacts pc
                 SET valid = FALSE, last_failure_at = NOW()
                FROM reminders r
@@ -128,7 +132,7 @@ twilioWebhookRouter.post('/webhooks/twilio/status', async (req, res) => {
               )`,
             [row.reminder_id, providerMessageId]
           );
-          await pool.query(
+          await client.query(
             `INSERT INTO tasks (
                plan_id, patient_id, department_id, type, title, status,
                priority_score, priority_reasons, source
@@ -152,9 +156,13 @@ twilioWebhookRouter.post('/webhooks/twilio/status', async (req, res) => {
 
     // Acknowledge valid callbacks even when the message is not in this database;
     // Twilio retries callbacks that are not acknowledged with a 2xx response.
+    await client.query('COMMIT');
     res.status(204).end();
   } catch (err) {
+    if (client) await client.query('ROLLBACK').catch(() => {});
     logger.error({ errorName: err.name }, 'Failed to process Twilio status callback');
     res.status(500).json({ error: 'Unable to process status callback' });
+  } finally {
+    client?.release();
   }
 });
