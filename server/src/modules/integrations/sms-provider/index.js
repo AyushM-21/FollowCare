@@ -44,7 +44,7 @@ export class MockNotificationProvider {
           ]
         );
       } catch (err) {
-        logger.error({ err: err.message }, 'Failed to record reminder delivery');
+        logger.error({ errorName: err.name }, 'Failed to record reminder delivery');
       }
     }
 

@@ -37,6 +37,6 @@ export async function recordAuditLog({
       ]
     );
   } catch (err) {
-    logger.error({ err: err.message, action, entityType, entityId }, 'Failed to write audit log');
+    logger.error({ errorName: err.name, action, entityType }, 'Failed to write audit log');
   }
 }
