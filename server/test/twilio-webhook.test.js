@@ -54,7 +54,8 @@ afterEach(() => {
 
 describe('Twilio status callback lifecycle', () => {
   it('records a valid delivered callback and updates the reminder in one transaction', async () => {
-    const client = makeClient()
+    const client = makeClient();
+    client.query
       .mockResolvedValueOnce({ rows: [], rowCount: 0 }) // BEGIN
       .mockResolvedValueOnce({
         rows: [{ reminder_id: 'reminder-1', status: 'delivered', attempt: 1 }],
@@ -77,7 +78,8 @@ describe('Twilio status callback lifecycle', () => {
   });
 
   it('schedules a retry with backoff when an early attempt fails', async () => {
-    const client = makeClient()
+    const client = makeClient();
+    client.query
       .mockResolvedValueOnce({ rows: [], rowCount: 0 }) // BEGIN
       .mockResolvedValueOnce({
         rows: [{ reminder_id: 'reminder-2', status: 'failed', attempt: 1 }],
@@ -128,7 +130,8 @@ describe('Twilio status callback lifecycle', () => {
   });
 
   it('does not let a callback from an older attempt change the current reminder', async () => {
-    const client = makeClient()
+    const client = makeClient();
+    client.query
       .mockResolvedValueOnce({ rows: [], rowCount: 0 }) // BEGIN
       .mockResolvedValueOnce({
         rows: [{ reminder_id: 'reminder-4', status: 'failed', attempt: 1 }],
@@ -160,7 +163,8 @@ describe('Twilio status callback lifecycle', () => {
   });
 
   it('rolls back processing errors so Twilio can safely retry the callback', async () => {
-    const client = makeClient()
+    const client = makeClient();
+    client.query
       .mockResolvedValueOnce({ rows: [], rowCount: 0 }) // BEGIN
       .mockRejectedValueOnce(new Error('database unavailable')) // update delivery
       .mockResolvedValueOnce({ rows: [], rowCount: 0 }); // ROLLBACK
