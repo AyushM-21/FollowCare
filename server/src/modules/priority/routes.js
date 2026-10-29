@@ -3,6 +3,8 @@ import { pool } from '../../config/db.js';
 import { decrypt } from '../../lib/crypto.js';
 import { authenticate } from '../../middleware/auth.js';
 import { deptScope } from '../../middleware/deptScope.js';
+import { requirePermission } from '../../middleware/rbac.js';
+import { Permissions } from '@followcare/shared';
 
 export const priorityRouter = Router();
 
@@ -12,6 +14,7 @@ export const priorityRouter = Router();
 priorityRouter.get(
   '/priority-queue',
   authenticate,
+  requirePermission(Permissions.TASK_WORK),
   deptScope(),
   async (req, res, next) => {
     try {
@@ -72,6 +75,7 @@ priorityRouter.get(
 priorityRouter.get(
   '/priority/rules',
   authenticate,
+  requirePermission(Permissions.MANAGE_SETTINGS),
   async (req, res, next) => {
     try {
       const result = await pool.query(`SELECT key, weight, active, description FROM priority_rules ORDER BY weight DESC`);
