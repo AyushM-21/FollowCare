@@ -149,7 +149,8 @@ patientsRouter.get(
         entityId: patient.id,
         patientId: patient.id,
         departmentId: patient.assigned_department_id,
-        metadata: { unmaskedContactViewed: canViewUnmaskedPhone }
+        metadata: { unmaskedContactViewed: canViewUnmaskedPhone },
+        required: true
       });
 
       res.status(200).json({
@@ -166,8 +167,8 @@ patientsRouter.get(
           phone: canViewUnmaskedPhone ? rawPhone : maskPhone(rawPhone),
           phoneMasked: maskPhone(rawPhone),
           canViewUnmaskedPhone,
-          email,
-          address,
+          email: canViewUnmaskedPhone ? email : null,
+          address: canViewUnmaskedPhone ? address : null,
           accessibilityNeeds: patient.accessibility_needs,
           departmentId: patient.assigned_department_id,
           departmentName: patient.department_name,
