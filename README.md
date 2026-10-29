@@ -288,6 +288,34 @@ Listing an endpoint here does not mean every permission branch has been tested.
 
 If something fails and you cannot tell why, run `npm test` and `curl localhost:3001/healthz` and include the output when asking for help.
 
+## Imported synthetic dataset explorer
+
+The repository includes three synthetic CSV files under `server/data/`:
+- `patients_followcare.csv`
+- `followups.csv`
+- `patient_risk.csv`
+
+The dataset explorer imports a minimized copy into separate `imported_dataset_*` tables. It does not modify the live `patients`, `follow_up_plans`, or `tasks` tables. The importer excludes direct contact details, names, addresses, caregiver contact data, encounter IDs, and diagnosis-like free text from the imported copy.
+
+From the repository root, with PostgreSQL configured and running:
+
+```bash
+npm run migrate
+npm run import:dataset
+npm run dev
+```
+
+Sign in as the seeded admin or coordinator account and open **Dataset Explorer** in the staff sidebar, or go to `http://localhost:5173/staff/dataset`.
+
+The API exposes:
+- `GET /api/dataset/summary`
+- `GET /api/dataset/followups?limit=25`
+- `GET /api/dataset/risk?limit=10`
+
+The page displays follow-up statuses, overdue days, outreach attempts, priority labels, and the risk scores supplied by the dataset. The supplied risk score is exploratory only. It does not modify FollowCare's rule-based priority queue and is not a validated prediction or clinical decision. The imported dataset endpoints are available to admin and coordinator staff only.
+
+Re-running `npm run import:dataset` refreshes only the imported dataset tables. It does not delete or replace application patients, plans, or tasks. Use only synthetic data.
+
 ## Safety and development notes
 
 - Use only synthetic data in development and demos.
