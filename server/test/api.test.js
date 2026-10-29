@@ -79,7 +79,11 @@ describe('FollowCare Backend MVP Domain Modules & APIs Integration Suite', () =>
       expect(res.body.permissions).toContain('plan:approve');
       expect(res.body.departments[0].code).toBe('CARD');
       expect(res.headers['set-cookie']).toBeDefined();
-      expect(res.headers['set-cookie'].join(';')).toMatch(/Max-Age=900/);
+      const staffCookie = res.headers['set-cookie'].join(';');
+      const staffExpiry = Date.parse(staffCookie.match(/Expires=([^;]+)/)[1]);
+      const staffRemainingMs = staffExpiry - Date.now();
+      expect(staffRemainingMs).toBeGreaterThan(14 * 60 * 1000);
+      expect(staffRemainingMs).toBeLessThanOrEqual(15 * 60 * 1000);
     });
 
     it('authenticates Coordinator Rahul and establishes coordinator session', async () => {
@@ -178,7 +182,11 @@ describe('FollowCare Backend MVP Domain Modules & APIs Integration Suite', () =>
       expect(res.status).toBe(200);
       expect(res.body.patient.hospitalRegNo).toBe('FC-1001');
       expect(res.headers['set-cookie']).toBeDefined();
-      expect(res.headers['set-cookie'].join(';')).toMatch(/Max-Age=600/);
+      const patientCookie = res.headers['set-cookie'].join(';');
+      const patientExpiry = Date.parse(patientCookie.match(/Expires=([^;]+)/)[1]);
+      const patientRemainingMs = patientExpiry - Date.now();
+      expect(patientRemainingMs).toBeGreaterThan(9 * 60 * 1000);
+      expect(patientRemainingMs).toBeLessThanOrEqual(10 * 60 * 1000);
     });
   });
 
