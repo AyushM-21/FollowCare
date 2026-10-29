@@ -249,6 +249,9 @@ export const CreatePlanSchema = z.object({
   required_tests: z.array(z.string()).default([]),
   required_documents: z.array(z.string()).default([]),
   owner_task_assignee: z.string().uuid().optional()
+}).refine((value) => Date.parse(value.window_end) >= Date.parse(value.window_start), {
+  message: 'Follow-up window end must be on or after its start date',
+  path: ['window_end']
 });
 
 export const UpdateTaskStatusSchema = z.object({
