@@ -7,7 +7,7 @@ import { AppError } from './errorHandler.js';
  * keyFn(req) returns an identifier (e.g. IP + identifier); null/undefined skips limiting.
  * Fails open if Redis is unreachable so an outage cannot lock staff out.
  */
-export function rateLimit({ name, windowSec, max, keyFn = (req) => req.ip }) {
+export function rateLimit({ name, windowSec, max, keyFn = (req) => req.ip, failClosed = false }) {
   return async function rateLimitMiddleware(req, res, next) {
     // Vitest sets NODE_ENV=test; repeated test runs must not trip real limits (set RATE_LIMIT_IN_TEST=1 to exercise them)
     if (process.env.NODE_ENV === 'test' && !process.env.RATE_LIMIT_IN_TEST) return next();
@@ -24,7 +24,10 @@ export function rateLimit({ name, windowSec, max, keyFn = (req) => req.ip }) {
       }
       return next();
     } catch (err) {
-      logger.error({ err: err.message, name }, 'rateLimit: Redis error, failing open');
+      logger.error({ name, failClosed }, 'rateLimit: Redis error');
+      if (failClosed) {
+        return next(new AppError('Authentication protection is temporarily unavailable. Please try again later.', 503, 'https://followcare.org/errors/service-unavailable'));
+      }
       return next();
     }
   };
