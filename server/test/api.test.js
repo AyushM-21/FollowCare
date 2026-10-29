@@ -319,6 +319,44 @@ describe('FollowCare Backend MVP Domain Modules & APIs Integration Suite', () =>
       expect(commentRes.rows[0].body).toContain('Initiated outbound call');
     });
 
+    it('rejects follow-up closure while checklist items remain incomplete', async () => {
+      const res = await coordinatorAgent
+        .post(`/api/tasks/${createdTaskId}/contact-attempts`)
+        .send({
+          channel: 'phone_call',
+          outcome: 'reached',
+          notes: 'Follow-up discussed.',
+          close_follow_up: true,
+          final_status: 'visited_elsewhere'
+        });
+
+      expect(res.status).toBe(409);
+      expect(res.body.detail).toContain('checklist items');
+      const taskRes = await pool.query('SELECT status FROM tasks WHERE id = $1', [createdTaskId]);
+      expect(taskRes.rows[0].status).toBe('in_progress');
+    });
+
+    it('records checklist completion and rejects direct closure without a final outcome', async () => {
+      const listRes = await coordinatorAgent.get(`/api/tasks/${createdTaskId}/checklist`);
+      expect(listRes.status).toBe(200);
+      expect(listRes.body.checklist).toHaveLength(2);
+      for (const item of listRes.body.checklist) {
+        const updateRes = await coordinatorAgent
+          .patch(`/api/tasks/${createdTaskId}/checklist/${item.id}`)
+          .send({ done: true });
+        expect(updateRes.status).toBe(200);
+        expect(updateRes.body.checklistItem.done).toBe(true);
+        expect(updateRes.body.checklistItem.done_by).toBeDefined();
+        expect(updateRes.body.checklistItem.done_at).toBeDefined();
+      }
+
+      const closeRes = await coordinatorAgent
+        .patch(`/api/tasks/${createdTaskId}/status`)
+        .send({ status: 'completed' });
+      expect(closeRes.status).toBe(409);
+      expect(closeRes.body.detail).toContain('final follow-up outcome');
+    });
+
     it('logs contact attempt and closes follow-up outcome when completed', async () => {
       const res = await coordinatorAgent
         .post(`/api/tasks/${createdTaskId}/contact-attempts`)

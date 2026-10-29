@@ -4,7 +4,8 @@ import {
   LogContactAttemptSchema,
   Permissions,
   TaskStatus,
-  UpdateTaskStatusSchema
+  UpdateTaskStatusSchema,
+  UpdateTaskChecklistItemSchema
 } from '@followcare/shared';
 import { pool } from '../../config/db.js';
 import { decrypt, maskPhone } from '../../lib/crypto.js';
@@ -187,6 +188,77 @@ tasksRouter.get(
 // ============================================================================
 // PATCH /tasks/:id/status (Kanban Drag and Drop / Status Transition)
 // ============================================================================
+// ============================================================================
+// GET /tasks/:id/checklist (Department-scoped checklist)
+// ============================================================================
+tasksRouter.get(
+  '/tasks/:id/checklist',
+  authenticate,
+  requirePermission(Permissions.TASK_WORK),
+  deptScope(),
+  async (req, res, next) => {
+    try {
+      const taskRes = await pool.query('SELECT id, department_id FROM tasks WHERE id = $1', [req.params.id]);
+      if (taskRes.rowCount === 0) return next(new AppError('Task not found', 404));
+      if (req.departmentIds !== null && !req.departmentIds.includes(taskRes.rows[0].department_id)) {
+        return next(new AppError('Forbidden: Access to task department denied', 403));
+      }
+      const result = await pool.query(
+        `SELECT id, task_id, label, done, done_by, done_at, created_at
+         FROM task_checklist_items WHERE task_id = $1 ORDER BY created_at, id`,
+        [req.params.id]
+      );
+      res.status(200).json({ checklist: result.rows });
+    } catch (err) { next(err); }
+  }
+);
+
+// ============================================================================
+// PATCH /tasks/:id/checklist/:itemId (Mark checklist item done/undone)
+// ============================================================================
+tasksRouter.patch(
+  '/tasks/:id/checklist/:itemId',
+  authenticate,
+  requirePermission(Permissions.TASK_WORK),
+  deptScope(),
+  validateBody(UpdateTaskChecklistItemSchema),
+  async (req, res, next) => {
+    try {
+      const { id, itemId } = req.params;
+      const taskRes = await pool.query(
+        'SELECT id, department_id, status FROM tasks WHERE id = $1',
+        [id]
+      );
+      if (taskRes.rowCount === 0) return next(new AppError('Task not found', 404));
+      if (req.departmentIds !== null && !req.departmentIds.includes(taskRes.rows[0].department_id)) {
+        return next(new AppError('Forbidden: Access to task department denied', 403));
+      }
+      const updated = await pool.query(
+        `UPDATE task_checklist_items
+         SET done = $1,
+             done_by = CASE WHEN $1 THEN $2::uuid ELSE NULL END,
+             done_at = CASE WHEN $1 THEN CURRENT_TIMESTAMP ELSE NULL END
+         WHERE id = $3 AND task_id = $4
+           AND EXISTS (SELECT 1 FROM tasks WHERE id = $4 AND status <> 'completed')
+         RETURNING id, task_id, label, done, done_by, done_at, created_at`,
+        [req.body.done, req.user.id, itemId, id]
+      );
+      if (updated.rowCount === 0) {
+        const itemRes = await pool.query(
+          'SELECT 1 FROM task_checklist_items WHERE id = $1 AND task_id = $2',
+          [itemId, id]
+        );
+        if (itemRes.rowCount === 0) return next(new AppError('Checklist item not found for this task', 404));
+        return next(new AppError('Cannot change checklist on a completed task', 409));
+      }
+      res.status(200).json({ checklistItem: updated.rows[0] });
+    } catch (err) { next(err); }
+  }
+);
+
+// ============================================================================
+// PATCH /tasks/:id/status (Kanban Drag and Drop / Status Transition)
+// ============================================================================
 tasksRouter.patch(
   '/tasks/:id/status',
   authenticate,
@@ -195,67 +267,86 @@ tasksRouter.patch(
   validateBody(UpdateTaskStatusSchema),
   async (req, res, next) => {
     const client = await pool.connect();
+    let transactionStarted = false;
     try {
       const { id } = req.params;
       const { status, comment } = req.body;
+      await client.query('BEGIN');
+      transactionStarted = true;
 
       const taskRes = await client.query(
-        `SELECT id, department_id, patient_id, status FROM tasks WHERE id = $1`,
+        `SELECT id, plan_id, department_id, patient_id, status
+         FROM tasks WHERE id = $1 FOR UPDATE`,
         [id]
       );
-      if (taskRes.rowCount === 0) {
-        return next(new AppError('Task not found', 404));
+      if (taskRes.rowCount === 0) throw new AppError('Task not found', 404);
+      const taskRow = taskRes.rows[0];
+      if (req.departmentIds !== null && !req.departmentIds.includes(taskRow.department_id)) {
+        throw new AppError('Forbidden: Access to task department denied', 403);
       }
 
-      const task = taskRes.rows[0];
-      if (req.departmentIds !== null && !req.departmentIds.includes(task.department_id)) {
-        return next(new AppError('Forbidden: Access to task department denied', 403));
+      const allowedTransitions = {
+        [TaskStatus.TODO]: [TaskStatus.IN_PROGRESS, TaskStatus.ESCALATED],
+        [TaskStatus.IN_PROGRESS]: [TaskStatus.AWAITING_RESPONSE, TaskStatus.ESCALATED, TaskStatus.COMPLETED],
+        [TaskStatus.AWAITING_RESPONSE]: [TaskStatus.IN_PROGRESS, TaskStatus.ESCALATED, TaskStatus.COMPLETED],
+        [TaskStatus.ESCALATED]: [TaskStatus.IN_PROGRESS, TaskStatus.AWAITING_RESPONSE, TaskStatus.COMPLETED],
+        [TaskStatus.COMPLETED]: []
+      };
+      if (taskRow.status !== status && !allowedTransitions[taskRow.status]?.includes(status)) {
+        throw new AppError(`Invalid task status transition: ${taskRow.status} -> ${status}`, 409);
       }
 
-      await client.query('BEGIN');
+      if (status === TaskStatus.COMPLETED && taskRow.status !== TaskStatus.COMPLETED) {
+        const checklistRes = await client.query(
+          `SELECT COUNT(*) FILTER (WHERE done = FALSE)::int AS incomplete
+           FROM task_checklist_items WHERE task_id = $1`,
+          [id]
+        );
+        if (checklistRes.rows[0].incomplete > 0) {
+          throw new AppError('All checklist items must be completed before closing this task', 409);
+        }
+        if (taskRow.plan_id) {
+          const outcomeRes = await client.query(
+            'SELECT 1 FROM follow_up_outcomes WHERE plan_id = $1',
+            [taskRow.plan_id]
+          );
+          if (outcomeRes.rowCount === 0) {
+            throw new AppError('A final follow-up outcome is required before closing this task', 409);
+          }
+        }
+      }
 
-      const isCompleted = status === TaskStatus.COMPLETED;
-      const completedAt = isCompleted ? new Date() : null;
+      const completedAt = status === TaskStatus.COMPLETED ? new Date() : null;
       const escalatedAt = status === TaskStatus.ESCALATED ? new Date() : null;
-
       const updated = await client.query(
         `UPDATE tasks SET
           status = $1,
-          completed_at = CASE WHEN $2::timestamptz IS NOT NULL THEN $2 ELSE completed_at END,
+          completed_at = CASE WHEN $2::timestamptz IS NOT NULL THEN $2
+                              WHEN $1 <> 'completed' THEN NULL ELSE completed_at END,
           escalated_at = CASE WHEN $3::timestamptz IS NOT NULL THEN $3 ELSE escalated_at END,
           updated_at = CURRENT_TIMESTAMP
-        WHERE id = $4
-        RETURNING *`,
+         WHERE id = $4 RETURNING *`,
         [status, completedAt, escalatedAt, id]
       );
-
-      // Add comment if provided
       if (comment) {
         await client.query(
-          `INSERT INTO task_comments (task_id, author_id, body) VALUES ($1, $2, $3)`,
+          'INSERT INTO task_comments (task_id, author_id, body) VALUES ($1, $2, $3)',
           [id, req.user.id, comment]
         );
       }
-
       await client.query('COMMIT');
+      transactionStarted = false;
 
       await recordAuditLog({
-        req,
-        action: 'update',
-        entityType: 'tasks',
-        entityId: id,
-        patientId: task.patient_id,
-        departmentId: task.department_id,
-        metadata: { oldStatus: task.status, newStatus: status }
+        req, action: 'update', entityType: 'tasks', entityId: id,
+        patientId: taskRow.patient_id, departmentId: taskRow.department_id,
+        metadata: { oldStatus: taskRow.status, newStatus: status }
       });
-
       res.status(200).json({ message: 'Task status updated', task: updated.rows[0] });
     } catch (err) {
-      await client.query('ROLLBACK');
+      if (transactionStarted) await client.query('ROLLBACK').catch(() => {});
       next(err);
-    } finally {
-      client.release();
-    }
+    } finally { client.release(); }
   }
 );
 
@@ -364,6 +455,7 @@ tasksRouter.post(
   validateBody(LogContactAttemptSchema),
   async (req, res, next) => {
     const client = await pool.connect();
+    let transactionStarted = false;
     try {
       const { id } = req.params;
       const {
@@ -376,20 +468,34 @@ tasksRouter.post(
         barrier_type
       } = req.body;
 
+      await client.query('BEGIN');
+      transactionStarted = true;
       const taskRes = await client.query(
-        `SELECT id, plan_id, patient_id, department_id FROM tasks WHERE id = $1`,
+        `SELECT id, plan_id, patient_id, department_id, status
+         FROM tasks WHERE id = $1 FOR UPDATE`,
         [id]
       );
-      if (taskRes.rowCount === 0) {
-        return next(new AppError('Task not found', 404));
-      }
-
+      if (taskRes.rowCount === 0) throw new AppError('Task not found', 404);
       const task = taskRes.rows[0];
       if (req.departmentIds !== null && !req.departmentIds.includes(task.department_id)) {
-        return next(new AppError('Forbidden: Access to task department denied', 403));
+        throw new AppError('Forbidden: Access to task department denied', 403);
       }
-
-      await client.query('BEGIN');
+      if (task.status === TaskStatus.COMPLETED) {
+        throw new AppError('Cannot log a contact attempt for a completed task', 409);
+      }
+      if (close_follow_up && (!task.plan_id || !final_status)) {
+        throw new AppError('Closing a follow-up requires a task with a plan and a final_status', 400);
+      }
+      if (close_follow_up) {
+        const checklistRes = await client.query(
+          `SELECT COUNT(*) FILTER (WHERE done = FALSE)::int AS incomplete
+           FROM task_checklist_items WHERE task_id = $1`,
+          [id]
+        );
+        if (checklistRes.rows[0].incomplete > 0) {
+          throw new AppError('All checklist items must be completed before closing this follow-up', 409);
+        }
+      }
 
       const attemptRes = await client.query(
         `INSERT INTO contact_attempts (
@@ -426,6 +532,7 @@ tasksRouter.post(
       }
 
       await client.query('COMMIT');
+      transactionStarted = false;
 
       await recordAuditLog({
         req,
@@ -442,7 +549,7 @@ tasksRouter.post(
         contactAttempt: attemptRes.rows[0]
       });
     } catch (err) {
-      await client.query('ROLLBACK');
+      if (transactionStarted) await client.query('ROLLBACK').catch(() => {});
       next(err);
     } finally {
       client.release();

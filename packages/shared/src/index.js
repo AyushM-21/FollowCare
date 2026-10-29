@@ -263,6 +263,10 @@ export const AssignTaskSchema = z.object({
   assignee_id: z.string().uuid()
 });
 
+export const UpdateTaskChecklistItemSchema = z.object({
+  done: z.boolean()
+});
+
 export const LogContactAttemptSchema = z.object({
   channel: z.enum(['sms', 'whatsapp', 'email', 'in_app', 'phone_call']),
   outcome: z.enum([
