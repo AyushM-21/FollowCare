@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { Permissions, AppointmentStatus } from '@followcare/shared';
+import { Permissions, AppointmentStatus, CreateAppointmentSchema, UpdateAppointmentSchema } from '@followcare/shared';
 import { pool } from '../../config/db.js';
 import { decrypt } from '../../lib/crypto.js';
 import { authenticate } from '../../middleware/auth.js';
@@ -7,6 +7,7 @@ import { requirePermission } from '../../middleware/rbac.js';
 import { deptScope } from '../../middleware/deptScope.js';
 import { recordAuditLog } from '../../middleware/audit.js';
 import { AppError } from '../../middleware/errorHandler.js';
+import { validateBody } from '../../middleware/validate.js';
 
 export const appointmentsRouter = Router();
 
@@ -74,6 +75,7 @@ appointmentsRouter.post(
   authenticate,
   requirePermission(Permissions.APPOINTMENT_BOOK),
   deptScope(),
+  validateBody(CreateAppointmentSchema),
   async (req, res, next) => {
     const client = await pool.connect();
     try {
@@ -92,6 +94,21 @@ appointmentsRouter.post(
 
       if (req.departmentIds !== null && !req.departmentIds.includes(department_id)) {
         return next(new AppError('Forbidden: Access to department denied', 403));
+      }
+
+
+      if (plan_id) {
+        const planRes = await client.query(
+          `SELECT patient_id, department_id FROM follow_up_plans WHERE id = $1 AND deleted_at IS NULL`,
+          [plan_id]
+        );
+        if (planRes.rowCount === 0) {
+          return next(new AppError('Follow-up plan not found', 404));
+        }
+        const plan = planRes.rows[0];
+        if (plan.patient_id !== patient_id || plan.department_id !== department_id) {
+          return next(new AppError('Appointment patient and department must match the selected follow-up plan', 400));
+        }
       }
 
       await client.query('BEGIN');
@@ -144,6 +161,7 @@ appointmentsRouter.patch(
   authenticate,
   requirePermission(Permissions.APPOINTMENT_BOOK),
   deptScope(),
+  validateBody(UpdateAppointmentSchema),
   async (req, res, next) => {
     const client = await pool.connect();
     try {
@@ -176,7 +194,7 @@ appointmentsRouter.patch(
       );
 
       // Invariant (Section 8.5): 'missed' auto-creates a barrier-resolution task, not a penalty
-      if (status === AppointmentStatus.MISSED) {
+      if (status === AppointmentStatus.MISSED && appt.status !== AppointmentStatus.MISSED) {
         await client.query(
           `INSERT INTO tasks (
             plan_id, patient_id, department_id, type, title, status,
