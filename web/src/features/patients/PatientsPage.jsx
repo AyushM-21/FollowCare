@@ -58,8 +58,8 @@ export default function PatientsPage() {
                     className="flex items-center justify-between px-4 py-3 hover:bg-slate-50 transition-colors"
                   >
                     <div>
-                      <p className="text-sm font-medium text-slate-800">{pt.patientName || pt.full_name_enc}</p>
-                      <p className="text-xs text-slate-500">{pt.hospital_reg_no}</p>
+                      <p className="text-sm font-medium text-slate-800">{pt.fullName}</p>
+                      <p className="text-xs text-slate-500">{pt.hospitalRegNo}</p>
                     </div>
                     <ChevronRight className="w-4 h-4 text-slate-400" aria-hidden="true" />
                   </Link>
