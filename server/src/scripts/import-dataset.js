@@ -126,7 +126,7 @@ async function upsertRows(client, table, keyColumn, rows) {
     const tuples = batch.map((item, index) => {
       const offset = index * 2;
       values.push(item.id, JSON.stringify(item.data));
-      return `(${offset + 1}, ${offset + 2}::jsonb)`;
+      return `($${offset + 1}, $${offset + 2}::jsonb)`;
     });
 
     await client.query(
@@ -180,7 +180,7 @@ async function main() {
       const tuples = batch.map((item, index) => {
         const offset = index * 3;
         values.push(item.id, item.patientId, JSON.stringify(item.data));
-        return `(${offset + 1}, ${offset + 2}, ${offset + 3}::jsonb)`;
+        return `($${offset + 1}, $${offset + 2}, $${offset + 3}::jsonb)`;
       });
       await client.query(
         `INSERT INTO imported_dataset_followups (followup_id, patient_id, data)

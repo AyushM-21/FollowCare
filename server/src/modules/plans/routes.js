@@ -205,6 +205,7 @@ plansRouter.get(
         SELECT 
           p.id,
           p.patient_id,
+          pt.hospital_reg_no,
           p.department_id,
           d.name AS department_name,
           p.window_start,
@@ -221,6 +222,7 @@ plansRouter.get(
           v.days_remaining,
           p.created_at
         FROM follow_up_plans p
+        LEFT JOIN patients pt ON p.patient_id = pt.id
         LEFT JOIN departments d ON p.department_id = d.id
         LEFT JOIN users u ON p.owner_task_assignee = u.id
         LEFT JOIN v_follow_up_status v ON p.id = v.plan_id

@@ -45,7 +45,7 @@ export default function PatientDetailPage() {
 
       <div className="bg-white rounded-lg border border-slate-200 shadow-sm p-5">
         <h1 className="text-xl font-bold text-slate-900">{pt?.patientName || pt?.full_name}</h1>
-        <p className="text-sm text-slate-500 mt-1">Reg: {pt?.hospital_reg_no}</p>
+        <p className="text-sm text-slate-500 mt-1">Reg: {pt?.hospitalRegNo}</p>
         <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-4 text-sm">
           {pt?.sex && <div><span className="text-slate-500">Sex: </span>{pt.sex}</div>}
           {pt?.preferred_language && <div><span className="text-slate-500">Language: </span>{pt.preferred_language}</div>}
