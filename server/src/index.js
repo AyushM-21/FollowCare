@@ -57,13 +57,13 @@ app.get('/readyz', async (req, res) => {
     const dbRes = await pool.query('SELECT 1');
     dbOk = dbRes.rowCount === 1;
   } catch (err) {
-    logger.error({ err: err.message }, 'Readiness check: DB failed');
+    logger.error({ errorName: err.name }, 'Readiness check: DB failed');
   }
 
   try {
     redisOk = await pingRedis();
   } catch (err) {
-    logger.error({ err: err.message }, 'Readiness check: Redis failed');
+    logger.error({ errorName: err.name }, 'Readiness check: Redis failed');
   }
 
   const isReady = dbOk && redisOk;
@@ -117,7 +117,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
 
     server.close(async (err) => {
       if (err) {
-        logger.error({ err: err.message }, 'Error closing HTTP server');
+        logger.error({ errorName: err.name }, 'Error closing HTTP server');
       } else {
         logger.info('HTTP server closed');
       }
@@ -126,14 +126,14 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
         await pool.end();
         logger.info('PostgreSQL pool drained successfully');
       } catch (dbErr) {
-        logger.error({ err: dbErr.message }, 'Error draining PostgreSQL pool');
+        logger.error({ errorName: dbErr.name }, 'Error draining PostgreSQL pool');
       }
 
       try {
         await redis.quit();
         logger.info('Redis connection closed successfully');
       } catch (redisErr) {
-        logger.error({ err: redisErr.message }, 'Error closing Redis connection');
+        logger.error({ errorName: redisErr.name }, 'Error closing Redis connection');
       }
 
       process.exit(0);
