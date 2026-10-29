@@ -1,0 +1,1001 @@
+patient_id,age_years,active_chronic_conditions,active_medications,acute_visits_last_12m,readmission_within_30d,missed_followups_last_12m,non_adherent_medications,risk_score,risk_level,top_risk_drivers
+b9c610cd-28a6-4636-ccb6-c7a0d2a4cb85,2,0,2,0,false,0,0,5,low,Age 0-4
+c1f1fcaa-82fd-d5b7-3544-c8f9708b06a8,16,0,1,0,false,0,0,0,low,
+339144f8-50e1-633e-a013-f361391c4cff,23,2,3,0,false,0,0,12,low,2 chronic conditions
+d488232e-bf14-4bed-08c0-a82f34b6a197,18,0,0,0,false,0,0,0,low,
+217f95a3-4e10-bd5d-fb67-0cfb5e8ba075,27,1,0,0,false,0,0,6,low,1 chronic conditions
+faac724a-a9e9-be66-fe1e-3044dc0ba8ea,0,0,0,0,false,0,0,5,low,Age 0-4
+23d16ee3-8cd4-eeb8-e77e-1e5fbf4c4159,30,0,0,0,false,0,0,0,low,
+aade3c61-92bd-d079-9d28-0b2b7fde0fbb,36,5,0,0,false,0,0,24,low,5 chronic conditions
+0288c42c-43a1-9878-4a9d-6b96caa12c40,41,4,2,0,false,0,1,34,medium,4 chronic conditions; 1 non-adherent meds; Age 40-59
+dc6c06d0-a7d8-100f-c08b-46c93700c188,15,0,0,0,false,0,0,0,low,
+61a2fcc0-d679-764c-7d86-b885b2c4907f,28,0,1,1,false,3,0,21,low,3 missed follow-ups; 1 acute visits in 12m
+c0219ca9-576f-f7c2-9c44-de030e94969b,49,3,1,0,false,0,1,28,low,3 chronic conditions; 1 non-adherent meds; Age 40-59
+cb8c092a-99aa-6c9c-1ec1-660f0b00549d,30,2,0,1,false,0,0,17,low,2 chronic conditions; 1 acute visits in 12m
+97a20cf9-630d-939c-2f50-f13c434aee2f,37,3,0,0,false,0,0,18,low,3 chronic conditions
+961f61f8-ed32-f113-8450-192064b49aa9,19,1,4,0,false,0,3,21,low,3 non-adherent meds; 1 chronic conditions
+9acc871f-b577-5530-b8ad-fa95b58cea25,36,3,1,0,false,0,0,18,low,3 chronic conditions
+1d3d0ba6-5475-07c2-0b40-562ad75fdf26,61,4,1,0,false,0,1,39,medium,4 chronic conditions; Age 60-74; 1 non-adherent meds
+98e4223a-5ad8-94e0-2d73-ee5203dd4e2b,13,1,1,1,false,0,0,11,low,1 chronic conditions; 1 acute visits in 12m
+8fa5a097-1970-9370-4193-a7baa3d235b5,21,1,7,3,true,0,1,36,medium,3 acute visits in 12m; 30-day revisit; 1 chronic conditions
+8c2d5e9b-0717-9616-beb9-21296a5b547d,60,4,3,0,false,0,0,34,medium,4 chronic conditions; Age 60-74
+a7624ac9-6308-e015-1c5c-115c97c631fe,62,5,5,0,false,0,1,39,medium,5 chronic conditions; Age 60-74; 1 non-adherent meds
+122b4063-18dc-f20f-204c-6f2da758717b,3,0,0,0,false,0,0,5,low,Age 0-4
+33c2ca32-ae38-66c5-474f-83273568906e,66,6,4,0,false,0,0,34,medium,6 chronic conditions; Age 60-74
+57b53310-98a9-f011-69c0-02068c37d83b,49,4,1,0,false,0,0,29,low,4 chronic conditions; Age 40-59
+c9b4f8c6-d7be-6563-0560-c90cfe6b12ca,18,1,4,0,false,0,0,6,low,1 chronic conditions
+1f528581-7613-2b96-dce3-68c7cf967ea1,36,3,3,0,false,0,1,23,low,3 chronic conditions; 1 non-adherent meds
+1cfa5a70-7f3c-4227-5cf1-e182fcff4cd4,63,10,4,0,false,0,3,49,medium,10 chronic conditions; 3 non-adherent meds; Age 60-74
+2f031d4a-b070-ce15-6372-30c8fecf1164,27,3,4,1,false,0,2,33,low,3 chronic conditions; 2 non-adherent meds; 1 acute visits in 12m
+9a632ddc-b352-6dd7-0fb3-916fde80c9a3,32,2,0,0,false,0,0,12,low,2 chronic conditions
+56bf1a47-8065-1ba5-6d8c-430b37a621bf,14,1,2,0,false,0,0,6,low,1 chronic conditions
+7d1a0d44-6f3e-2cd5-3347-0d97e5b57612,40,2,0,0,false,0,0,17,low,2 chronic conditions; Age 40-59
+8bf6aa92-645f-3c82-ddcd-5851496a6aa8,54,3,0,1,false,0,0,28,low,3 chronic conditions; 1 acute visits in 12m; Age 40-59
+f0660412-c40e-4d5c-5b11-08b6da289331,46,4,3,0,false,0,0,29,low,4 chronic conditions; Age 40-59
+53cc5b94-3c84-3ecf-ae94-f98203e3d8ba,7,0,2,0,false,0,0,0,low,
+060e72d3-912e-55cd-0c92-5faa6cb7a6db,52,10,4,3,false,3,4,75,high,10 chronic conditions; 3 missed follow-ups; 3 acute visits in 12m
+18f70d07-28a0-17f3-2605-bf21cceb194b,1,0,0,0,false,0,0,5,low,Age 0-4
+a7b903a5-5c6f-3f5e-4035-62d94b0b52b3,25,2,4,0,false,0,0,12,low,2 chronic conditions
+63198606-7c07-e63a-42a3-2f47419c881c,6,0,0,0,false,0,0,0,low,
+2dacba2b-f4f3-9726-0f13-2f1a87f69bba,33,3,3,0,false,0,0,18,low,3 chronic conditions
+7d28d76a-9ac8-67b4-3c88-0a75be3d0851,52,4,1,0,false,0,0,29,low,4 chronic conditions; Age 40-59
+307b6419-5147-4716-10b1-bb458ac191c3,18,2,6,0,false,0,1,17,low,2 chronic conditions; 1 non-adherent meds
+0afb59a5-12cb-3b6a-eead-3a72d24fb678,40,5,0,0,false,0,0,29,low,5 chronic conditions; Age 40-59
+38565670-114d-6c46-50b9-76bbffb16ffb,51,6,2,0,false,0,0,29,low,6 chronic conditions; Age 40-59
+4f5a07ca-02e0-8981-3c30-4d9924a169a3,37,3,0,0,false,0,0,18,low,3 chronic conditions
+6a6a1b30-9966-bd68-e732-b7ce2c0b6ade,8,0,0,0,false,0,0,0,low,
+be82309d-1a8f-df82-4cd6-5f03e1060e8e,51,10,4,4,true,0,0,54,medium,10 chronic conditions; 4 acute visits in 12m; 30-day revisit
+5e2cd800-901b-55d3-edf4-ab6e3c7524ff,38,3,0,0,false,0,0,18,low,3 chronic conditions
+f93c78a3-57b8-4858-cad5-e449f26e3857,12,0,0,0,false,0,0,0,low,
+62bb08df-1e20-441c-6fea-94c47a30690a,41,5,4,0,false,0,1,34,medium,5 chronic conditions; 1 non-adherent meds; Age 40-59
+d1822991-eb4f-aafe-6a88-cd5279b4385b,4,0,0,0,false,0,0,5,low,Age 0-4
+5b2f8ddd-408a-884c-00e9-047b13e6cc45,22,3,3,5,true,3,2,69,high,3 chronic conditions; 3 missed follow-ups; 5 acute visits in 12m
+afd63046-5213-0c98-561f-12e6725cd1f5,65,3,0,0,false,0,0,28,low,3 chronic conditions; Age 60-74
+ceec80e3-5c50-be88-198c-e98375c8e8a2,44,5,2,0,false,0,1,34,medium,5 chronic conditions; 1 non-adherent meds; Age 40-59
+19e3f2b0-8fd1-a8ae-2767-f0c89005b8d2,11,0,0,0,false,0,0,0,low,
+363f50e2-9771-dfb4-1ff5-3d7db24b9ada,0,0,0,0,false,0,0,5,low,Age 0-4
+3a74ce3c-442e-b4ef-fb10-560f58f8e613,24,1,3,0,false,0,0,6,low,1 chronic conditions
+3ff3637c-86a6-6d45-8e41-f1b2c96fbcf4,11,0,0,0,false,0,0,0,low,
+6b3a5686-0f63-5ce4-cc03-0bba2052f7b1,63,4,1,0,false,0,0,34,medium,4 chronic conditions; Age 60-74
+e70e7298-5026-74b0-505b-110dd1ce0af7,80,4,4,0,false,0,0,39,medium,4 chronic conditions; Age 75-84
+8761af66-90ad-7f7d-2102-58b767495473,30,0,0,0,false,0,0,0,low,
+50aac3ff-d836-adfd-620d-662fa08fdf55,61,6,5,2,false,1,2,62,medium,6 chronic conditions; 2 acute visits in 12m; 2 non-adherent meds
+fcca54e8-5abe-cd71-30a0-464f15368bea,27,0,4,0,false,0,2,10,low,2 non-adherent meds
+c88891ca-5796-aca3-c67d-0b2043dd0463,13,1,1,0,false,2,0,22,low,2 missed follow-ups; 1 chronic conditions
+a5ca099b-c28d-c0f4-653a-0d926051840a,2,0,0,0,false,0,0,5,low,Age 0-4
+0f235c70-d4a8-4a79-e124-eb3b6da274a0,29,1,3,0,false,0,0,6,low,1 chronic conditions
+e15d5c46-48a2-2364-2b4f-529ecbe0c956,50,6,5,0,false,0,2,39,medium,6 chronic conditions; 2 non-adherent meds; Age 40-59
+97899f1d-9c3b-2b90-17b8-400c11ab8f0f,52,4,4,1,false,0,0,34,medium,4 chronic conditions; 1 acute visits in 12m; Age 40-59
+87daa935-0fc8-61cf-9e00-b8540c292903,62,5,2,0,false,0,0,34,medium,5 chronic conditions; Age 60-74
+81b2098d-e476-7d41-46b1-1c86fa027785,65,5,2,0,false,0,0,34,medium,5 chronic conditions; Age 60-74
+e984f023-1987-15a9-f24b-f980ce800206,46,5,2,0,false,0,0,29,low,5 chronic conditions; Age 40-59
+e92c1f65-ac3e-4732-1199-fcaefa803406,52,3,1,0,false,0,0,23,low,3 chronic conditions; Age 40-59
+e000e5c8-30f7-7a53-a324-7f3e431ba008,51,5,5,0,false,0,1,34,medium,5 chronic conditions; 1 non-adherent meds; Age 40-59
+f7a3acd9-1c09-59d6-dbaa-079164cbe703,45,4,1,0,false,0,0,29,low,4 chronic conditions; Age 40-59
+74b7fc31-8223-c477-0ec9-5b2ceea7c28f,51,4,1,1,false,0,0,34,medium,4 chronic conditions; 1 acute visits in 12m; Age 40-59
+78a50f0f-cce6-17f0-cc9f-bd605ce78292,36,4,2,0,false,0,0,24,low,4 chronic conditions
+b45719be-ad92-ca35-29be-daaacf4f258b,55,4,1,0,false,0,1,34,medium,4 chronic conditions; 1 non-adherent meds; Age 40-59
+fab540db-3bc8-bbf8-69bc-5d8a9dbb752f,0,0,0,0,false,0,0,5,low,Age 0-4
+54e10ce1-0444-aa9d-a915-1d576a6a0f70,63,6,1,0,false,1,0,42,medium,6 chronic conditions; Age 60-74; 1 missed follow-ups
+fa311677-035c-7329-3dec-2a01c9afd965,63,4,2,0,false,0,1,39,medium,4 chronic conditions; Age 60-74; 1 non-adherent meds
+899c3251-4ec5-8102-957c-e89acd5b921a,52,8,5,1,false,0,0,34,medium,8 chronic conditions; 1 acute visits in 12m; Age 40-59
+251ec304-b5fb-e3fa-72ed-197b957c3378,1,0,0,0,false,0,0,5,low,Age 0-4
+0fc183b2-8b93-ec17-d2fc-e703b373c9d7,50,5,6,0,false,0,2,39,medium,5 chronic conditions; 2 non-adherent meds; Age 40-59
+add236d5-0131-8a3f-8b55-a081df83922e,23,1,1,1,false,0,0,11,low,1 chronic conditions; 1 acute visits in 12m
+d2f61dcd-764f-619a-a60e-dc4a23eb3d53,22,1,5,0,false,0,1,11,low,1 chronic conditions; 1 non-adherent meds
+a74d0e94-a25c-e5b1-3d27-d23552bd29f1,7,0,0,0,false,0,0,0,low,
+5136cc20-a63c-c7c8-00ae-fc5fa86be863,79,3,0,0,false,0,0,33,low,3 chronic conditions; Age 75-84
+d7b59f8c-fe04-46a1-de11-1ca3bd0d58e9,23,1,1,0,false,0,0,6,low,1 chronic conditions
+2a98d763-bdbc-f524-31b7-23712dc08894,50,3,0,0,false,0,0,23,low,3 chronic conditions; Age 40-59
+c1c5bcd1-d232-8de3-7e0f-3ef13280455c,26,1,0,0,false,0,0,6,low,1 chronic conditions
+b3e07511-608d-0034-f354-fab0ea176917,2,0,0,0,false,0,0,5,low,Age 0-4
+e7d52393-d28b-96d3-fe60-5a19ef9ce171,73,8,6,0,false,0,1,39,medium,8 chronic conditions; Age 60-74; 1 non-adherent meds
+69bb7f3e-31ab-fee6-9ab6-4a83c24df020,15,0,0,0,false,0,0,0,low,
+be86cb71-0481-f2c6-c89b-e8ea1136a893,64,4,1,0,false,0,0,34,medium,4 chronic conditions; Age 60-74
+71a8b156-760b-df6b-859e-eefc7932a526,7,0,0,0,false,0,0,0,low,
+63d20fbe-d046-cc9f-59b7-c51c073583c1,77,5,2,0,false,0,0,39,medium,5 chronic conditions; Age 75-84
+2aeeff83-dd7a-e599-6199-35b39c614293,38,4,2,0,false,0,1,29,low,4 chronic conditions; 1 non-adherent meds
+6ab08a28-1670-be6a-f2c9-f2e248700836,20,3,4,0,false,0,1,23,low,3 chronic conditions; 1 non-adherent meds
+41ba25b8-f5ca-3bce-c26f-64b5ce13e525,51,5,9,1,false,0,2,44,medium,5 chronic conditions; 2 non-adherent meds; 1 acute visits in 12m
+683fc157-3f75-3396-c034-a3fb4ec710fe,32,5,6,0,false,0,3,39,medium,5 chronic conditions; 3 non-adherent meds
+de08c2b0-05d0-ba6a-a515-d7d779aa5191,33,5,3,0,false,0,0,24,low,5 chronic conditions
+3beee40e-512b-420f-38a3-28e56cddbc9b,69,9,6,1,false,0,1,44,medium,9 chronic conditions; Age 60-74; 1 acute visits in 12m
+9e84e569-7adc-ff42-ccdb-9fe9c23842a6,76,10,8,1,false,0,5,59,medium,10 chronic conditions; 5 non-adherent meds; Age 75-84
+346a1435-2455-914f-c287-7b88052d05db,40,3,4,1,false,1,1,41,medium,3 chronic conditions; 1 missed follow-ups; 1 acute visits in 12m
+1d1af1df-c916-9534-dcb4-b9aaf02e48d5,47,7,6,1,false,1,2,52,medium,7 chronic conditions; 2 non-adherent meds; 1 missed follow-ups
+d60a19c3-848d-6c3b-deed-8e2226bd5757,10,0,0,0,false,0,0,0,low,
+af0323f7-dcf2-5d97-8623-2f0d511016ec,61,6,1,0,false,0,1,39,medium,6 chronic conditions; Age 60-74; 1 non-adherent meds
+1cd0fcc2-1fc9-6471-510b-2b524494d9f3,17,1,0,0,false,0,0,6,low,1 chronic conditions
+ed01aca0-b28f-4b31-711b-3114e5d3c661,9,0,0,0,false,0,0,0,low,
+165a4435-31ff-0493-eb3f-3a86106f3a59,49,8,3,0,false,0,1,34,medium,8 chronic conditions; 1 non-adherent meds; Age 40-59
+75bfc8f4-2f19-2b6a-120a-31888422aa78,56,4,2,0,false,0,0,29,low,4 chronic conditions; Age 40-59
+fee55adf-498c-5111-2136-e805906a3a74,46,6,6,0,false,0,1,34,medium,6 chronic conditions; 1 non-adherent meds; Age 40-59
+d432ac90-2b10-097f-9a30-093555da284f,51,4,0,0,false,0,0,29,low,4 chronic conditions; Age 40-59
+51b59c09-c5a3-9c00-9ff0-e18c05efe769,42,4,4,0,false,0,0,29,low,4 chronic conditions; Age 40-59
+4b0187d5-ffc7-563b-80e8-0d45bfd0709f,73,5,4,0,false,0,1,39,medium,5 chronic conditions; Age 60-74; 1 non-adherent meds
+4898f210-0f92-d5f8-0b8f-29c0899b69db,38,2,0,0,false,0,0,12,low,2 chronic conditions
+0c821314-2669-2ad3-2ac3-8ce662d8325c,46,4,3,0,false,0,1,34,medium,4 chronic conditions; 1 non-adherent meds; Age 40-59
+34b1b3b3-73ce-1bc2-b26e-dce20c4f6cbc,71,5,3,0,false,0,0,34,medium,5 chronic conditions; Age 60-74
+7378ba81-94b8-baa9-93d0-bf7d25af0048,45,4,1,0,false,0,1,34,medium,4 chronic conditions; 1 non-adherent meds; Age 40-59
+9b94051f-59a9-c941-61af-9acf2a9af22f,76,5,1,0,false,0,1,44,medium,5 chronic conditions; Age 75-84; 1 non-adherent meds
+9ef4db86-c427-ddfe-a607-737f08ffb0c1,48,9,6,0,false,1,2,47,medium,9 chronic conditions; 2 non-adherent meds; 1 missed follow-ups
+aa83e9bd-e4d5-1874-01ec-539e4a8356e1,5,0,0,0,false,0,0,0,low,
+90053970-cbf7-9102-32f1-61c1b05827a8,62,6,1,0,false,0,0,34,medium,6 chronic conditions; Age 60-74
+0896b0af-df68-c103-5db4-018d0ca3256e,64,3,0,0,false,0,0,28,low,3 chronic conditions; Age 60-74
+97a30f0c-5ece-06e1-f7c1-1f8d46057ea7,9,0,0,0,false,0,0,0,low,
+e8ffd460-0685-7966-5e43-d24315e2f40c,21,0,3,0,false,0,1,5,low,1 non-adherent meds
+39b4eaac-6d32-3610-6cdf-20196fd708cb,16,0,1,0,false,0,1,5,low,1 non-adherent meds
+68444584-c6e0-8d53-923e-ce79ba7c1911,10,0,0,0,false,0,0,0,low,
+8de0c26b-923d-7d3a-3315-9a800f7e46ec,66,7,0,0,false,0,0,34,medium,7 chronic conditions; Age 60-74
+246fb368-8991-dc93-f6a5-eca807e7dbde,31,4,3,0,false,0,0,24,low,4 chronic conditions
+f26edc0d-057d-5dcc-3be2-26eb85730912,8,0,0,0,false,0,0,0,low,
+51c7ff6a-33e3-3e1b-d3ad-0035c8227dfa,19,3,3,0,false,1,1,31,low,3 chronic conditions; 1 missed follow-ups; 1 non-adherent meds
+e31d10b1-1cfa-e761-c21d-b7fd630f55c3,24,0,0,0,false,0,0,0,low,
+7adfe946-37fc-cb42-d68b-04175f767196,25,0,4,0,false,0,0,0,low,
+509f9a77-2a22-f98b-c539-9a44057efb51,56,7,2,0,false,0,0,29,low,7 chronic conditions; Age 40-59
+23436e20-0eca-9c61-472c-6f03ec5bef26,33,3,4,0,false,0,0,18,low,3 chronic conditions
+591d3cc1-8a81-1962-faef-d96b874870b2,19,1,2,0,false,0,0,6,low,1 chronic conditions
+0ee91088-5b0d-8cdb-ef22-357b12a26b25,35,5,3,2,false,1,2,52,medium,5 chronic conditions; 2 acute visits in 12m; 2 non-adherent meds
+75fbfb0d-f51b-d3b3-c1a4-9357e412b447,42,5,0,0,false,0,0,29,low,5 chronic conditions; Age 40-59
+81466d70-5714-130a-24dc-b7fa2e2bc15c,3,0,0,0,false,0,0,5,low,Age 0-4
+89464607-f8af-06a3-fe2f-227495c12550,45,3,0,0,false,0,0,23,low,3 chronic conditions; Age 40-59
+23cec4fc-145d-f75d-dc70-2a52c97bd9c3,69,5,3,0,false,0,0,34,medium,5 chronic conditions; Age 60-74
+54d3fa3e-b79e-8123-4dfa-b4d9b0e735de,17,0,1,0,false,0,0,0,low,
+27050e3a-dba0-61b9-3041-373c323e16a4,17,0,1,0,false,0,0,0,low,
+c28b00a3-54c0-21ba-4ed7-de871f1b157f,0,0,0,0,false,0,0,5,low,Age 0-4
+b03985e9-38d0-4564-1b52-4a8651cecdd5,57,4,3,1,false,0,0,34,medium,4 chronic conditions; 1 acute visits in 12m; Age 40-59
+69280d14-c5eb-897b-59ce-e4432cd9509a,13,1,4,0,false,0,0,6,low,1 chronic conditions
+0631ad5a-2c27-b7bf-f2eb-e2deec82692a,14,0,0,1,false,0,0,5,low,1 acute visits in 12m
+c0b0f482-c7b7-c9dd-9f8d-66f8dc6b4f4d,54,4,1,0,false,0,0,29,low,4 chronic conditions; Age 40-59
+a812494f-ce21-de00-8983-87d93077c751,4,0,0,0,false,0,0,5,low,Age 0-4
+80534c6c-b12d-caa5-42de-b179fd7f9695,27,3,0,0,false,0,0,18,low,3 chronic conditions
+b1b0fe43-a0f7-3ea6-67f8-0b5a3afd5a8e,1,0,0,0,false,0,0,5,low,Age 0-4
+303c8bd7-a047-5e7c-6dd3-1d6e7f04d439,22,0,1,0,false,0,0,0,low,
+db2b8604-f8ea-0b47-1b95-2cf9d553a104,27,1,1,0,false,0,0,6,low,1 chronic conditions
+403f6042-df1e-7ef4-d24d-1ad3042b1c1c,14,0,0,0,false,0,0,0,low,
+e266fa7d-d981-ef94-45e7-3d253425c3f9,22,1,1,0,false,1,0,14,low,1 missed follow-ups; 1 chronic conditions
+1a4f3136-4eae-dc5d-f68d-046b7a2e11ea,43,3,0,0,false,0,0,23,low,3 chronic conditions; Age 40-59
+87bd827a-41ca-256f-6e86-2d5e9623f805,14,1,2,0,false,0,1,11,low,1 chronic conditions; 1 non-adherent meds
+a9a2c4dd-a0c9-97d4-8983-c4dbe2a76ca2,70,5,8,0,false,0,1,39,medium,5 chronic conditions; Age 60-74; 1 non-adherent meds
+82e25b95-7bfc-a54f-f242-1e7156c27d74,48,6,2,0,false,0,2,39,medium,6 chronic conditions; 2 non-adherent meds; Age 40-59
+fbee8d6b-5acf-370c-7edd-af0d84f5288c,21,4,3,0,false,0,0,24,low,4 chronic conditions
+86dbfa87-dc1c-e529-f39b-4910e4deb3fb,56,3,3,1,false,0,2,38,medium,3 chronic conditions; 2 non-adherent meds; 1 acute visits in 12m
+d477c46c-6e56-e32f-0c28-7356caab1e8b,27,4,4,0,false,0,1,29,low,4 chronic conditions; 1 non-adherent meds
+873049ed-d86d-74b2-84c4-cbc49b4384d0,28,2,3,0,false,0,0,12,low,2 chronic conditions
+65d5c7e2-c5b3-6f0d-9ca3-17b8bca2db28,46,4,5,1,false,0,1,39,medium,4 chronic conditions; 1 acute visits in 12m; 1 non-adherent meds
+fc8e4748-86f4-1d49-af95-4c7e48678ca7,60,6,6,1,false,0,7,54,medium,6 chronic conditions; 7 non-adherent meds; Age 60-74
+c99968ac-6782-9ae2-aab2-98277ae5a8e8,44,3,0,0,false,0,1,28,low,3 chronic conditions; 1 non-adherent meds; Age 40-59
+0f444cf3-eb58-6f42-c740-a6ab70cec7ee,66,7,4,0,false,0,1,39,medium,7 chronic conditions; Age 60-74; 1 non-adherent meds
+e4c43a21-11b3-d96d-ede9-0c71e8cb1574,0,0,0,0,false,0,0,5,low,Age 0-4
+ef5697a6-2bd3-d1c3-67ea-0f7892f4e76f,35,3,0,0,false,0,0,18,low,3 chronic conditions
+5fe0db77-0fe4-4472-ce22-b6e860ec103a,11,0,0,0,false,2,0,16,low,2 missed follow-ups
+d00d8a67-a23f-6fda-d97d-2a6391685500,6,0,2,0,false,0,0,0,low,
+4e64cd82-c0b5-2005-2690-240374ca045c,69,3,2,0,false,0,0,28,low,3 chronic conditions; Age 60-74
+9c3df38a-d3b7-2198-3898-51f9153d023d,47,4,1,1,false,1,0,42,medium,4 chronic conditions; 1 missed follow-ups; 1 acute visits in 12m
+b5e092a6-8d10-a0b4-4cf5-66aee144f7ed,10,0,0,0,false,0,0,0,low,
+49e94ea9-a534-15f8-fd74-3c739f2c0eb2,16,5,2,0,false,0,0,24,low,5 chronic conditions
+e4a67e2a-4d8d-70e7-b0fb-83480abf443c,36,6,6,0,false,0,1,29,low,6 chronic conditions; 1 non-adherent meds
+15d242fa-2a82-6921-b247-552b60cfcd4e,68,5,1,0,false,0,0,34,medium,5 chronic conditions; Age 60-74
+c98f8278-af04-a31b-ebee-65d34ae0466f,36,4,3,0,false,0,1,29,low,4 chronic conditions; 1 non-adherent meds
+c63b5472-3136-5428-0e24-662ff2b5cee5,42,3,1,0,false,0,1,28,low,3 chronic conditions; 1 non-adherent meds; Age 40-59
+eac36a6d-a107-216a-9584-ee7837236627,2,0,0,0,false,0,0,5,low,Age 0-4
+ff9f14e4-d241-71fe-a501-2199e39aa79a,18,2,2,0,false,0,1,17,low,2 chronic conditions; 1 non-adherent meds
+a7cfdf56-6a3f-ac5c-3a45-6f223312b36c,25,2,1,0,false,0,1,17,low,2 chronic conditions; 1 non-adherent meds
+41deca00-d1c8-0478-3ff7-a074db2cf397,63,6,8,0,false,0,2,44,medium,6 chronic conditions; 2 non-adherent meds; Age 60-74
+0ad457cc-32d8-20d1-7f13-d775f7172a0e,25,2,4,0,false,0,1,17,low,2 chronic conditions; 1 non-adherent meds
+d7bb0340-9894-8bd0-056a-29efc5444fa0,21,0,2,0,false,0,0,0,low,
+39e6bf34-9ff7-f200-8cd8-7b44ef09b4ed,26,0,0,0,false,0,0,0,low,
+dae01f0d-6147-47e0-bd58-bb20569a283c,3,0,0,0,false,0,0,5,low,Age 0-4
+d786f8d0-61de-9b30-54d3-9a8eb517da09,67,3,0,0,false,0,0,28,low,3 chronic conditions; Age 60-74
+21dde8d5-5497-8bf3-aa32-b79e998e9024,56,4,0,0,false,0,0,29,low,4 chronic conditions; Age 40-59
+39b9fc41-87ce-92a5-5096-539739bb657c,67,8,3,0,false,0,0,34,medium,8 chronic conditions; Age 60-74
+ec56f618-56ed-cf49-78fd-4d561bf7cba3,80,5,1,0,false,0,1,44,medium,5 chronic conditions; Age 75-84; 1 non-adherent meds
+7fea6a12-aae3-a4d5-4abf-d6b622deaeb1,34,3,3,0,false,0,1,23,low,3 chronic conditions; 1 non-adherent meds
+396babc6-6b4f-e29b-40f7-ea119ee57ac4,41,6,4,0,false,0,3,44,medium,6 chronic conditions; 3 non-adherent meds; Age 40-59
+f7130650-ec26-4a43-fc30-ac3f05cc793d,16,0,0,0,false,0,1,5,low,1 non-adherent meds
+70231807-0c38-db06-806e-a73e94bcd591,84,7,1,2,false,1,0,57,medium,7 chronic conditions; Age 75-84; 2 acute visits in 12m
+a25e9984-9c96-bcd4-07f9-9f763e077366,38,3,1,1,false,1,0,31,low,3 chronic conditions; 1 missed follow-ups; 1 acute visits in 12m
+28db1c55-fe99-d5c8-8fc4-bffda09ab3be,44,6,3,0,false,0,0,29,low,6 chronic conditions; Age 40-59
+f1b34fb1-f5e8-f45d-109d-99258979e7c6,48,7,1,0,false,0,0,29,low,7 chronic conditions; Age 40-59
+6895f047-ab31-c293-b335-374256e01eb1,1,0,2,0,false,1,0,13,low,1 missed follow-ups; Age 0-4
+c8ff4993-f646-91ea-f261-c8622dd1500a,43,2,2,0,false,0,0,17,low,2 chronic conditions; Age 40-59
+1d238968-2939-1734-5e6e-650d3e16454c,45,4,0,0,false,0,0,29,low,4 chronic conditions; Age 40-59
+d3daf8c9-7cb8-995f-b698-f1d59b19a6b0,56,3,0,0,false,0,0,23,low,3 chronic conditions; Age 40-59
+1f4b009b-80bf-da5f-a2c1-dad8e71e8927,6,0,0,0,false,0,0,0,low,
+f3d95ff6-eeeb-a007-cde5-e69cfeee826f,28,0,0,1,false,1,0,13,low,1 missed follow-ups; 1 acute visits in 12m
+426cade9-82be-f335-7340-c4413e4bdd6a,13,1,4,0,false,0,1,11,low,1 chronic conditions; 1 non-adherent meds
+8151b558-93f4-5a4c-4697-a3137595e999,62,7,1,0,false,0,0,34,medium,7 chronic conditions; Age 60-74
+3a4e4953-19cb-5a92-d896-cfeaa03f5ba8,17,0,1,0,false,0,0,0,low,
+2c6287fd-399c-c0ca-1041-38564cb611ab,12,0,0,0,false,0,0,0,low,
+752a3c69-44d7-d6af-0340-7d3e748f6060,21,0,1,0,false,0,0,0,low,
+2af5741b-913e-7915-e51c-890dd5c261fa,58,8,5,0,false,0,0,29,low,8 chronic conditions; Age 40-59
+563187cb-7236-8b85-e6bc-79f35538910d,53,4,3,1,false,0,1,39,medium,4 chronic conditions; 1 acute visits in 12m; 1 non-adherent meds
+162135b4-931d-a531-c2ad-047b0c24abe8,15,2,8,0,false,0,5,27,low,5 non-adherent meds; 2 chronic conditions
+bf0ad07a-462c-e0c9-bc3c-c40645afc6f9,61,5,1,0,false,0,0,34,medium,5 chronic conditions; Age 60-74
+aa01ba4c-e0ac-805a-f1cb-9b38dc431f4f,58,7,3,0,false,0,1,34,medium,7 chronic conditions; 1 non-adherent meds; Age 40-59
+055bcb42-de36-4673-6d1a-628d1817dcea,40,2,0,0,false,0,0,17,low,2 chronic conditions; Age 40-59
+f665d685-1e8b-dc83-a1e4-7ca3f26d5a8c,50,4,4,0,false,0,0,29,low,4 chronic conditions; Age 40-59
+fbc55f1a-9438-99af-595e-8a4196b6684b,28,3,4,0,false,0,0,18,low,3 chronic conditions
+7fc4f0ed-3671-9ba3-43ba-f7e8da8ca108,16,1,3,0,false,0,0,6,low,1 chronic conditions
+60e27639-436c-6c04-1ff6-9790df8552f8,62,4,1,1,false,0,0,39,medium,4 chronic conditions; Age 60-74; 1 acute visits in 12m
+659bd07d-dffb-9aa2-6a0d-7c52e41e46eb,72,4,1,0,false,0,0,34,medium,4 chronic conditions; Age 60-74
+22e14c09-32f4-0b73-36e3-b38c967afd1b,76,5,1,2,true,0,0,59,medium,5 chronic conditions; Age 75-84; 2 acute visits in 12m
+a19e5a5b-084c-13c5-fcd6-c5fb27e80b14,4,0,2,0,false,0,0,5,low,Age 0-4
+d1ac7006-362b-cc1d-d516-f11d65055473,89,4,5,0,false,0,1,49,medium,4 chronic conditions; Age 85+; 1 non-adherent meds
+2e555528-3530-497a-222a-7a3bbb35d938,73,5,2,0,false,0,0,34,medium,5 chronic conditions; Age 60-74
+7049fd33-ca55-6cfd-3dd9-dfcea6228600,42,4,0,0,false,0,0,29,low,4 chronic conditions; Age 40-59
+3dfce025-b696-711a-8c2d-6903736e2882,59,10,4,7,true,4,3,85,high,10 chronic conditions; 4 missed follow-ups; 7 acute visits in 12m
+d02b2ca5-7e63-1c3d-505f-3a7218bac46d,61,6,4,0,false,0,1,39,medium,6 chronic conditions; Age 60-74; 1 non-adherent meds
+05877654-69c4-d607-400e-e162ea103642,27,2,4,0,false,0,0,12,low,2 chronic conditions
+f75b4628-3ea9-4f6c-b3a6-e7ff678f58cf,40,3,2,0,false,0,0,23,low,3 chronic conditions; Age 40-59
+859e5c6f-f1db-308d-0e33-57d392c1bf04,12,1,4,0,false,0,2,16,low,2 non-adherent meds; 1 chronic conditions
+ad95e4f9-ac42-a37b-9844-01a21e8fd5db,15,1,5,0,false,0,0,6,low,1 chronic conditions
+f0aa92fa-13d6-6e8c-cc01-9986ce990b5e,54,7,2,0,false,0,1,34,medium,7 chronic conditions; 1 non-adherent meds; Age 40-59
+67c6597f-c239-a595-beac-b2941e7b54ff,57,5,2,0,false,0,0,29,low,5 chronic conditions; Age 40-59
+6eca45da-1034-4775-72fd-fa3012b4ca45,10,0,0,1,false,0,0,5,low,1 acute visits in 12m
+a8eed586-7fc7-e064-78ee-c6d227039940,5,0,0,0,false,0,0,0,low,
+2c622c62-af49-25e3-4f67-3ab19a455bb2,32,3,1,0,false,0,0,18,low,3 chronic conditions
+ce54be47-1a8f-e1eb-9b4d-ca61378d9f41,96,7,6,0,false,0,4,59,medium,7 chronic conditions; Age 85+; 4 non-adherent meds
+730963e3-8472-75ab-fc64-5be33cdcc125,47,4,3,0,false,0,1,34,medium,4 chronic conditions; 1 non-adherent meds; Age 40-59
+4727c1ea-a23f-270d-f38f-e03857029aee,27,0,0,0,false,0,0,0,low,
+be01726c-4937-554f-6d8f-58f8ec72ebab,24,2,0,0,false,0,0,12,low,2 chronic conditions
+e92e2c9d-d257-4f3c-73aa-a6ee61ec8db1,39,4,1,2,false,1,1,47,medium,4 chronic conditions; 2 acute visits in 12m; 1 missed follow-ups
+c0c41fd4-6b03-a08f-ca14-94e353230678,63,4,0,0,false,0,0,34,medium,4 chronic conditions; Age 60-74
+988ba5c5-bb2c-1453-cfe7-16ea41c47b42,41,4,2,0,false,0,0,29,low,4 chronic conditions; Age 40-59
+f6542a20-3b0a-addd-d3a2-6a621f67970f,46,3,0,0,false,0,0,23,low,3 chronic conditions; Age 40-59
+6f4a8d14-cba0-49d8-10c1-6669dff22f2f,32,4,2,0,false,1,0,32,low,4 chronic conditions; 1 missed follow-ups
+561db9de-7617-4fed-b230-1553b8dd65f3,26,2,3,1,false,3,2,43,medium,3 missed follow-ups; 2 chronic conditions; 2 non-adherent meds
+a06bce31-d0dc-f345-df41-777fb453afaf,86,9,8,0,false,1,3,67,high,9 chronic conditions; Age 85+; 3 non-adherent meds
+319372b8-27b1-b827-5c89-ac991fc17407,62,6,6,0,false,0,1,39,medium,6 chronic conditions; Age 60-74; 1 non-adherent meds
+30db29cb-a1c0-272e-bfed-ce88ebc23b2d,56,8,3,1,false,0,0,34,medium,8 chronic conditions; 1 acute visits in 12m; Age 40-59
+d321aaa9-5b61-14ae-832b-46b4b50fd88e,61,7,5,1,false,0,0,39,medium,7 chronic conditions; Age 60-74; 1 acute visits in 12m
+4ca722b8-631c-fc54-1145-8d2c4d66809f,56,6,2,0,false,0,1,34,medium,6 chronic conditions; 1 non-adherent meds; Age 40-59
+3ce79121-6f1a-8d00-726d-bc0af611d017,49,4,4,1,false,1,0,42,medium,4 chronic conditions; 1 missed follow-ups; 1 acute visits in 12m
+17ad4670-1e85-702d-c7b5-eac3e87f90ed,23,2,1,0,false,0,0,12,low,2 chronic conditions
+19162199-ffeb-d890-6d5e-ed7afe08f1c0,10,0,0,0,false,0,0,0,low,
+48fe9d25-b0b2-df56-3756-90843b3044a9,16,1,2,0,false,0,0,6,low,1 chronic conditions
+9d92805b-c25a-c7ad-60ca-80c93ffb80b1,83,8,7,0,false,0,2,49,medium,8 chronic conditions; Age 75-84; 2 non-adherent meds
+11256c20-8feb-4033-de96-7d689a7d123a,12,0,0,0,false,0,0,0,low,
+4688bc6a-6bd0-4a88-a590-9a11677082c9,36,4,4,0,false,0,1,29,low,4 chronic conditions; 1 non-adherent meds
+9e9a8955-c4c4-dd80-2a2a-1c6b602efbf5,2,0,0,0,false,0,0,5,low,Age 0-4
+bb4116b4-db28-ec8f-cce5-6ec08b2ea0a0,40,3,0,0,false,0,0,23,low,3 chronic conditions; Age 40-59
+0ae08855-8e6c-5308-3ab5-da0080b36425,35,7,2,1,false,5,1,50,medium,7 chronic conditions; 5 missed follow-ups; 1 acute visits in 12m
+122d96b5-9b37-a7c2-7567-c3a66ae854d7,65,3,0,0,false,0,0,28,low,3 chronic conditions; Age 60-74
+2987fe83-93bf-9d7d-1b8d-481913f54c5c,34,2,0,0,false,0,0,12,low,2 chronic conditions
+f533e863-964d-b59a-cf56-8f4b5f1c8959,48,3,0,0,false,0,0,23,low,3 chronic conditions; Age 40-59
+6149e55a-5f2f-98ca-2767-c7f1ac73ca50,15,0,1,0,false,0,0,0,low,
+02b1604a-1bad-bc6f-5b72-d219ecd8f7f4,61,6,1,0,false,0,1,39,medium,6 chronic conditions; Age 60-74; 1 non-adherent meds
+eb98cdce-f8b2-bbb8-a720-cef7cca9823e,10,0,0,0,false,0,0,0,low,
+4ba15182-a126-7f01-a46e-1901c5c5ceae,16,0,2,0,false,0,0,0,low,
+ba9773bf-d2ba-899b-a68c-4ef986c1325e,54,4,1,0,false,0,1,34,medium,4 chronic conditions; 1 non-adherent meds; Age 40-59
+3f6c7ea3-e73b-025e-06ab-e452943effad,15,1,5,3,true,1,1,44,medium,3 acute visits in 12m; 30-day revisit; 1 missed follow-ups
+72f91cc7-fb63-84e8-32ff-86456bfa446e,79,8,3,1,false,0,0,44,medium,8 chronic conditions; Age 75-84; 1 acute visits in 12m
+e0385e19-8fee-2a84-3ce6-193b08587ecc,9,0,0,1,false,0,0,5,low,1 acute visits in 12m
+7cfbccad-2a81-400a-4858-1d2f4b680960,27,2,5,0,false,0,1,17,low,2 chronic conditions; 1 non-adherent meds
+b91dc3fd-3ed0-eb50-9376-e9bd9ab26940,57,8,4,2,false,0,0,39,medium,8 chronic conditions; 2 acute visits in 12m; Age 40-59
+4b10c406-d391-31dc-cefd-5812b6832cf9,69,11,3,0,false,0,1,39,medium,11 chronic conditions; Age 60-74; 1 non-adherent meds
+83a86980-de17-1b13-d31a-78f2376649af,20,1,4,0,false,0,1,11,low,1 chronic conditions; 1 non-adherent meds
+2c098b38-279d-88b3-d553-e87b56eb1b04,26,1,1,0,false,0,1,11,low,1 chronic conditions; 1 non-adherent meds
+f8cbe1ed-be00-21ac-5705-080cb286f964,28,1,3,0,false,0,1,11,low,1 chronic conditions; 1 non-adherent meds
+454bbec4-42bc-bd2c-fe3a-f8f4fc4346e9,20,1,4,0,false,1,0,14,low,1 missed follow-ups; 1 chronic conditions
+6f0b58f9-cb95-1fb3-5fef-cd914f9b4de3,41,7,3,0,false,0,0,29,low,7 chronic conditions; Age 40-59
+0cb8b8f9-fc42-2841-9578-dbff50c6c86e,20,2,3,0,false,0,1,17,low,2 chronic conditions; 1 non-adherent meds
+dba87de8-9e28-0140-47c4-9419277178f0,61,6,0,0,false,0,0,34,medium,6 chronic conditions; Age 60-74
+03e502b6-b810-06c1-7d65-83db077ed3ee,54,5,2,14,true,5,2,80,high,5 chronic conditions; 5 missed follow-ups; 14 acute visits in 12m
+bf079bf2-4d65-f4a6-0f7b-f02801b57177,18,1,4,0,false,0,1,11,low,1 chronic conditions; 1 non-adherent meds
+e61fe1f4-3daa-bbeb-649a-fdae0eeee227,8,0,0,0,false,0,0,0,low,
+94c64aed-cca1-dc80-c180-5ba446c00df4,31,3,5,1,false,2,1,44,medium,3 chronic conditions; 2 missed follow-ups; 1 acute visits in 12m
+42017485-34da-0251-9969-577a72265086,24,0,0,0,false,0,0,0,low,
+01d78eb5-7f50-45e9-f524-921196a3dffe,20,0,2,0,false,0,0,0,low,
+05801c88-9f2e-536e-9068-4b7b4431d072,27,0,1,0,false,0,0,0,low,
+32f516f7-b223-278c-d0de-5c0b9d70654c,35,5,4,0,false,0,1,29,low,5 chronic conditions; 1 non-adherent meds
+5da2277e-7922-0f7c-513d-fcb794d088e7,39,3,0,0,false,0,0,18,low,3 chronic conditions
+30813a62-aa9f-3c7c-cc52-6c3957a3c1b1,93,7,5,1,false,0,0,49,medium,7 chronic conditions; Age 85+; 1 acute visits in 12m
+a57b5df9-090b-3367-e302-89f6c9660923,27,0,0,0,false,0,0,0,low,
+ad134528-56a5-35fd-c37f-466ff119c625,80,10,8,0,false,0,2,49,medium,10 chronic conditions; Age 75-84; 2 non-adherent meds
+0b43ab26-950f-0680-3c41-f0db599d643d,34,5,2,1,false,1,0,37,medium,5 chronic conditions; 1 missed follow-ups; 1 acute visits in 12m
+60b0873c-9665-b3f0-61f4-d09ae9667a27,74,7,2,0,false,0,1,39,medium,7 chronic conditions; Age 60-74; 1 non-adherent meds
+40ef2428-c142-6e65-8e0e-0ee4098dda28,47,9,1,0,false,0,0,29,low,9 chronic conditions; Age 40-59
+8a69ae35-07ad-e093-0162-ad02d8e1e070,21,1,0,0,false,0,0,6,low,1 chronic conditions
+18022a84-1fd7-ba38-3567-efbc6a50e9d4,54,4,4,0,false,0,2,39,medium,4 chronic conditions; 2 non-adherent meds; Age 40-59
+70da0834-3ef3-7dfe-ad2a-8a00b5f87749,21,1,1,0,false,0,0,6,low,1 chronic conditions
+73e6ab94-00b7-e78c-0f7c-a482ebf6a6f3,57,5,3,0,false,0,0,29,low,5 chronic conditions; Age 40-59
+1ab85caa-724e-d796-8d77-bcaf4a295826,42,3,0,0,false,0,0,23,low,3 chronic conditions; Age 40-59
+88d520e7-276e-65c7-1b5b-354aa27f2358,18,0,2,1,false,0,0,5,low,1 acute visits in 12m
+32cd9cb6-2fca-7062-98f0-020f9946a6f5,23,0,0,0,false,0,0,0,low,
+c42fab5d-77f6-9b8a-2e33-3339cc104394,30,0,0,0,false,0,0,0,low,
+3d5f91c2-0539-37c9-0691-d2bbe28c78e3,19,4,6,0,false,0,1,29,low,4 chronic conditions; 1 non-adherent meds
+a0d22ce4-8c1f-1168-5a83-aff4f79f4a1f,32,6,3,0,false,0,1,29,low,6 chronic conditions; 1 non-adherent meds
+7e2e283e-fef9-4061-4fa7-cf68be4a6dbf,4,0,0,0,false,0,0,5,low,Age 0-4
+25d06c17-e5a4-02b2-a18f-67886970cefa,52,4,1,0,false,0,0,29,low,4 chronic conditions; Age 40-59
+065e8a3d-b782-c088-2a17-6498d7d190bc,25,1,1,0,false,1,0,14,low,1 missed follow-ups; 1 chronic conditions
+b75fc5f1-10f0-5103-82f3-e7957a48132a,59,5,4,0,false,0,1,34,medium,5 chronic conditions; 1 non-adherent meds; Age 40-59
+a4ce9a28-c676-33d4-1656-0cb7e4419883,12,0,0,0,false,0,0,0,low,
+df9b9e5b-c894-1879-c153-3e9df381f15b,40,3,2,0,false,1,0,31,low,3 chronic conditions; 1 missed follow-ups; Age 40-59
+140c88b4-afb8-dca3-92e5-3e688aa19800,3,0,0,0,false,0,0,5,low,Age 0-4
+17eddffe-9412-688c-7944-65251314b1c0,44,5,2,0,false,0,0,29,low,5 chronic conditions; Age 40-59
+2783a318-7e6d-e3a7-fce7-2a70e66c6ba9,15,1,0,1,false,0,0,11,low,1 chronic conditions; 1 acute visits in 12m
+153c68e6-08e5-a751-1f6b-4439d279681d,70,6,8,0,false,0,3,49,medium,6 chronic conditions; 3 non-adherent meds; Age 60-74
+918e387f-cb9a-ec9f-ab54-65467a4df548,26,1,3,0,false,0,0,6,low,1 chronic conditions
+1fe3dce8-51b2-98ed-751e-dd8f64a48fb7,45,5,0,0,false,0,0,29,low,5 chronic conditions; Age 40-59
+79823958-40ce-9882-a2da-9ff37be49b19,52,4,2,0,false,0,0,29,low,4 chronic conditions; Age 40-59
+177971b9-2284-1459-06de-165414d9de11,32,3,3,0,false,0,3,33,low,3 chronic conditions; 3 non-adherent meds
+57e403fc-885a-3b44-804e-a034ca08413c,52,6,0,0,false,0,0,29,low,6 chronic conditions; Age 40-59
+7d5e31d3-163b-4a77-576b-1ed21adf8c09,0,0,0,0,false,0,0,5,low,Age 0-4
+146f9020-c423-72ce-7c96-12e60f3f5910,12,1,4,1,false,0,1,16,low,1 chronic conditions; 1 acute visits in 12m; 1 non-adherent meds
+767e1d64-d100-a9ec-fe05-073c6857ffa8,56,5,4,0,false,0,3,44,medium,5 chronic conditions; 3 non-adherent meds; Age 40-59
+355a3cad-a055-c14b-117e-47accfc708ca,30,7,0,0,false,2,0,40,medium,7 chronic conditions; 2 missed follow-ups
+e841df97-29d6-fe22-3ebc-a837d092b339,50,5,0,2,false,1,0,47,medium,5 chronic conditions; 2 acute visits in 12m; 1 missed follow-ups
+7683e3a1-996d-1f2a-8bca-a463ad969cc1,63,6,1,0,false,0,0,34,medium,6 chronic conditions; Age 60-74
+7442e18c-ac59-805d-6140-6db8778408b5,15,0,1,1,false,0,1,10,low,1 acute visits in 12m; 1 non-adherent meds
+e65573ba-e39e-bac4-2e49-2d3cf9a538b8,56,3,0,1,false,0,1,33,low,3 chronic conditions; 1 acute visits in 12m; 1 non-adherent meds
+1a9659fb-0cbb-50af-d820-04a12c1b2604,13,1,0,0,false,0,0,6,low,1 chronic conditions
+58a3b04c-07b8-fd55-b008-316dbd1fe190,37,2,1,0,false,0,0,12,low,2 chronic conditions
+fcf025a4-3827-2f50-d719-c8981cdffda9,57,3,0,0,false,0,0,23,low,3 chronic conditions; Age 40-59
+03b291e7-6d3f-d687-eac7-cb46455f34e3,83,4,0,0,false,0,0,39,medium,4 chronic conditions; Age 75-84
+1f06f787-61cd-dd2d-a6b2-347507100f10,47,3,0,0,false,0,0,23,low,3 chronic conditions; Age 40-59
+22b01ffb-7537-e873-3a7c-0d6961c498d7,3,0,0,0,false,0,0,5,low,Age 0-4
+80591a09-43a2-3933-605e-d14dd364f2c5,25,1,4,0,false,0,0,6,low,1 chronic conditions
+f53de9cd-1222-a913-829a-08a06e9b1581,17,0,0,0,false,0,0,0,low,
+811c2d6c-eef7-0134-6f19-d4aea9606922,41,6,4,0,false,0,1,34,medium,6 chronic conditions; 1 non-adherent meds; Age 40-59
+75bae569-fca6-6a70-00fe-2910d51ddd65,33,3,4,0,false,0,1,23,low,3 chronic conditions; 1 non-adherent meds
+34f26c54-34b6-ad2b-db7c-5ff818b0456c,30,3,0,0,false,0,0,18,low,3 chronic conditions
+7014a3c8-c168-7809-d981-f7f4cc181442,55,4,3,0,false,0,1,34,medium,4 chronic conditions; 1 non-adherent meds; Age 40-59
+b67cb13c-7ae0-70a5-c1f8-9bf1af3e2ec2,52,4,3,0,false,0,1,34,medium,4 chronic conditions; 1 non-adherent meds; Age 40-59
+5e4a0309-e8c1-c58c-bb7f-208dbe06cb13,79,4,0,0,false,0,0,39,medium,4 chronic conditions; Age 75-84
+4c7bbf23-68f4-86e8-c61e-1a1b1e81c4ea,71,6,7,0,false,0,1,39,medium,6 chronic conditions; Age 60-74; 1 non-adherent meds
+ce6fbb19-19f4-b597-7df8-8bb192f78da8,65,4,2,0,false,0,0,34,medium,4 chronic conditions; Age 60-74
+3a364909-94ec-e0c4-0156-8a2e15fa354e,60,5,3,0,false,1,2,52,medium,5 chronic conditions; 2 non-adherent meds; Age 60-74
+475803f3-ae29-ba8d-bdd1-25145a94eaee,43,7,1,0,false,0,0,29,low,7 chronic conditions; Age 40-59
+6f35c499-7420-2122-d3b4-ea13cc57669d,49,2,1,0,false,0,1,22,low,2 chronic conditions; 1 non-adherent meds; Age 40-59
+96a91c58-1099-af08-0aee-3d924cd5c7e8,38,4,3,1,false,2,0,45,medium,4 chronic conditions; 2 missed follow-ups; 1 acute visits in 12m
+7f571b07-f9a5-da74-3547-5f83bedcc5b7,65,6,0,0,false,0,0,34,medium,6 chronic conditions; Age 60-74
+0e78dfee-9af0-046c-39bb-33fdcb910976,57,9,9,11,true,6,7,85,high,9 chronic conditions; 6 missed follow-ups; 11 acute visits in 12m
+1e6c1763-afae-06b8-e9ec-6a3cfee72c45,9,1,0,0,false,0,0,6,low,1 chronic conditions
+5ec53533-38d5-fd93-159b-7389ffd95940,95,4,3,0,false,0,0,44,medium,4 chronic conditions; Age 85+
+4b0917d5-d8b8-ca5a-9bce-658885b34afe,20,0,0,1,false,0,0,5,low,1 acute visits in 12m
+03bb882e-730f-0d96-cd3d-3caee932fef6,64,3,2,1,false,1,0,41,medium,3 chronic conditions; Age 60-74; 1 missed follow-ups
+9cbf47d8-b59a-ef34-c330-77accc084c17,87,6,8,2,false,0,1,59,medium,6 chronic conditions; Age 85+; 2 acute visits in 12m
+03a870d0-f88c-5cf7-538d-491923a3b57b,65,5,1,0,false,0,0,34,medium,5 chronic conditions; Age 60-74
+f2308839-f572-e86e-8f29-cb0fd61e0f57,8,0,0,1,false,0,0,5,low,1 acute visits in 12m
+3ec37e85-5d7f-2ace-82cf-352d99ccdb8a,56,3,0,0,false,0,0,23,low,3 chronic conditions; Age 40-59
+6d715e84-4c7a-e4a9-e8ce-6065e2607107,22,0,0,0,false,0,0,0,low,
+56cfe6a5-4835-d925-fd7a-84faf11306f0,51,8,3,0,false,0,0,29,low,8 chronic conditions; Age 40-59
+c2786fee-2b45-56cd-f36c-96ad2ce9ab01,70,5,7,0,false,1,4,57,medium,5 chronic conditions; 4 non-adherent meds; Age 60-74
+9a89902c-ba23-e035-51fc-1dd6285e6309,45,4,1,0,false,0,0,29,low,4 chronic conditions; Age 40-59
+3a240793-dc26-8138-00da-bdff02591677,71,4,0,0,false,0,0,34,medium,4 chronic conditions; Age 60-74
+d29560ea-5e1b-99a1-1beb-e8dd19b67468,60,4,2,0,false,0,0,34,medium,4 chronic conditions; Age 60-74
+c8448d6d-50cc-98e8-ceb0-7f7babf8c8c3,51,5,1,1,false,0,0,34,medium,5 chronic conditions; 1 acute visits in 12m; Age 40-59
+8daa23b6-137c-abd3-58c8-da0f70b98143,6,0,0,1,false,0,0,5,low,1 acute visits in 12m
+1293efbb-72dc-8b15-3bd6-916f96ed54f4,62,9,5,1,false,0,1,44,medium,9 chronic conditions; Age 60-74; 1 acute visits in 12m
+b84e121c-8ce7-a6e9-9c45-f6867bcb757d,33,4,4,0,false,0,0,24,low,4 chronic conditions
+1376b3c5-6250-0dcb-0a6d-d9c595a1e167,34,4,0,0,false,0,0,24,low,4 chronic conditions
+be11f8fe-52e4-7748-8835-1f2435aeb7db,1,0,0,0,false,0,0,5,low,Age 0-4
+eb2f8ba1-fd23-fdbb-dbe3-484a3d58244e,108,7,5,0,false,0,1,49,medium,7 chronic conditions; Age 85+; 1 non-adherent meds
+b8c195d4-0396-fb84-3aa2-57dd23ff5a23,43,4,1,0,false,0,0,29,low,4 chronic conditions; Age 40-59
+55c5b8d3-99d0-58ad-8444-e42bb81bd5c7,79,12,6,21,true,5,7,95,high,12 chronic conditions; 5 missed follow-ups; 21 acute visits in 12m
+7a929240-2387-1d5c-664b-d643ee18bb39,28,1,2,0,false,0,1,11,low,1 chronic conditions; 1 non-adherent meds
+423a9252-21e3-6141-4207-46a9066fd7f4,0,0,0,0,false,0,0,5,low,Age 0-4
+dfb2da7f-ed8b-1d6e-504e-db4ace36cee5,37,3,1,0,false,0,0,18,low,3 chronic conditions
+01f8bbfd-cfc6-3b97-8bc1-8da6f0b4a9a8,10,1,3,0,false,0,1,11,low,1 chronic conditions; 1 non-adherent meds
+92895f1d-3f61-fc09-a300-e3e533a25592,47,6,4,0,false,0,1,34,medium,6 chronic conditions; 1 non-adherent meds; Age 40-59
+418c6a4c-1615-cba9-80b3-ac2901f4c07f,71,7,3,1,false,1,1,52,medium,7 chronic conditions; Age 60-74; 1 missed follow-ups
+792a51c0-a2a4-ee26-c23c-7cb24f8a0e35,52,5,5,0,false,0,0,29,low,5 chronic conditions; Age 40-59
+92f5789e-9175-3815-b189-654c2671d19b,7,0,0,0,false,0,0,0,low,
+cf49b901-a4fe-9b9d-fd42-45b1fdcdd55e,33,2,1,0,false,0,0,12,low,2 chronic conditions
+c518abbe-9695-1b3a-3173-305ff9bb6150,56,5,3,0,false,0,2,39,medium,5 chronic conditions; 2 non-adherent meds; Age 40-59
+a24ffe4b-09c7-3855-e3b3-0b2983c73077,31,2,0,0,false,1,0,20,low,2 chronic conditions; 1 missed follow-ups
+d31bde96-deb4-7a7b-7a10-8a06cd0c3472,22,1,2,0,false,0,0,6,low,1 chronic conditions
+70c444f6-2f20-e9c3-0c1c-13fab72f9a4a,64,3,0,0,false,0,0,28,low,3 chronic conditions; Age 60-74
+219ddc63-11fe-e940-aa69-0e1bdd131e08,27,2,7,0,false,0,2,22,low,2 chronic conditions; 2 non-adherent meds
+72b71d33-b242-8f86-7ce0-198b3dfd3bf1,73,5,1,0,false,0,0,34,medium,5 chronic conditions; Age 60-74
+0d61d17e-51a7-9590-3dc4-5aa410968b17,29,2,1,0,false,1,1,25,low,2 chronic conditions; 1 missed follow-ups; 1 non-adherent meds
+964576b0-7527-b34a-d7c8-37cee9f6e396,16,0,0,1,false,0,0,5,low,1 acute visits in 12m
+f99e1c5e-40c9-aa06-3e00-f2d944dc3ae0,77,7,1,0,false,0,1,44,medium,7 chronic conditions; Age 75-84; 1 non-adherent meds
+aa2f41c3-412f-6635-26df-de6f46013766,55,4,3,0,false,0,0,29,low,4 chronic conditions; Age 40-59
+f7f16284-7947-c5d0-9d50-d5e51e082888,19,0,0,0,false,0,0,0,low,
+402e86ae-4bab-2990-e3e5-af591cb87f6e,40,4,2,0,false,0,0,29,low,4 chronic conditions; Age 40-59
+d66b5418-06cb-fc8a-8c13-85685b6ac939,24,1,4,0,false,0,0,6,low,1 chronic conditions
+84fee56a-9ef7-8cff-e7d3-526ece562d87,68,4,5,1,false,0,0,39,medium,4 chronic conditions; Age 60-74; 1 acute visits in 12m
+bde529cd-a87e-f646-6b7d-d0370a097d70,9,0,0,1,false,0,0,5,low,1 acute visits in 12m
+1037e617-a1f1-fe6c-6204-815c28293a22,17,0,0,0,false,0,0,0,low,
+9d403f74-9f2a-894d-468b-268f08189ab4,25,0,1,0,false,0,0,0,low,
+5cd20da5-2f01-b94a-07fb-173648c58460,77,8,3,0,false,1,0,47,medium,8 chronic conditions; Age 75-84; 1 missed follow-ups
+0bbf4179-5526-b01d-b1b3-11a0f9742e3a,40,2,0,0,false,0,0,17,low,2 chronic conditions; Age 40-59
+863410e4-cd33-2f03-47b6-01fa2bc39753,19,2,7,0,false,0,2,22,low,2 chronic conditions; 2 non-adherent meds
+38f38890-b80f-6542-51d4-882c7b37b0bf,80,5,3,0,false,0,2,49,medium,5 chronic conditions; Age 75-84; 2 non-adherent meds
+f4e9db02-4f07-2d07-f7f3-fc01c45454d1,61,4,0,0,false,0,0,34,medium,4 chronic conditions; Age 60-74
+86b4e80a-13f8-e14b-cf3f-9000cc0e96b5,42,4,3,1,false,0,1,39,medium,4 chronic conditions; 1 acute visits in 12m; 1 non-adherent meds
+9188198b-4f9b-8648-3609-37465be0a144,49,4,0,0,false,0,0,29,low,4 chronic conditions; Age 40-59
+ccfc4db2-2026-7adb-3db0-33f3828140bb,45,6,3,0,false,0,1,34,medium,6 chronic conditions; 1 non-adherent meds; Age 40-59
+5b0609a7-49e8-65b4-dc32-9edc8301c646,32,6,3,1,false,1,1,42,medium,6 chronic conditions; 1 missed follow-ups; 1 acute visits in 12m
+7673112e-f252-3c46-a7e7-ac1e1fe3fa45,27,1,2,0,false,0,1,11,low,1 chronic conditions; 1 non-adherent meds
+407ef75b-0a9c-ec23-60e5-c90ba86e27af,69,5,4,1,false,1,0,47,medium,5 chronic conditions; Age 60-74; 1 missed follow-ups
+d362f4e5-244f-cf80-f2d5-25bcd2c97785,47,8,2,0,false,0,0,29,low,8 chronic conditions; Age 40-59
+c90a6e66-0199-98db-346c-c8efb2ba8ccf,34,4,2,0,false,0,1,29,low,4 chronic conditions; 1 non-adherent meds
+4d842986-92fc-ba68-b496-9d21913a7141,11,0,2,0,false,0,0,0,low,
+9bbc77f6-c1e1-0c48-c64e-eb5958f15faf,9,0,0,0,false,0,0,0,low,
+0a168e32-7b62-8597-0e11-296871bb764f,22,1,1,0,false,0,0,6,low,1 chronic conditions
+459f6a66-b392-60b2-5164-cf29d3be444e,36,2,0,0,false,0,0,12,low,2 chronic conditions
+c49a00b1-cead-b093-f02c-be9b7789c584,9,0,0,0,false,0,0,0,low,
+90a958eb-68a4-aa61-85e0-e9f20b083d94,57,6,1,0,false,1,0,37,medium,6 chronic conditions; 1 missed follow-ups; Age 40-59
+fabb7ac2-1c62-3293-f43c-e35fb903c1c7,33,3,0,0,false,1,0,26,low,3 chronic conditions; 1 missed follow-ups
+fc8dfe9b-047b-4457-610f-75aff8e51692,22,3,1,0,false,0,0,18,low,3 chronic conditions
+203e71e8-7254-6d5c-64a4-37258364dd41,56,5,3,0,false,0,0,29,low,5 chronic conditions; Age 40-59
+81fbeaeb-d95a-1d34-e260-291f23fec526,10,0,2,1,false,0,0,5,low,1 acute visits in 12m
+07a1f80c-f4e2-8e91-5913-270fc6afa25d,65,4,2,0,false,0,0,34,medium,4 chronic conditions; Age 60-74
+e4c2980e-ffa5-4570-988e-3eb8e108aad3,61,4,0,0,false,0,0,34,medium,4 chronic conditions; Age 60-74
+c30d42e6-8e9e-d548-8114-482cdd553fcb,13,1,0,0,false,0,0,6,low,1 chronic conditions
+45e16cee-56b9-4619-d136-dbba2af81729,77,6,2,0,false,1,0,47,medium,6 chronic conditions; Age 75-84; 1 missed follow-ups
+56e2acb9-efb3-f7b5-39bd-c2a1f860e553,12,0,0,0,false,0,0,0,low,
+81057ca9-6e9d-25d6-cec3-7f743dff8ffd,54,3,0,0,false,0,0,23,low,3 chronic conditions; Age 40-59
+29b21635-3f05-3634-1941-4122fb2471ce,34,3,2,0,false,0,1,23,low,3 chronic conditions; 1 non-adherent meds
+ce1153cb-d4ad-77e2-cd07-575e249a83ad,15,2,5,0,false,0,0,12,low,2 chronic conditions
+fa2d28b1-de84-ac96-ee04-a20dc54832c1,48,10,5,4,true,1,2,72,high,10 chronic conditions; 4 acute visits in 12m; 30-day revisit
+eebbb6c9-87b3-9978-5eab-84edacbccc7c,22,2,4,1,false,0,0,17,low,2 chronic conditions; 1 acute visits in 12m
+09faca51-f561-cdc3-e524-a1d682f19258,56,4,5,1,false,0,3,49,medium,4 chronic conditions; 3 non-adherent meds; 1 acute visits in 12m
+dbf10a3b-473c-ab44-3882-8c7f48244567,32,4,4,0,false,0,0,24,low,4 chronic conditions
+d1f767cc-a980-8bd9-8a1b-f7ada327b40c,1,0,0,0,false,0,0,5,low,Age 0-4
+3f8f669e-a86e-7ed2-9cd3-af981a89dfa1,73,8,7,1,false,0,2,49,medium,8 chronic conditions; 2 non-adherent meds; Age 60-74
+61adebe2-451a-0518-8424-dabde68087ea,1,0,0,0,false,0,0,5,low,Age 0-4
+a3752f35-b99c-5da7-a16a-f6e06adc97ac,28,1,0,0,false,0,0,6,low,1 chronic conditions
+c6861ca8-bf6b-8912-57d6-68df88cbe481,26,1,0,0,false,0,0,6,low,1 chronic conditions
+0d281c81-6c94-4578-c69f-217929d12245,46,3,1,0,false,0,1,28,low,3 chronic conditions; 1 non-adherent meds; Age 40-59
+f49dace4-cb51-d640-468f-044ec67ed318,65,3,2,0,false,0,0,28,low,3 chronic conditions; Age 60-74
+d868e198-8ebe-2338-5691-4c1de3421c65,55,7,6,0,false,0,3,44,medium,7 chronic conditions; 3 non-adherent meds; Age 40-59
+81aa7647-779f-fd6b-94cf-782e606efeb2,6,0,0,0,false,0,0,0,low,
+03777c32-ed98-50e2-f75d-cbcad532c610,53,5,5,0,false,0,1,34,medium,5 chronic conditions; 1 non-adherent meds; Age 40-59
+f992b5b4-16f1-1587-cca6-a15bda17a557,38,4,0,0,false,0,0,24,low,4 chronic conditions
+9055bf8d-a995-d068-a3e0-666a002b5683,11,0,0,0,false,0,0,0,low,
+0b48bf9b-5582-1253-ab01-b34da54bad15,48,4,0,1,false,0,0,34,medium,4 chronic conditions; 1 acute visits in 12m; Age 40-59
+4e100688-c089-1057-395a-eb4ced369230,9,1,0,0,false,0,0,6,low,1 chronic conditions
+1ea40a05-c295-8b66-66a2-fda3bc1ed13f,61,3,1,0,false,0,0,28,low,3 chronic conditions; Age 60-74
+19362ed4-09cb-6096-9b73-1c4e434d1cfa,13,1,0,0,false,0,0,6,low,1 chronic conditions
+d8e3a701-d108-74ff-2ce3-156537276a14,29,0,0,0,false,0,0,0,low,
+eb16b994-f2ca-beee-fce4-25286f1a0e89,15,0,0,0,false,0,0,0,low,
+fae0edab-0c3d-d1ed-5fbd-bb87125da5c4,17,1,4,0,false,0,0,6,low,1 chronic conditions
+8c39d1ea-a482-d741-288d-0c780719797f,38,3,0,0,false,0,0,18,low,3 chronic conditions
+e1245016-60e8-f2d1-728b-5f32bf4b387b,48,7,5,0,false,0,1,34,medium,7 chronic conditions; 1 non-adherent meds; Age 40-59
+915aacda-a5d6-b157-5f8a-572c9ed4eb0f,58,5,2,0,false,0,0,29,low,5 chronic conditions; Age 40-59
+9f876c35-7d5a-dc96-971d-2e1b11700318,3,0,0,0,false,0,0,5,low,Age 0-4
+af7711e2-9168-bf9a-63de-9fe3e5bad22d,25,3,9,0,false,0,3,33,low,3 chronic conditions; 3 non-adherent meds
+83f922a9-3567-cb65-b57f-2da9cc05af15,57,7,3,1,false,0,2,44,medium,7 chronic conditions; 2 non-adherent meds; 1 acute visits in 12m
+b3c96d58-b033-6bc7-a65f-3acd85698fd6,0,0,0,0,false,0,0,5,low,Age 0-4
+82493462-2eea-803b-7183-4e8b1b4ee8d9,83,5,1,1,false,1,1,57,medium,5 chronic conditions; Age 75-84; 1 missed follow-ups
+d57e867e-4896-9e07-f502-5f4f881bd80e,60,9,5,2,true,0,1,59,medium,9 chronic conditions; 2 acute visits in 12m; 30-day revisit
+443e574b-0480-6ad5-8add-e22f5e87a9bb,68,5,3,0,false,0,1,39,medium,5 chronic conditions; Age 60-74; 1 non-adherent meds
+094c294d-4e4c-043d-4100-f59b08b45770,30,8,1,1,false,7,0,45,medium,8 chronic conditions; 7 missed follow-ups; 1 acute visits in 12m
+e23c7a6e-6ef2-3932-1361-b73b4c8a3961,106,11,10,17,true,8,7,100,high,11 chronic conditions; Age 85+; 8 missed follow-ups
+c5340af3-dde7-d403-78dd-bf20a03f0238,20,1,1,0,false,0,0,6,low,1 chronic conditions
+4e65c7b6-abda-fcae-ffb1-31c700e03afd,51,4,3,0,false,0,1,34,medium,4 chronic conditions; 1 non-adherent meds; Age 40-59
+6d2fc252-7270-aa59-e5e0-0c21432984ba,72,4,1,1,false,0,0,39,medium,4 chronic conditions; Age 60-74; 1 acute visits in 12m
+b810c52d-5c90-ede3-65b0-cdcda01df8f4,26,0,0,0,false,0,0,0,low,
+9027ebcb-fab1-6cb7-60c1-1c9dd2b7b729,53,4,3,0,false,0,0,29,low,4 chronic conditions; Age 40-59
+a67877ad-5f7a-782d-c74c-0aa5d2072de3,18,0,1,0,false,0,1,5,low,1 non-adherent meds
+6d06eb4a-dc31-a2d2-1144-afea738d5302,38,2,1,1,false,1,1,30,low,2 chronic conditions; 1 missed follow-ups; 1 acute visits in 12m
+297c1550-317d-aac0-b529-042721fed414,27,1,0,1,false,2,0,27,low,2 missed follow-ups; 1 chronic conditions; 1 acute visits in 12m
+3724187a-4b7f-43ef-aa6f-22e13b76449b,2,0,0,0,false,0,0,5,low,Age 0-4
+7249d5ba-664d-786e-f1c8-924588615e7a,17,0,2,0,false,0,0,0,low,
+59f7a978-7c32-4d81-4879-56a8d44f4a12,44,6,2,0,false,0,1,34,medium,6 chronic conditions; 1 non-adherent meds; Age 40-59
+c46a254d-cd25-4375-528b-e8d0da9c6a29,67,5,7,0,false,0,1,39,medium,5 chronic conditions; Age 60-74; 1 non-adherent meds
+795045ce-11be-b8ac-a5c7-886d4eca732c,14,0,2,1,false,0,0,5,low,1 acute visits in 12m
+f2f58c59-0ad7-302d-7d66-cfd3d0287a2a,31,4,0,0,false,0,0,24,low,4 chronic conditions
+76b289fd-e825-734c-8446-316f59643593,36,4,5,1,false,0,0,29,low,4 chronic conditions; 1 acute visits in 12m
+747405cb-2f91-e54a-c123-55f4e9edfc4c,44,4,0,1,false,0,0,34,medium,4 chronic conditions; 1 acute visits in 12m; Age 40-59
+e1a2f3c6-27a7-f162-492e-62a5fffc38e0,70,7,2,0,false,0,0,34,medium,7 chronic conditions; Age 60-74
+9ccd0d4f-f8f2-34a4-4ba9-9b9b92c6370a,14,0,0,0,false,0,0,0,low,
+d19face0-6272-fbfb-7882-7745c0a86eb5,50,4,0,0,false,0,0,29,low,4 chronic conditions; Age 40-59
+cf79ac17-78d8-6fa4-1210-b3efdea80f7d,47,3,1,0,false,0,1,28,low,3 chronic conditions; 1 non-adherent meds; Age 40-59
+5c15f3b9-fbd5-80e5-755d-5a697e4b0499,18,0,1,0,false,0,0,0,low,
+c628b9c2-31de-fd80-f913-2e9ad36393a9,43,5,1,0,false,0,0,29,low,5 chronic conditions; Age 40-59
+92fb7efc-5cfd-f8d3-927b-42f8ee099531,8,0,2,0,false,0,0,0,low,
+b74d0752-3c8d-4374-78d0-618105abb04c,47,3,0,0,false,0,0,23,low,3 chronic conditions; Age 40-59
+436a7fef-6640-96ab-2557-77e40e947bc9,16,1,1,1,false,0,0,11,low,1 chronic conditions; 1 acute visits in 12m
+d92df2e8-3c36-b226-ac2f-0318da0327b8,22,3,2,0,false,0,1,23,low,3 chronic conditions; 1 non-adherent meds
+fcde6abf-947c-a505-86db-6ee8fd387a7f,53,4,1,0,false,0,0,29,low,4 chronic conditions; Age 40-59
+c23879ce-c23c-dbb3-8812-1ecdcbbdfe6f,52,4,4,0,false,0,0,29,low,4 chronic conditions; Age 40-59
+d7c46304-29f5-5ddb-f5df-7d816cf4f318,38,4,3,0,false,0,2,34,medium,4 chronic conditions; 2 non-adherent meds
+d6a7458f-9502-ef68-1ff8-539bda019f8c,12,3,3,0,false,0,0,18,low,3 chronic conditions
+fdc21ebe-f012-0831-ccfc-28d243f4b5ac,39,4,1,0,false,0,0,24,low,4 chronic conditions
+2eb19e95-d892-0973-f9c1-1c915d3e622d,27,1,0,0,false,0,0,6,low,1 chronic conditions
+07fc8824-40ff-4c97-898d-f906bc6f2fd3,67,5,0,0,false,0,0,34,medium,5 chronic conditions; Age 60-74
+7bc66758-5d59-0b38-1532-29a33fa146c1,110,10,4,1,false,1,0,57,medium,10 chronic conditions; Age 85+; 1 missed follow-ups
+dc234609-fb36-d5ba-bf99-c04b4f107790,0,0,0,0,false,0,0,5,low,Age 0-4
+722b8d8e-7435-5871-ab7d-9f4b900f1a6e,63,6,3,0,false,0,1,39,medium,6 chronic conditions; Age 60-74; 1 non-adherent meds
+48e5fb94-b8a0-49e0-7426-63cbccc47945,57,4,1,0,false,0,0,29,low,4 chronic conditions; Age 40-59
+08c885d3-43c9-efd4-e8b3-c6140832b18f,21,0,0,0,false,0,0,0,low,
+155e8fa2-a0ac-80e4-23e2-0395cdcf1794,13,0,0,0,false,0,0,0,low,
+e26891fb-8959-8553-d12a-f92bd5c3bafa,19,1,4,0,false,0,0,6,low,1 chronic conditions
+b4b89a78-2d0b-f956-1c84-b373ffd34e49,55,6,4,11,true,6,2,80,high,6 chronic conditions; 6 missed follow-ups; 11 acute visits in 12m
+b795bf03-28fb-ad1d-5a43-3e44422700a7,57,7,0,0,false,0,0,29,low,7 chronic conditions; Age 40-59
+49dcfcdb-2e70-3c98-9ce1-7020c1d8850d,29,2,2,1,false,1,1,30,low,2 chronic conditions; 1 missed follow-ups; 1 acute visits in 12m
+35e37786-cae2-06f7-f0da-7fca4b33f3e7,4,0,0,0,false,0,0,5,low,Age 0-4
+905c24ca-4f11-d6e1-c555-fcf809b6144c,21,3,6,1,false,4,3,54,medium,3 chronic conditions; 4 missed follow-ups; 3 non-adherent meds
+5172375b-b342-9aed-8497-6840f37b5297,37,5,4,0,false,0,1,29,low,5 chronic conditions; 1 non-adherent meds
+478dfbd6-4a0b-f3cb-0d30-a336f9d0c2e8,22,6,3,0,false,0,1,29,low,6 chronic conditions; 1 non-adherent meds
+49ad5c5c-a6b4-ab0f-8ed9-fe107000d511,24,0,0,0,false,0,0,0,low,
+58287c7e-a28d-2607-00a4-8baab8c7e3ad,27,2,4,0,false,0,0,12,low,2 chronic conditions
+fbe20eaf-cbd9-11a2-2791-d69cc00771bb,45,7,3,1,false,0,0,34,medium,7 chronic conditions; 1 acute visits in 12m; Age 40-59
+e976b84c-d166-c32d-2f8f-152ad6b5e3af,52,11,3,2,true,1,0,57,medium,11 chronic conditions; 2 acute visits in 12m; 30-day revisit
+cb6e8532-cd9a-0e39-48cd-c97b37cad662,26,3,1,0,false,0,0,18,low,3 chronic conditions
+3248ffc6-0867-0684-6309-c5ec2cba48ee,47,8,2,0,false,0,3,44,medium,8 chronic conditions; 3 non-adherent meds; Age 40-59
+731ddb1c-4c88-f6f1-3c54-e5fc5bb4c23d,60,6,9,0,false,0,3,49,medium,6 chronic conditions; 3 non-adherent meds; Age 60-74
+a2ac2a39-b1eb-a338-3aca-7598d56e4501,20,1,1,0,false,0,0,6,low,1 chronic conditions
+0354da61-b0c8-3469-d3f6-c2fd0f508b7a,46,4,3,0,false,0,2,39,medium,4 chronic conditions; 2 non-adherent meds; Age 40-59
+3b7ccd6e-f331-abc9-a498-a16280c3ee10,43,3,1,0,false,0,0,23,low,3 chronic conditions; Age 40-59
+30806a79-c973-cf34-8b67-745d9ef038d8,65,5,1,0,false,1,0,42,medium,5 chronic conditions; Age 60-74; 1 missed follow-ups
+b9a2dccd-6eb0-0014-bc92-527b5dde701d,45,3,1,0,false,0,1,28,low,3 chronic conditions; 1 non-adherent meds; Age 40-59
+38d4ec1b-e8fe-ee81-0634-4d0ac7dc140f,55,7,2,0,false,0,0,29,low,7 chronic conditions; Age 40-59
+5ac6dd24-2c5c-0ac0-91f2-7c10348c139a,63,3,4,0,false,0,2,38,medium,3 chronic conditions; 2 non-adherent meds; Age 60-74
+e9bb3dbd-e1ea-cff0-0646-71d64be48193,32,3,0,0,false,0,0,18,low,3 chronic conditions
+f42c7ebb-76cb-c999-e713-73169d94ccce,20,2,0,1,false,0,0,17,low,2 chronic conditions; 1 acute visits in 12m
+3fda13ae-c868-c505-10ee-3f6d4b694b84,2,0,0,0,false,1,0,13,low,1 missed follow-ups; Age 0-4
+ca063a61-6723-6d9c-b0b8-8bf1c7308b20,70,5,2,0,false,0,0,34,medium,5 chronic conditions; Age 60-74
+ff59238a-9508-b0e5-39f4-0d4afcbe6f43,17,2,3,0,false,0,0,12,low,2 chronic conditions
+bfe5fb30-e78a-abb8-a83a-788816ae9fe4,7,0,0,1,false,0,0,5,low,1 acute visits in 12m
+20a75f26-b297-4120-72e6-602ee5e9f4e4,29,1,6,0,false,0,0,6,low,1 chronic conditions
+25e2030b-e0c7-3b91-d434-57693cb72659,73,8,4,0,false,1,1,47,medium,8 chronic conditions; Age 60-74; 1 missed follow-ups
+98120f78-9add-614d-d23f-1a600e4426e9,28,2,2,0,false,0,0,12,low,2 chronic conditions
+bebfd4c4-1fcb-6cf4-5488-29c7b456089c,21,1,3,0,false,0,0,6,low,1 chronic conditions
+916fc065-f5a1-219f-42c2-13066c4e20eb,9,0,0,0,false,0,0,0,low,
+d4dd09e5-8eae-7136-407c-df2715f2643b,42,5,0,0,false,0,0,29,low,5 chronic conditions; Age 40-59
+ed45e2f4-8d33-22c1-9dcc-979f2c801297,21,0,2,0,false,0,0,0,low,
+9b02c15f-b00b-9618-929a-be6e432bd191,92,6,3,0,false,0,1,49,medium,6 chronic conditions; Age 85+; 1 non-adherent meds
+7d92a965-b73e-fdd6-acd0-7b97a62d96f7,28,0,0,0,false,0,0,0,low,
+f9aa1bd1-6273-2f88-c9c3-39f7b9c0c270,53,3,0,2,false,1,0,41,medium,3 chronic conditions; 2 acute visits in 12m; 1 missed follow-ups
+5a0b111e-9440-a534-f2b9-12c100d89868,48,3,1,2,false,0,0,33,low,3 chronic conditions; 2 acute visits in 12m; Age 40-59
+b48ab7a7-cdd4-7604-c9e3-9a873e905359,84,7,3,0,false,0,2,49,medium,7 chronic conditions; Age 75-84; 2 non-adherent meds
+46a347db-536c-5074-ab87-66802ca5395b,4,0,0,0,false,0,0,5,low,Age 0-4
+db827d6a-d1c7-cd51-9b86-626ab88d58da,11,1,1,0,false,0,0,6,low,1 chronic conditions
+27ee3743-45c8-dbad-f3b3-1a49a39e8b83,81,13,9,6,true,3,6,95,high,13 chronic conditions; 3 missed follow-ups; 6 acute visits in 12m
+62857336-4176-3277-206d-58ba274aed30,59,3,1,0,false,0,0,23,low,3 chronic conditions; Age 40-59
+6631206a-710c-945b-a5a3-e71390a411f8,61,10,6,0,false,0,3,49,medium,10 chronic conditions; 3 non-adherent meds; Age 60-74
+8adb0f0b-979c-f354-4afe-93335d71af3a,46,3,3,0,false,0,1,28,low,3 chronic conditions; 1 non-adherent meds; Age 40-59
+2af3a46e-757d-0544-452c-1231039f4a6b,57,8,7,0,false,0,2,39,medium,8 chronic conditions; 2 non-adherent meds; Age 40-59
+6493c2c4-8139-16da-0a7e-39cf37bc3b2f,19,0,1,0,false,0,0,0,low,
+1f10b0a5-575f-fde2-c602-f65c014c6bf7,50,6,3,0,false,0,1,34,medium,6 chronic conditions; 1 non-adherent meds; Age 40-59
+1f6ca3a4-3383-37f6-45d3-bfe282c43b10,9,0,0,0,false,0,0,0,low,
+36a83b79-3f28-57dc-b0cc-6dccdcb2c2b0,20,1,1,0,false,0,0,6,low,1 chronic conditions
+49103abc-8e28-03bd-deb0-bca5082e23ba,42,4,2,0,false,0,0,29,low,4 chronic conditions; Age 40-59
+a38b1195-9818-4286-ab60-96234d78c2b9,60,3,0,0,false,0,0,28,low,3 chronic conditions; Age 60-74
+477d1553-c12f-bef6-bf9a-bc6ae658a6a0,6,0,0,0,false,0,0,0,low,
+00c9ca99-6b9f-add4-8759-f7dfee6ea1a4,55,6,1,1,false,0,0,34,medium,6 chronic conditions; 1 acute visits in 12m; Age 40-59
+7bbf12a9-8dd5-356c-175f-4c29bddba047,43,7,5,0,false,0,2,39,medium,7 chronic conditions; 2 non-adherent meds; Age 40-59
+579dc752-5705-6967-db68-1e20800a1661,5,1,2,1,false,0,1,16,low,1 chronic conditions; 1 acute visits in 12m; 1 non-adherent meds
+e133001b-40ea-e5c8-d1da-9bdcd829776d,71,8,6,0,false,0,1,39,medium,8 chronic conditions; Age 60-74; 1 non-adherent meds
+411b4d1d-dd68-1a09-7d8a-7d1f0e7a3d7c,31,3,2,0,false,0,1,23,low,3 chronic conditions; 1 non-adherent meds
+4a4fd874-cf7c-d4f5-07a1-77b844d97c5f,24,1,0,1,false,3,0,27,low,3 missed follow-ups; 1 chronic conditions; 1 acute visits in 12m
+1e2bd11c-6949-0dba-c7b3-890aa0023fde,25,1,1,0,false,0,1,11,low,1 chronic conditions; 1 non-adherent meds
+baaa597d-06af-67c9-837c-620f96157c3b,19,0,0,0,false,0,0,0,low,
+e2826a33-214c-e2c9-d2a3-1a14203ff1b5,47,7,2,0,false,0,1,34,medium,7 chronic conditions; 1 non-adherent meds; Age 40-59
+33edcda2-4853-abe6-9e2b-5a40279cd50b,6,0,0,0,false,0,0,0,low,
+ef82862b-c0f8-7440-2dcb-4d7137349f0d,33,4,8,0,false,0,4,39,medium,4 chronic conditions; 4 non-adherent meds
+c07fdd29-a5c1-6e59-32f4-ce41a4633cd5,78,8,5,0,false,0,2,49,medium,8 chronic conditions; Age 75-84; 2 non-adherent meds
+420b3566-8788-f95c-0401-f317a9b445e5,39,3,3,0,false,0,0,18,low,3 chronic conditions
+8baeb614-ce03-cedf-2694-92b70f894886,8,0,2,0,false,0,0,0,low,
+1094e290-28ca-61c8-f170-59648b11b32e,64,3,0,0,false,0,0,28,low,3 chronic conditions; Age 60-74
+bd08fe07-215b-69e4-43d1-24d8326ae686,28,0,2,1,false,0,0,5,low,1 acute visits in 12m
+c987d011-9807-23da-8487-4d7ce3511a86,51,4,1,0,false,0,0,29,low,4 chronic conditions; Age 40-59
+1f276bd6-37f3-f5e8-5f02-6118235e2988,10,1,4,1,false,0,0,11,low,1 chronic conditions; 1 acute visits in 12m
+db0ba46f-9b5e-63cd-cbe4-3c0ea82abbdf,61,5,2,0,false,0,2,44,medium,5 chronic conditions; 2 non-adherent meds; Age 60-74
+3d60584c-574a-16e0-ef8f-c8a7315878e9,42,3,0,1,false,0,0,28,low,3 chronic conditions; 1 acute visits in 12m; Age 40-59
+a8b166c9-23da-d720-b0e1-296944f432dc,53,9,5,13,true,7,8,85,high,9 chronic conditions; 7 missed follow-ups; 13 acute visits in 12m
+50d01b5d-1b6d-4648-c32c-256e5309dc16,35,2,0,0,false,0,0,12,low,2 chronic conditions
+819e4007-79c5-5d6c-5db7-7889c1aa0ec3,66,7,5,2,false,1,2,62,medium,7 chronic conditions; 2 acute visits in 12m; 2 non-adherent meds
+3436e704-73e4-11da-241d-7adeccd97a0d,68,7,1,1,false,2,1,60,medium,7 chronic conditions; 2 missed follow-ups; Age 60-74
+a90e1118-edb5-4c62-e17e-de38e6720cc0,46,3,2,0,false,0,0,23,low,3 chronic conditions; Age 40-59
+989f497b-48d4-50e7-2df2-9b583f0ceebc,38,6,2,0,false,0,0,24,low,6 chronic conditions
+68f34b8e-efce-ce3e-836d-a815503c7b56,15,0,1,1,false,0,0,5,low,1 acute visits in 12m
+e259daec-8b59-74a7-a92c-e4451146d6fc,27,5,4,0,false,1,0,32,low,5 chronic conditions; 1 missed follow-ups
+da6e1124-d294-58f9-ff16-a0fe6a3f30dd,3,0,0,0,false,0,0,5,low,Age 0-4
+d6c850ad-7e48-0c4b-23b9-ef4d6e58773c,36,5,3,0,false,0,0,24,low,5 chronic conditions
+8003a644-3445-56b0-017a-4480f0d6b348,42,6,3,0,false,0,0,29,low,6 chronic conditions; Age 40-59
+d4e3d6e6-075e-cf60-a092-67c17cb521d1,37,5,1,0,false,0,0,24,low,5 chronic conditions
+b3700252-f7e3-e8f9-aca4-6a759c52f4b9,2,0,0,2,true,0,0,25,low,2 acute visits in 12m; 30-day revisit; Age 0-4
+c1075300-aae7-596d-df5a-c944d763a663,108,5,6,0,false,0,0,44,medium,5 chronic conditions; Age 85+
+2376720a-56ca-5474-3737-32cf783a169c,34,3,3,1,false,0,0,23,low,3 chronic conditions; 1 acute visits in 12m
+e4035211-964b-b90f-237d-655426c3aa1f,50,6,1,0,false,0,0,29,low,6 chronic conditions; Age 40-59
+5bd3bb2e-41f9-18ea-0736-fe3f41f4dbf9,44,3,4,0,false,0,1,28,low,3 chronic conditions; 1 non-adherent meds; Age 40-59
+86e983ea-29df-a34a-c0b4-9a171859195f,11,1,2,0,false,0,0,6,low,1 chronic conditions
+83c5cc27-48a8-5580-966b-783719fe8f1b,104,9,3,0,false,0,0,44,medium,9 chronic conditions; Age 85+
+745f262a-2510-e98e-524a-72934969372e,31,3,2,0,false,0,2,28,low,3 chronic conditions; 2 non-adherent meds
+4e97faf9-19b3-5125-8f7d-96758e9d7d46,3,0,0,0,false,0,0,5,low,Age 0-4
+c57fbe47-ea62-b01f-054d-4088979dc739,1,0,2,1,false,0,0,10,low,1 acute visits in 12m; Age 0-4
+a706bd75-a69b-5bb8-db87-8a29b45c989d,17,1,1,0,false,0,0,6,low,1 chronic conditions
+19d74a46-a73e-9493-1eb8-e40b39f89db8,1,0,0,0,false,0,0,5,low,Age 0-4
+acbb6a45-6e0d-a628-8dc5-8b15fae31b8a,3,0,0,0,false,0,0,5,low,Age 0-4
+a8b8d20e-ecf0-4cb1-7536-38683ba360aa,41,6,2,0,false,0,1,34,medium,6 chronic conditions; 1 non-adherent meds; Age 40-59
+02ceca12-357f-981e-dcf3-3d26d3c1ff82,58,7,6,0,false,0,1,34,medium,7 chronic conditions; 1 non-adherent meds; Age 40-59
+d9bde0cc-3ea9-5329-2da3-1d9c3adbd86a,95,6,4,0,false,0,0,44,medium,6 chronic conditions; Age 85+
+e51b6686-8e11-03a1-9699-ae0ecfde0bb6,59,6,5,0,false,0,1,34,medium,6 chronic conditions; 1 non-adherent meds; Age 40-59
+1a5224e4-383b-6e73-79a7-98a499069b10,63,3,0,0,false,0,0,28,low,3 chronic conditions; Age 60-74
+b68c6e5e-6b47-b721-839b-739ec3400504,58,5,4,0,false,0,0,29,low,5 chronic conditions; Age 40-59
+43a8f60a-2b8e-26b5-3736-e64df96bf796,48,5,3,0,false,0,0,29,low,5 chronic conditions; Age 40-59
+6f49aebb-074b-cc99-b71b-2fb9c43a67e2,5,0,0,0,false,0,0,0,low,
+21db612c-b8ef-f666-53a6-cc657674d4cd,18,1,2,0,false,0,0,6,low,1 chronic conditions
+ff9337d4-4f6c-2182-c1aa-a0811a68a4ab,69,5,5,1,false,0,2,49,medium,5 chronic conditions; 2 non-adherent meds; Age 60-74
+864b2fa0-78e3-88c6-2ce2-ba3aea72236c,95,14,8,10,true,5,8,100,high,14 chronic conditions; Age 85+; 5 missed follow-ups
+8aeeb74e-10c8-bbff-e68d-0aa8b3159c1b,36,4,2,0,false,0,0,24,low,4 chronic conditions
+00126cb9-8460-4747-e302-c3609684531e,34,3,2,0,false,0,1,23,low,3 chronic conditions; 1 non-adherent meds
+1405f86e-4660-8c8b-4876-a21c9487b179,70,6,0,0,false,0,0,34,medium,6 chronic conditions; Age 60-74
+1c920b99-e6b8-2445-0f90-0648f2856434,1,0,0,0,false,0,0,5,low,Age 0-4
+753e1440-87ec-7175-29e7-73bf24f5c7f0,81,8,3,2,false,2,0,65,medium,8 chronic conditions; 2 missed follow-ups; Age 75-84
+64f8510c-05b1-c7ce-b67c-75c801c3d048,52,5,0,0,false,0,0,29,low,5 chronic conditions; Age 40-59
+15e26d50-6ea4-1b03-cf83-9748d0f245e7,54,5,2,0,false,0,1,34,medium,5 chronic conditions; 1 non-adherent meds; Age 40-59
+f8d9fe9e-f635-5340-41cc-935771d6dec0,19,0,1,0,false,0,0,0,low,
+274a41df-e9d5-5e62-eae5-4e5daa04759f,57,3,0,0,false,0,0,23,low,3 chronic conditions; Age 40-59
+9929af95-8955-628e-486b-fe42c02beb5f,71,2,0,0,false,0,0,22,low,2 chronic conditions; Age 60-74
+db44d702-2951-de80-0bd9-7c89472963f0,10,0,0,0,false,0,0,0,low,
+7603d7e2-7e39-24cc-4068-dca4098f29f1,11,0,0,0,false,0,0,0,low,
+f5dbb8d8-6b8b-9648-5f26-d5bb0790fa45,45,5,0,0,false,0,0,29,low,5 chronic conditions; Age 40-59
+d4289911-f875-7766-81d9-11b00b97f1a6,47,9,1,0,false,0,0,29,low,9 chronic conditions; Age 40-59
+c1b61a52-e15f-0bd4-58d3-eb581ecb6192,51,6,3,1,false,0,1,39,medium,6 chronic conditions; 1 acute visits in 12m; 1 non-adherent meds
+8fdd8e4f-bf93-37c2-83e7-3d0812840739,46,4,1,0,false,0,0,29,low,4 chronic conditions; Age 40-59
+32653d7a-2f66-544f-1104-43d6e1c1ae4c,51,5,4,0,false,0,1,34,medium,5 chronic conditions; 1 non-adherent meds; Age 40-59
+574645b2-cbb6-f5b5-97dd-60cd07675773,37,3,0,0,false,0,0,18,low,3 chronic conditions
+91f3dfb6-9545-a0cf-7c12-64d89cab1db3,6,0,0,0,false,0,0,0,low,
+ef318e4c-8d1c-c2a4-ce37-d76fbf8b9906,5,0,0,1,false,0,0,5,low,1 acute visits in 12m
+d688932a-65c6-3833-4978-3729c3027871,83,5,3,0,false,0,0,39,medium,5 chronic conditions; Age 75-84
+53fe2ac2-833f-d60c-167b-ede17cee5ce2,63,3,0,0,false,0,0,28,low,3 chronic conditions; Age 60-74
+ad67ba01-cc70-b87a-1bdb-47c53c56adfd,30,2,1,0,false,0,0,12,low,2 chronic conditions
+827356e9-9e28-2005-8a0b-1eea3266f43e,58,5,4,0,false,0,0,29,low,5 chronic conditions; Age 40-59
+1edd887a-05a6-d93a-1cff-f78e3c5da92f,10,0,0,0,false,0,0,0,low,
+5ebac3bc-45f8-9136-b77a-d20b40dde915,79,7,5,2,false,3,1,70,high,7 chronic conditions; 3 missed follow-ups; Age 75-84
+aa06e501-1a2a-548c-e176-6959b58e412f,21,6,2,0,false,0,0,24,low,6 chronic conditions
+2bc3852a-ed90-20d8-f383-5a5c980a56ca,45,4,4,0,false,0,1,34,medium,4 chronic conditions; 1 non-adherent meds; Age 40-59
+77d8177a-0da0-a91f-da5e-9ac05a96def0,29,0,2,0,false,0,0,0,low,
+be000965-b142-a7c8-8f14-ee3907609a55,69,6,6,0,false,0,1,39,medium,6 chronic conditions; Age 60-74; 1 non-adherent meds
+cc0b85a3-ca8d-45fb-c9d6-5b69dd505d41,64,6,2,0,false,0,1,39,medium,6 chronic conditions; Age 60-74; 1 non-adherent meds
+8ba7f1b3-6345-7177-b767-71342e348f19,35,4,1,0,false,0,0,24,low,4 chronic conditions
+7fc60498-21c5-6527-1502-dcd0c44adf74,2,0,0,1,false,0,0,10,low,1 acute visits in 12m; Age 0-4
+863d30c0-d34e-be6c-6a5b-1c7aa0333ee7,4,0,0,0,false,0,0,5,low,Age 0-4
+eff48ed7-eab5-258e-2d5d-0793f7941bea,43,4,1,0,false,0,1,34,medium,4 chronic conditions; 1 non-adherent meds; Age 40-59
+e3d999ee-c61a-18cd-6045-7e958c87773b,71,7,2,0,false,0,0,34,medium,7 chronic conditions; Age 60-74
+a1c127d9-d31e-36b1-2a3e-3014be9bfdf0,90,13,8,35,true,13,2,95,high,13 chronic conditions; Age 85+; 13 missed follow-ups
+d90705f0-2c2d-4126-6504-93d4da9c6f7a,58,7,5,1,false,1,3,57,medium,7 chronic conditions; 3 non-adherent meds; 1 missed follow-ups
+a535029d-c7ba-2a81-9f85-d84109d5c44b,51,5,4,0,false,0,2,39,medium,5 chronic conditions; 2 non-adherent meds; Age 40-59
+6c96e5f4-464b-0afa-ff6f-aab2e1e55a49,63,4,4,0,false,0,2,44,medium,4 chronic conditions; 2 non-adherent meds; Age 60-74
+fed745aa-0d47-4eb7-58e0-5d132b90a24f,29,0,0,0,false,0,0,0,low,
+bb5c7f5f-8357-bfe3-edfd-72f36fb7bc20,55,6,4,0,false,0,1,34,medium,6 chronic conditions; 1 non-adherent meds; Age 40-59
+81d042b4-40c3-976a-efb0-b9e36a0f28e1,15,1,0,0,false,0,0,6,low,1 chronic conditions
+45d8e064-aadc-59d8-d4a5-2637f5584aab,33,3,2,0,false,0,0,18,low,3 chronic conditions
+ee56c87e-394b-b981-c3aa-eb3663209f37,25,0,1,0,false,0,1,5,low,1 non-adherent meds
+00ae3b00-9500-efc1-2758-a93d3f77e650,68,5,0,1,false,0,0,39,medium,5 chronic conditions; Age 60-74; 1 acute visits in 12m
+185cefc8-cf9d-3df1-ff01-b62ca7b90adb,54,3,7,0,false,0,2,33,low,3 chronic conditions; 2 non-adherent meds; Age 40-59
+85f0a859-d272-8ed8-fea7-ff7a21d81887,55,4,0,0,false,0,0,29,low,4 chronic conditions; Age 40-59
+3c0f81dc-96bf-3f9c-6e4f-5763f9614fb2,0,0,0,0,false,0,0,5,low,Age 0-4
+bc8d72aa-9065-473c-d9cd-cceb942ddfaf,26,0,1,1,false,0,0,5,low,1 acute visits in 12m
+5bf9e7f3-ca8b-16d9-6ad8-5e46c20e9f4e,26,1,2,0,false,0,0,6,low,1 chronic conditions
+788a1414-0bee-f2a6-8096-a9f2d936f42f,61,3,2,0,false,0,3,43,medium,3 chronic conditions; 3 non-adherent meds; Age 60-74
+1ef1309d-cd3a-f6b2-2706-10f9ecfa06ed,35,5,0,1,false,1,0,37,medium,5 chronic conditions; 1 missed follow-ups; 1 acute visits in 12m
+a0e542ca-bab1-52c2-e32d-5c5507e36868,32,2,0,1,false,1,0,25,low,2 chronic conditions; 1 missed follow-ups; 1 acute visits in 12m
+f2f98ceb-38a9-72f3-5193-a849efce41ce,5,0,0,0,false,0,0,0,low,
+ef3624d5-0c77-e990-c856-064916d06155,0,0,0,0,false,0,0,5,low,Age 0-4
+8aa6b366-1eb1-2649-95a2-18ce6fc5d7cf,68,5,1,0,false,0,0,34,medium,5 chronic conditions; Age 60-74
+c2b9dc8a-cfe1-da50-5e72-140b66e43996,22,1,3,0,false,0,2,16,low,2 non-adherent meds; 1 chronic conditions
+45e7e2b5-aa6f-f860-d613-543aa6a5b057,69,4,0,0,false,0,0,34,medium,4 chronic conditions; Age 60-74
+09a88ead-dcf8-1702-a172-fcb15b294d7f,25,2,3,0,false,0,0,12,low,2 chronic conditions
+e546eb3d-36c4-ce15-fcff-c464c8d79441,66,3,0,0,false,0,0,28,low,3 chronic conditions; Age 60-74
+8d341b49-a266-a3d1-c546-4aacd39303bb,83,5,4,0,false,0,0,39,medium,5 chronic conditions; Age 75-84
+59006c13-4c8e-7d51-5392-8a78ea30c159,7,0,0,0,false,0,0,0,low,
+562e7d26-9dfb-95f2-0815-3c20129955b8,56,11,5,14,true,5,15,85,high,11 chronic conditions; 5 missed follow-ups; 14 acute visits in 12m
+dd7739d6-6c0f-7f01-2ad2-67f979397a96,16,0,0,0,false,0,0,0,low,
+c104b1ec-d2e8-6ff7-4cc1-e58144be7da2,28,0,1,0,false,0,1,5,low,1 non-adherent meds
+16daa36d-5e40-19aa-d2f6-3958f83a2b38,29,0,0,0,false,0,0,0,low,
+b4a8f077-ac06-b045-97d4-30ca90df4a7a,54,3,2,0,false,0,0,23,low,3 chronic conditions; Age 40-59
+e0807fab-552e-931f-366f-761dff93a52e,46,5,5,1,false,0,2,44,medium,5 chronic conditions; 2 non-adherent meds; 1 acute visits in 12m
+5fa19f72-3c42-c600-eff0-c97e8448ad57,69,6,5,0,false,0,3,49,medium,6 chronic conditions; 3 non-adherent meds; Age 60-74
+aa07a9f0-6cce-5e67-519a-2e2c5f93db29,34,4,5,0,false,1,2,42,medium,4 chronic conditions; 2 non-adherent meds; 1 missed follow-ups
+c7b4f895-36c5-9c73-4e5c-5b9a10cab889,63,6,6,0,false,0,2,44,medium,6 chronic conditions; 2 non-adherent meds; Age 60-74
+2e7f9367-ada3-e09c-876d-32b551578630,8,0,0,0,false,0,0,0,low,
+75fde6d2-84e9-feb2-088f-b99f5347881a,9,0,0,0,false,0,0,0,low,
+54cc4555-29a2-17ca-1b62-b537b35515a5,42,6,7,0,false,0,5,44,medium,6 chronic conditions; 5 non-adherent meds; Age 40-59
+3782e52d-3a8e-b8a0-1fce-c0bf74d6a96c,32,3,0,1,false,0,0,23,low,3 chronic conditions; 1 acute visits in 12m
+ebe6f5b1-c05d-6043-33d1-83ef3dc4da13,24,1,2,0,false,0,0,6,low,1 chronic conditions
+961c13b9-6fe8-5b78-abd2-72f1e51dae7a,45,4,3,0,false,0,0,29,low,4 chronic conditions; Age 40-59
+e6785847-ea03-5c99-acbe-abd075241788,65,5,1,0,false,0,0,34,medium,5 chronic conditions; Age 60-74
+2afc9195-bd76-87d7-9ae4-290e5036c2fa,48,5,3,1,false,1,2,52,medium,5 chronic conditions; 2 non-adherent meds; 1 missed follow-ups
+74ead5ce-b1a1-88ee-3d88-8c5502531d68,47,3,2,0,false,0,1,28,low,3 chronic conditions; 1 non-adherent meds; Age 40-59
+2961ef66-1eeb-1813-3217-c3c0176fd872,77,8,7,0,false,0,4,54,medium,8 chronic conditions; 4 non-adherent meds; Age 75-84
+e35a7f38-bb1a-0c47-3a3e-8390f726ef08,1,0,0,0,false,0,0,5,low,Age 0-4
+9dff13cc-4283-5466-7f55-481d0c7267e0,7,0,0,0,false,0,0,0,low,
+fac847f2-6b31-2022-e96c-24c04a08256c,20,2,3,1,false,1,0,25,low,2 chronic conditions; 1 missed follow-ups; 1 acute visits in 12m
+720e9d83-7140-7188-3aab-1752dd2c3183,51,5,3,0,false,0,0,29,low,5 chronic conditions; Age 40-59
+cd6bea41-b268-4c96-0338-3f3d8129e5d8,71,5,1,0,false,0,0,34,medium,5 chronic conditions; Age 60-74
+0cbfba7c-bd09-5afb-221c-3cd30ae46757,60,5,4,0,false,0,1,39,medium,5 chronic conditions; Age 60-74; 1 non-adherent meds
+312d3dd7-d005-5d59-078e-2dc5615a466c,18,1,2,0,false,0,0,6,low,1 chronic conditions
+994223d1-9b84-a63f-e081-27cc1951e9b7,13,0,0,0,false,0,0,0,low,
+1bc585d3-2a40-d934-3d96-f50fd607093f,53,5,0,0,false,0,0,29,low,5 chronic conditions; Age 40-59
+3f9712f8-51e2-02e9-3ebc-0a72b0f9cac0,7,0,0,0,false,0,0,0,low,
+58e24016-f3f7-e33d-35cd-333d6dedd5aa,31,4,0,0,false,0,0,24,low,4 chronic conditions
+9f2de402-cf41-e01d-2989-111bd5201620,57,5,2,0,false,0,1,34,medium,5 chronic conditions; 1 non-adherent meds; Age 40-59
+faf1d0f2-c429-72a4-5be0-e542949829ab,32,5,4,0,false,0,1,29,low,5 chronic conditions; 1 non-adherent meds
+498a12a7-d9bc-cee8-bd8e-0338c592f2d1,20,1,1,0,false,0,0,6,low,1 chronic conditions
+f0a44b21-3f9d-6c44-4520-9665e3734fcb,12,0,0,0,false,0,0,0,low,
+e7066cb1-7d7b-a1cb-8788-16325c24154b,9,0,0,0,false,0,0,0,low,
+bea87be4-08d7-cc5e-4791-254d11c26341,48,7,8,0,false,0,1,34,medium,7 chronic conditions; 1 non-adherent meds; Age 40-59
+b3f7b7b8-589f-0f29-bf7d-cf3b162f6c97,29,1,2,1,false,0,0,11,low,1 chronic conditions; 1 acute visits in 12m
+df0d49f8-6136-1388-b5ec-0a19e7539b15,27,2,1,0,false,0,0,12,low,2 chronic conditions
+7edc835f-0063-6d39-0c35-112f82a3e131,68,3,1,0,false,0,0,28,low,3 chronic conditions; Age 60-74
+a3501530-1af1-4244-15cd-40070be6e4f4,73,4,1,0,false,0,0,34,medium,4 chronic conditions; Age 60-74
+0d2673ea-1ad2-be4f-0f45-fcf802d7785f,4,0,0,0,false,0,0,5,low,Age 0-4
+10d90820-db26-953d-7818-a17f198cc2f8,22,1,2,0,false,0,0,6,low,1 chronic conditions
+37dd96cc-2255-db60-bca6-005438b7d3ee,27,2,2,0,false,0,1,17,low,2 chronic conditions; 1 non-adherent meds
+c24c5971-3c20-aeab-95da-9dba58dad4a3,61,7,5,0,false,0,0,34,medium,7 chronic conditions; Age 60-74
+df46cbb3-2704-5d4e-a101-4f2d2dac83b0,74,6,3,0,false,0,1,39,medium,6 chronic conditions; Age 60-74; 1 non-adherent meds
+9f2b1e2f-f8e2-9990-8b39-6906a5721ac2,19,3,3,0,false,0,1,23,low,3 chronic conditions; 1 non-adherent meds
+1b0d214c-f965-877c-6715-820eb1bd82dc,69,7,3,0,false,0,0,34,medium,7 chronic conditions; Age 60-74
+079bd0b4-875b-a9d2-bb7f-4084e3360787,23,3,2,2,false,0,0,28,low,3 chronic conditions; 2 acute visits in 12m
+152ae6fe-9ed5-6944-0d96-f6073102f677,102,4,1,0,false,0,0,44,medium,4 chronic conditions; Age 85+
+e9cbe913-d36c-2a77-2a27-60dbf73601e3,29,0,0,0,false,0,0,0,low,
+b2b784f2-7847-a0ce-a217-5bca4eb30c9d,74,6,1,0,false,1,0,42,medium,6 chronic conditions; Age 60-74; 1 missed follow-ups
+4a3c6287-bc6a-681b-4382-0036f2432a51,6,0,0,0,false,0,0,0,low,
+ca934cf9-a055-9b04-fd86-037eece56e90,7,0,0,0,false,0,0,0,low,
+67712337-676a-c36f-ebae-e4b584e42d49,10,0,0,0,false,0,0,0,low,
+a2f532cc-184b-d28c-b702-7b3fd99c77bd,0,0,0,0,false,0,0,5,low,Age 0-4
+9480b971-2ca2-56af-dded-aa0fac41e0a7,23,1,3,0,false,0,2,16,low,2 non-adherent meds; 1 chronic conditions
+6abc5e2e-a95f-1d3f-2b1c-7b003d417973,51,5,2,0,false,0,1,34,medium,5 chronic conditions; 1 non-adherent meds; Age 40-59
+c9447fb9-418d-fe6d-1404-43aa9f58fc47,20,3,3,0,false,0,1,23,low,3 chronic conditions; 1 non-adherent meds
+584056da-c05d-bc02-50eb-e24f8310c1d2,55,5,3,0,false,0,1,34,medium,5 chronic conditions; 1 non-adherent meds; Age 40-59
+ad3817b1-abe7-9976-1cee-478bf8e4c406,34,2,0,1,false,0,0,17,low,2 chronic conditions; 1 acute visits in 12m
+d573d7bf-7ded-bb80-55c4-62c56c831643,69,8,2,0,false,0,0,34,medium,8 chronic conditions; Age 60-74
+ce0cf6c2-6420-9443-5fcf-d60b8398048e,11,0,2,0,false,0,0,0,low,
+49d56ae6-5b5e-838c-da96-3b65e201aaef,18,2,1,1,false,0,2,27,low,2 chronic conditions; 2 non-adherent meds; 1 acute visits in 12m
+1a0e1e20-e88e-6f88-032e-3e1c9793b6a7,32,3,2,0,false,0,0,18,low,3 chronic conditions
+d042f0b1-7e1f-7adb-224d-991f597dade9,3,0,0,1,false,0,0,10,low,1 acute visits in 12m; Age 0-4
+cd600da2-5ec8-5876-fafa-ccc1d1ad5fd3,100,5,6,0,false,0,2,54,medium,5 chronic conditions; Age 85+; 2 non-adherent meds
+7f55478e-e6c6-6bef-10b3-c9be22b3253b,76,7,2,0,false,0,0,39,medium,7 chronic conditions; Age 75-84
+d25c159a-033b-593f-dbbf-b1e9de3b2fc4,41,5,1,0,false,0,0,29,low,5 chronic conditions; Age 40-59
+139f1206-227d-4cf1-2bea-7d3154516bdf,88,11,8,9,true,3,11,100,high,11 chronic conditions; Age 85+; 3 missed follow-ups
+58eb83f7-ab23-104b-697b-ec5be0624367,72,10,3,0,false,1,1,47,medium,10 chronic conditions; Age 60-74; 1 missed follow-ups
+8732c6b3-c558-2182-e679-2d0fc0f130cb,39,3,0,0,false,0,0,18,low,3 chronic conditions
+050358a1-fcf7-1182-7ad1-6b663afa3002,15,1,3,1,false,0,0,11,low,1 chronic conditions; 1 acute visits in 12m
+b38f6f4d-8a9d-3d94-92f8-22704c8281a2,55,2,0,0,false,0,0,17,low,2 chronic conditions; Age 40-59
+1d4373dc-be5a-dd4a-15c3-0117198d94c0,13,0,0,1,false,0,0,5,low,1 acute visits in 12m
+a47eed09-9942-9cbf-9220-2843ded300e9,14,0,0,0,false,0,0,0,low,
+137651e5-3f15-db77-2712-ee0b75724502,26,2,1,0,false,0,0,12,low,2 chronic conditions
+535dee6a-8dab-2ecf-f909-01028e3f5b1f,38,3,1,0,false,0,0,18,low,3 chronic conditions
+ec3be88f-6d38-5331-b548-18bf9b9f35a3,37,4,0,0,false,0,0,24,low,4 chronic conditions
+81d85a6d-8dc1-a067-0d33-832e589a20fa,77,6,6,0,false,0,1,44,medium,6 chronic conditions; Age 75-84; 1 non-adherent meds
+f1da4fd4-558a-919a-c343-c0b720b0e684,34,7,7,0,false,0,2,34,medium,7 chronic conditions; 2 non-adherent meds
+c09c4a85-e909-cfce-863a-7e363c9813a6,66,5,4,0,false,0,1,39,medium,5 chronic conditions; Age 60-74; 1 non-adherent meds
+83bd6a6c-8c7f-da8f-0cd8-9bec34c64a1e,48,4,0,0,false,0,0,29,low,4 chronic conditions; Age 40-59
+56ca32c8-a903-b357-6ea3-92f9503e8a8a,60,5,4,0,false,0,0,34,medium,5 chronic conditions; Age 60-74
+ce1b17d2-15ee-aa1c-bdd1-8be89ba22acf,16,1,0,0,false,0,0,6,low,1 chronic conditions
+8b75c459-60b7-ff60-9ef5-74f64131beda,76,9,5,4,true,0,8,79,high,9 chronic conditions; 4 acute visits in 12m; 8 non-adherent meds
+20ea49a4-8c7e-5df6-b505-d00366fb774a,55,6,4,0,false,0,1,34,medium,6 chronic conditions; 1 non-adherent meds; Age 40-59
+5ca89081-9140-56a3-7aea-e831160b357b,82,6,3,0,false,0,0,39,medium,6 chronic conditions; Age 75-84
+f31882d0-db01-facc-d7b5-1c62134441d7,1,0,0,0,false,0,0,5,low,Age 0-4
+f9b25fb8-133c-51c3-96f7-34ffb1c872ec,20,0,2,0,false,0,0,0,low,
+546ab430-0ad8-54a3-9247-85caadb762d1,82,7,8,1,false,1,1,57,medium,7 chronic conditions; Age 75-84; 1 missed follow-ups
+dcdd1094-9e05-e734-aaee-0c7e971d9a1a,52,3,4,0,false,0,0,23,low,3 chronic conditions; Age 40-59
+123a2225-13bc-8bd7-2868-0245cb02856d,38,2,2,0,false,0,1,17,low,2 chronic conditions; 1 non-adherent meds
+1d751b54-8ff3-4fe6-91df-751a230c94d7,25,1,0,0,false,0,0,6,low,1 chronic conditions
+a376547d-1986-deaf-47cf-746bf9ca2165,70,6,1,0,false,0,0,34,medium,6 chronic conditions; Age 60-74
+0749ff0b-23c0-f210-932f-9f603ea64724,45,3,0,0,false,0,0,23,low,3 chronic conditions; Age 40-59
+ae590ac7-640b-17b5-724f-497ff3cb346f,3,0,0,0,false,0,0,5,low,Age 0-4
+c45f3bc4-82f5-dddb-0131-a8636d9c4564,74,3,0,0,false,0,0,28,low,3 chronic conditions; Age 60-74
+f6a7e98f-a5ca-f52d-1b65-4c548570d8bc,32,4,5,1,false,2,3,60,medium,4 chronic conditions; 2 missed follow-ups; 3 non-adherent meds
+987453c3-b90f-a21e-08b8-3e940923c52b,79,11,3,0,false,0,0,39,medium,11 chronic conditions; Age 75-84
+582bf373-c5f4-2e6c-b924-e5b2bb2e102a,22,1,3,0,false,0,1,11,low,1 chronic conditions; 1 non-adherent meds
+92ac9466-ca08-9efb-58e4-131a5f3e178e,69,5,2,0,false,0,0,34,medium,5 chronic conditions; Age 60-74
+98ec589f-fec6-99ea-8c69-4df45c0b3a77,50,4,3,0,false,0,0,29,low,4 chronic conditions; Age 40-59
+25e8dac5-c8bc-3dc7-d319-140d1da359c1,20,1,5,0,false,0,2,16,low,2 non-adherent meds; 1 chronic conditions
+4acf924f-c7c9-e748-fbeb-d68681b510de,29,2,5,0,false,0,1,17,low,2 chronic conditions; 1 non-adherent meds
+75769925-0611-20c3-f2fe-51d0e4a2901a,9,1,4,0,false,0,0,6,low,1 chronic conditions
+e544e83b-edb5-ff7e-d31a-f4d40ee884d6,10,0,2,0,false,0,0,0,low,
+e37d530a-3b67-0a3c-0da4-ed338900d916,23,1,3,0,false,0,1,11,low,1 chronic conditions; 1 non-adherent meds
+94866a7e-4ee3-a5a7-5109-6642068d6a14,39,6,4,0,false,0,1,29,low,6 chronic conditions; 1 non-adherent meds
+1d9b5400-8fdc-1e8b-8f5c-546cc85383c3,51,4,1,0,false,0,0,29,low,4 chronic conditions; Age 40-59
+342ba36d-53c8-1154-3876-fe69bf5e8225,61,5,3,0,false,0,0,34,medium,5 chronic conditions; Age 60-74
+4ad26ca0-a43f-700f-6190-9f61154c6de0,40,4,1,0,false,0,0,29,low,4 chronic conditions; Age 40-59
+95dd641e-8d91-91c7-9986-ab400aba1fa5,11,0,0,0,false,0,0,0,low,
+0898d650-cebe-426f-01c4-5ddf8b68ef6a,103,5,2,0,false,0,0,44,medium,5 chronic conditions; Age 85+
+194c23d2-5e47-f9e1-9716-77c19aa167b3,4,0,0,0,false,0,0,5,low,Age 0-4
+5457eec5-b284-85e6-9c6c-1817a211c98f,45,5,5,0,false,0,1,34,medium,5 chronic conditions; 1 non-adherent meds; Age 40-59
+16374251-beab-44f9-ac53-faece4e66bc2,4,0,0,0,false,0,0,5,low,Age 0-4
+e6178711-3936-e332-814d-19d8851e314d,105,13,12,13,true,5,12,100,high,13 chronic conditions; Age 85+; 5 missed follow-ups
+9e3f000c-d04d-ac28-0571-81b6af1e9fba,34,6,3,0,false,0,1,29,low,6 chronic conditions; 1 non-adherent meds
+8fe59ada-2e62-232f-f602-1fa6315a36ad,54,7,2,0,false,0,1,34,medium,7 chronic conditions; 1 non-adherent meds; Age 40-59
+eabceccb-fd23-1253-2037-dee4fa41fbd5,7,0,0,0,false,0,0,0,low,
+7381821c-e681-03e2-1f4d-14519b51ea6f,12,0,0,0,false,0,0,0,low,
+11c26def-8343-b989-96e8-dbd27e79d54e,79,5,1,0,false,0,0,39,medium,5 chronic conditions; Age 75-84
+4ca51bbc-dd89-0142-9c53-1a8453a5bddd,25,3,7,0,false,0,1,23,low,3 chronic conditions; 1 non-adherent meds
+81271fc1-f27b-4a6a-49ca-f8d0ba9a55fb,41,4,0,0,false,0,0,29,low,4 chronic conditions; Age 40-59
+e260a0f6-8ab1-d483-cb3d-2093241b635f,72,9,9,0,false,0,3,49,medium,9 chronic conditions; 3 non-adherent meds; Age 60-74
+41998d9e-8d92-3272-1252-cabbd55696a6,65,6,2,0,false,0,0,34,medium,6 chronic conditions; Age 60-74
+deaba6f9-a6ec-218f-6dc7-207a210885dd,58,5,4,0,false,0,2,39,medium,5 chronic conditions; 2 non-adherent meds; Age 40-59
+9fe87de4-271d-0775-9319-858ac7f42a6f,73,7,6,0,false,0,1,39,medium,7 chronic conditions; Age 60-74; 1 non-adherent meds
+85b3245b-919c-7552-8ab3-8fa82a35b178,43,4,5,0,false,0,2,39,medium,4 chronic conditions; 2 non-adherent meds; Age 40-59
+53124209-6f60-0773-61ea-6580dc46b994,56,3,3,0,false,0,1,28,low,3 chronic conditions; 1 non-adherent meds; Age 40-59
+20553b9e-2375-883a-0d5c-ba8ff4eceb1c,61,4,2,0,false,0,0,34,medium,4 chronic conditions; Age 60-74
+aeabbc7e-1f5f-91fe-ac34-52c1ceca0b6b,70,4,3,0,false,0,0,34,medium,4 chronic conditions; Age 60-74
+a01f3f38-11eb-bf6b-02b6-26b8c38c6a0f,22,2,2,0,false,0,0,12,low,2 chronic conditions
+0f14bd45-9faa-6216-31b1-d46e7f73d4fe,51,7,5,0,false,0,1,34,medium,7 chronic conditions; 1 non-adherent meds; Age 40-59
+cfe18543-90e5-87d3-7ab3-f4cf60850cc1,75,7,5,0,false,0,1,44,medium,7 chronic conditions; Age 75-84; 1 non-adherent meds
+a3ccbf19-ad9a-7ae1-b926-ba3b0543fe1b,70,16,12,17,true,4,12,90,high,16 chronic conditions; 4 missed follow-ups; 17 acute visits in 12m
+4b54af52-ee73-f8d0-beef-7c3d292b4ec6,68,8,3,2,true,1,0,62,medium,8 chronic conditions; 2 acute visits in 12m; 30-day revisit
+ddb90603-4bab-3548-62b4-b3e98e309448,44,8,4,0,false,0,2,39,medium,8 chronic conditions; 2 non-adherent meds; Age 40-59
+3aeeb943-ef6a-cbdd-b356-46c3af0cb805,71,3,1,0,false,0,0,28,low,3 chronic conditions; Age 60-74
+6243fe0e-167e-8fb0-58b1-a87b1090443e,8,0,0,0,false,0,0,0,low,
+67107cd9-d6ed-6020-e1c2-a16e8e613242,83,7,2,0,false,0,0,39,medium,7 chronic conditions; Age 75-84
+8206bd63-5dd4-cf3e-a29b-baa65e9a9429,51,5,1,0,false,0,0,29,low,5 chronic conditions; Age 40-59
+d515a84c-6dce-4070-8794-d59b7c5cf2ca,10,1,2,1,false,0,0,11,low,1 chronic conditions; 1 acute visits in 12m
+2a48a5b5-97d4-63df-1172-524a47bc49b5,55,5,8,0,false,0,3,44,medium,5 chronic conditions; 3 non-adherent meds; Age 40-59
+d3e4ad8c-11f2-14cf-28be-e4400b6caff1,41,5,2,0,false,0,0,29,low,5 chronic conditions; Age 40-59
+25314ff5-8aa4-e3c1-e3d1-8947945764b8,54,6,5,0,false,0,2,39,medium,6 chronic conditions; 2 non-adherent meds; Age 40-59
+ba94f61a-0555-03dc-c25a-33b62cec09be,40,4,5,0,false,0,3,44,medium,4 chronic conditions; 3 non-adherent meds; Age 40-59
+4d270e33-418e-cae4-7057-0b366477ec76,56,9,2,0,false,0,0,29,low,9 chronic conditions; Age 40-59
+25c76c36-e3b2-ece6-70e6-028b0f152e1f,65,3,3,0,false,0,1,33,low,3 chronic conditions; Age 60-74; 1 non-adherent meds
+75e3925c-8fb9-cba5-a5a9-2a144eb2ad5a,77,3,0,2,false,0,0,43,medium,3 chronic conditions; Age 75-84; 2 acute visits in 12m
+94ece286-bfa5-d195-26a7-70ada019e082,28,2,3,1,false,0,0,17,low,2 chronic conditions; 1 acute visits in 12m
+fee59556-c971-ebeb-3c39-8fda3470501e,3,1,0,0,false,0,0,11,low,1 chronic conditions; Age 0-4
+e083022c-b3ac-7ba2-b278-6c59099dc22a,17,0,0,0,false,0,0,0,low,
+08886577-5a7a-7547-9249-4565e85d38b3,23,2,3,0,false,1,0,20,low,2 chronic conditions; 1 missed follow-ups
+798f8865-ab80-0353-df73-b87b1d1f4b8f,9,0,0,0,false,0,0,0,low,
+ee1a72db-aa92-9377-48fa-f7d9f1f8443b,47,6,1,0,false,0,0,29,low,6 chronic conditions; Age 40-59
+3cc17df4-192f-62a8-9459-af1cfcd1f0d3,22,0,0,0,false,0,0,0,low,
+62767100-3af3-e021-1ad2-db9509f743a2,12,0,0,0,false,0,0,0,low,
+9857903a-c631-ab62-5672-438625f232c9,12,0,0,0,false,0,0,0,low,
+05a464a6-172a-3ad5-f4df-6a73ce4ad12e,65,5,4,0,false,0,0,34,medium,5 chronic conditions; Age 60-74
+d637aa7b-6fbc-ef23-c55a-d9c33b3d376d,28,1,3,2,false,2,0,32,low,2 missed follow-ups; 2 acute visits in 12m; 1 chronic conditions
+65c925be-8fda-2bf1-6702-4fcbcb725628,52,3,3,0,false,1,1,36,medium,3 chronic conditions; 1 missed follow-ups; 1 non-adherent meds
+e3ca21de-75e7-39fa-b0fa-fc4341e1c54e,41,4,0,0,false,0,0,29,low,4 chronic conditions; Age 40-59
+1c24cec5-666c-53eb-c347-151c9bafd16f,31,4,2,0,false,0,0,24,low,4 chronic conditions
+66b8b86c-78b6-85c4-f210-1b08d624a6d6,27,2,5,0,false,0,1,17,low,2 chronic conditions; 1 non-adherent meds
+947b0cd0-6fb9-24b2-4a72-2e418ff0eb65,46,8,5,1,false,0,0,34,medium,8 chronic conditions; 1 acute visits in 12m; Age 40-59
+3c12e36b-510d-741d-e438-5c0579f9721f,53,4,0,0,false,0,0,29,low,4 chronic conditions; Age 40-59
+3bdbba38-5748-915e-5dc0-7cdcf66754d2,17,0,0,0,false,0,0,0,low,
+49b2eb30-3376-3e26-e774-08e40c0ca44a,61,6,2,0,false,0,0,34,medium,6 chronic conditions; Age 60-74
+28d9ebc1-9a62-4c80-019f-ff3e32229532,38,3,0,0,false,0,0,18,low,3 chronic conditions
+ec3c4200-341e-dc28-d580-cf6f78d90897,0,0,0,0,false,0,0,5,low,Age 0-4
+1a3c4dbc-9cf9-3967-ac48-389057e4f2aa,7,0,0,0,false,0,0,0,low,
+8c94d0d5-50f7-81df-e025-87ed3a46075a,51,6,2,0,false,1,3,52,medium,6 chronic conditions; 3 non-adherent meds; 1 missed follow-ups
+720f6209-ee05-b675-ee87-8de4b8d3919d,6,0,0,0,false,0,0,0,low,
+41aa16da-a60c-243b-5f97-eae742c63c68,22,1,4,0,false,0,1,11,low,1 chronic conditions; 1 non-adherent meds
+5a766b6a-5ed3-9281-386e-10c3fe75a263,43,5,5,2,true,1,0,57,medium,5 chronic conditions; 2 acute visits in 12m; 30-day revisit
+3fc211a5-042f-1332-2d89-62e21dde2e6b,43,3,0,0,false,0,0,23,low,3 chronic conditions; Age 40-59
+4773d311-a4f3-56a3-46aa-522da4d4743b,18,2,1,0,false,1,0,20,low,2 chronic conditions; 1 missed follow-ups
+1b8984f4-0ea2-8bbc-2d7e-c04143277477,24,2,2,0,false,0,0,12,low,2 chronic conditions
+e4bbff5f-2cc1-66c7-00ff-4e194d02bf49,59,12,1,2,false,1,0,47,medium,12 chronic conditions; 2 acute visits in 12m; 1 missed follow-ups
+3685bf21-cf8b-669f-cc82-ba3f467087c8,42,6,4,0,false,0,1,34,medium,6 chronic conditions; 1 non-adherent meds; Age 40-59
+3e1a89ae-50ce-1b40-e1b6-2a9e9dcac7a3,46,4,5,1,false,0,1,39,medium,4 chronic conditions; 1 acute visits in 12m; 1 non-adherent meds
+066f03fb-a5aa-5b53-d4a6-b31f5b44a29f,21,2,4,0,false,0,1,17,low,2 chronic conditions; 1 non-adherent meds
+32e8a3ce-f1e7-5002-0cee-d74eed64442e,51,5,3,0,false,0,1,34,medium,5 chronic conditions; 1 non-adherent meds; Age 40-59
+525ea6a8-91ea-4600-39a6-d6ef271d11ec,11,0,0,0,false,0,0,0,low,
+c75b66ef-356c-8113-5460-1e942419b3cf,51,7,1,0,false,0,0,29,low,7 chronic conditions; Age 40-59
+8471f747-3d66-ed9b-9b34-277ca99303d2,42,3,1,0,false,0,0,23,low,3 chronic conditions; Age 40-59
+378931d8-1854-534e-a316-6ebaa62b9570,27,0,0,0,false,0,0,0,low,
+ccd81797-18f3-cf40-4f64-f37b7b50d689,33,6,4,2,false,1,0,42,medium,6 chronic conditions; 2 acute visits in 12m; 1 missed follow-ups
+bb79a5f5-c5bd-7c04-02b6-9589fd41e840,11,0,2,0,false,0,0,0,low,
+b141ce4a-6781-10b9-41ac-6dff8f64af54,34,2,0,0,false,0,0,12,low,2 chronic conditions
+c32ba41a-49da-124e-8858-e6398d9f43ca,12,0,0,0,false,0,0,0,low,
+9d02555e-0c14-7cec-d946-ec84ca30bce5,15,0,1,0,false,0,0,0,low,
+6ede3346-0149-628e-0025-e2b9d3f54778,46,6,1,1,false,0,0,34,medium,6 chronic conditions; 1 acute visits in 12m; Age 40-59
+b20e00a9-1567-09b9-1dd4-20b4607a2911,4,0,0,0,false,0,0,5,low,Age 0-4
+f56514f4-c048-cf96-796a-d0ec65dbd6e4,74,7,5,0,false,1,0,42,medium,7 chronic conditions; Age 60-74; 1 missed follow-ups
+e25be42f-7103-4d46-f926-f9eb6f6381b2,66,4,0,0,false,0,0,34,medium,4 chronic conditions; Age 60-74
+361cf862-7199-0230-c62d-3a3319bdc1d6,2,0,0,1,false,1,0,18,low,1 missed follow-ups; 1 acute visits in 12m; Age 0-4
+b28a9876-7b93-c2d5-2c24-df5cefc848b0,8,0,0,0,false,0,0,0,low,
+b24f84f8-7adf-2b2e-dfb3-1c1c466d0a74,19,1,2,0,false,0,0,6,low,1 chronic conditions
+2f877574-2528-9b88-4119-33f99fdd181a,32,4,4,1,false,1,1,42,medium,4 chronic conditions; 1 missed follow-ups; 1 acute visits in 12m
+895c8e87-5ba6-c823-6f40-0e6b6341a09f,53,5,1,0,false,0,1,34,medium,5 chronic conditions; 1 non-adherent meds; Age 40-59
+3515e99a-c9ef-2628-6949-bf2ba1d74897,18,1,3,0,false,0,1,11,low,1 chronic conditions; 1 non-adherent meds
+13b1cf83-d511-15a7-5ac3-d5d42f57d6ef,38,3,0,0,false,0,0,18,low,3 chronic conditions
+6ca8bd16-892f-5fe6-ce6e-c9e16d6523e9,14,0,0,0,false,0,0,0,low,
+541cd3b1-d22b-3af8-f9f6-700d891df3ec,29,3,0,1,false,0,0,23,low,3 chronic conditions; 1 acute visits in 12m
+fca626fd-ab99-57fb-ba8d-f0bad053788b,31,6,7,0,false,0,3,39,medium,6 chronic conditions; 3 non-adherent meds
+d6ace85c-86db-1675-b131-1409fd859ede,58,4,1,0,false,2,1,50,medium,4 chronic conditions; 2 missed follow-ups; 1 non-adherent meds
+3e2e1a3b-59b2-9c59-c26e-2fcfe745b864,37,4,2,0,false,0,0,24,low,4 chronic conditions
+f93d0c19-72cd-0f7b-b8b1-e5ebf30a0283,49,6,7,0,false,0,0,29,low,6 chronic conditions; Age 40-59
+8a0a7ec9-52d6-ee9f-f54f-f30c388860aa,102,7,10,0,false,0,3,59,medium,7 chronic conditions; Age 85+; 3 non-adherent meds
+9a4502e6-fba6-707c-891f-5d525c98ae23,46,4,4,0,false,0,0,29,low,4 chronic conditions; Age 40-59
+35851681-92ee-4599-7982-25b764db3db5,38,3,0,0,false,0,0,18,low,3 chronic conditions
+c806f7fc-916e-3539-ca50-776b89f987a9,60,5,4,0,false,0,1,39,medium,5 chronic conditions; Age 60-74; 1 non-adherent meds
+b7b1bd04-5bdc-3ec0-9bc6-45a86930fb9b,31,2,4,0,false,0,1,17,low,2 chronic conditions; 1 non-adherent meds
+36c63375-a5be-f2fd-5ead-457c203771ed,12,1,0,0,false,0,0,6,low,1 chronic conditions
+93d970b1-94b9-8455-de35-0bcc1a45eb7b,18,1,0,0,false,2,0,22,low,2 missed follow-ups; 1 chronic conditions
+c05490c6-49eb-1c19-14e1-0da37eb3e937,25,2,1,0,false,0,0,12,low,2 chronic conditions
+a03fbb92-ebae-8930-b170-5872d7e2fef7,18,2,3,0,false,0,0,12,low,2 chronic conditions
+45652f54-d755-1f77-5438-c99c8b6fa66a,81,8,7,0,false,1,2,57,medium,8 chronic conditions; Age 75-84; 2 non-adherent meds
+83373b44-7287-234f-a2d4-3462c703b64b,47,4,1,0,false,0,1,34,medium,4 chronic conditions; 1 non-adherent meds; Age 40-59
+6fc7b50b-61ff-9237-bcac-7b7b1d8606ab,53,3,9,1,false,0,2,38,medium,3 chronic conditions; 2 non-adherent meds; 1 acute visits in 12m
+1fe68d61-36a2-f78d-b342-9b5012e903ae,16,0,1,0,false,0,0,0,low,
+5052e0b3-d90b-e3cb-4e81-e3ba03482677,59,6,7,0,false,0,1,34,medium,6 chronic conditions; 1 non-adherent meds; Age 40-59
+26cb7b5a-300c-232c-435c-21fec62c6311,56,7,5,2,false,1,1,52,medium,7 chronic conditions; 2 acute visits in 12m; 1 missed follow-ups
+8470167f-f7da-8fb6-6972-45209f7b7842,21,1,2,0,false,0,0,6,low,1 chronic conditions
+b7a5d15d-bbb7-2f00-061c-a07e5efc6a9c,78,8,3,0,false,0,0,39,medium,8 chronic conditions; Age 75-84
+652b2ac8-8a88-4715-3d08-eef8c558a53f,38,6,12,0,false,0,3,39,medium,6 chronic conditions; 3 non-adherent meds
+00209bf2-8e4d-06d1-82a4-daad02f25829,78,12,5,0,false,0,1,44,medium,12 chronic conditions; Age 75-84; 1 non-adherent meds
+5e9978a5-08e4-7fe9-9937-6a53179eb243,40,5,0,0,false,0,0,29,low,5 chronic conditions; Age 40-59
+23add813-11a9-abf7-f511-e3a7400ae578,38,4,2,1,false,0,0,29,low,4 chronic conditions; 1 acute visits in 12m
+b39931a4-6a56-6b7d-5845-1fe6ea3540ed,28,2,0,0,false,0,0,12,low,2 chronic conditions
+91329ab8-b00d-db22-4c3e-12269e4f0ec3,18,0,0,0,false,1,0,8,low,1 missed follow-ups
+e1c22a53-3acf-059a-ab37-50d2c269a206,23,0,0,0,false,0,0,0,low,
+98443e37-4d0f-4766-6c0f-92f2c0e62305,65,8,8,0,false,0,3,49,medium,8 chronic conditions; 3 non-adherent meds; Age 60-74
+284ef746-0103-40df-9c1b-28870ec27d62,15,0,1,0,false,0,0,0,low,
+2a1d4786-435c-6633-3b6f-b555f5d3519b,12,1,0,0,false,1,0,14,low,1 missed follow-ups; 1 chronic conditions
+d4be4998-9b0d-8304-1413-14c68377d114,13,0,0,0,false,0,0,0,low,
+7f2d1840-f991-e132-6614-40d219fb2474,9,1,0,0,false,0,0,6,low,1 chronic conditions
+785e3f1f-b850-ab06-3f0e-39c860cf74fd,28,2,2,0,false,1,0,20,low,2 chronic conditions; 1 missed follow-ups
+ef32a3f9-c68b-118f-27d3-b3d1b3f72214,18,3,0,0,false,0,0,18,low,3 chronic conditions
+e6c17129-ce47-da17-b4ee-dbab7ebf8e48,14,0,1,0,false,0,0,0,low,
+79cac46d-5eb0-347f-1373-9ccfbc04fded,40,4,4,0,false,0,1,34,medium,4 chronic conditions; 1 non-adherent meds; Age 40-59
+c7f68404-660f-195e-555d-3e3ce3a4cd28,62,5,4,0,false,0,1,39,medium,5 chronic conditions; Age 60-74; 1 non-adherent meds
+3b582d71-202c-acf5-9515-90740adcfcc7,69,5,0,2,false,0,0,44,medium,5 chronic conditions; 2 acute visits in 12m; Age 60-74
+936d198f-ca91-62c8-4ed5-7e1bf4bf2725,50,6,1,0,false,0,0,29,low,6 chronic conditions; Age 40-59
+8b831e48-9db7-f037-8b8a-e94be939d2ea,98,6,4,2,false,1,1,67,high,6 chronic conditions; Age 85+; 2 acute visits in 12m
+9e6418bb-536a-82a7-ae67-b52375c3eac2,62,10,2,0,false,0,2,44,medium,10 chronic conditions; 2 non-adherent meds; Age 60-74
+06629c1a-687d-5121-1e28-ae123c1fe647,75,11,3,14,true,3,1,85,high,11 chronic conditions; 3 missed follow-ups; 14 acute visits in 12m
+fb6add40-7cd4-b320-e630-e0c2bd86c9c9,69,6,4,2,false,0,0,44,medium,6 chronic conditions; 2 acute visits in 12m; Age 60-74
+eecca7cc-e5c7-1c3e-feb3-f8fb602b5efd,73,8,2,0,false,0,0,34,medium,8 chronic conditions; Age 60-74
+d47017f1-c334-f720-16cb-c1be6338b2d3,16,0,0,0,false,0,0,0,low,
+2346454f-bd4c-71c5-8f86-5c71d85f5dd2,9,0,0,0,false,0,0,0,low,
+35606b5e-5492-b8b1-25c7-085c406d0dac,42,7,3,1,false,0,2,44,medium,7 chronic conditions; 2 non-adherent meds; 1 acute visits in 12m
+9b7deab3-c8de-8633-b895-5a2903a5a706,30,1,0,0,false,0,0,6,low,1 chronic conditions
+68aa1bd6-c28a-73f5-ffab-c2a6cb0b7e99,58,5,0,0,false,0,0,29,low,5 chronic conditions; Age 40-59
+70127d90-3c3f-6833-d770-2a86da5c3622,60,3,0,1,false,1,0,41,medium,3 chronic conditions; Age 60-74; 1 missed follow-ups
+08c062dd-284c-1b1c-3475-8122032000fc,47,5,5,0,false,0,0,29,low,5 chronic conditions; Age 40-59
+221517f1-556c-2b5b-0553-6e26aa4466a1,11,0,0,0,false,0,0,0,low,
+970c155c-87a7-a460-fcf6-9bd78dacaa46,31,3,0,0,false,0,0,18,low,3 chronic conditions
+6a5b7896-78b9-2b39-0219-a618a7562372,110,9,9,1,false,0,3,64,medium,9 chronic conditions; Age 85+; 3 non-adherent meds
+e43cd6c4-af6c-4be7-ba29-e5e893e7c73c,11,0,0,0,false,0,0,0,low,
+90ae6834-9260-8716-1ba4-00931568d7bf,48,5,1,0,false,0,1,34,medium,5 chronic conditions; 1 non-adherent meds; Age 40-59
+520fdcd4-8d55-8a00-67b8-a0d61a50d9b5,44,3,0,0,false,0,0,23,low,3 chronic conditions; Age 40-59
+686c1000-a5ff-55f7-668b-752dc9816edb,26,0,1,0,false,0,0,0,low,
+cd312ebd-502a-0aff-a4a2-484f2b1927eb,53,4,0,0,false,0,0,29,low,4 chronic conditions; Age 40-59
+02257002-550c-6de2-2bc0-0bb2bb497e84,73,7,8,0,false,1,1,47,medium,7 chronic conditions; Age 60-74; 1 missed follow-ups
+7c3602b6-35ed-df2b-3c8b-cb5b55689217,44,5,4,0,false,0,0,29,low,5 chronic conditions; Age 40-59
+df9f786a-f236-051b-ba94-7dd92e6a16ce,39,2,0,0,false,0,0,12,low,2 chronic conditions
+9724e8c9-3f30-702a-f75a-95082c024706,11,0,0,0,false,0,0,0,low,
+701fd194-0fb8-f535-6eb4-7dacd8c1bc38,65,7,3,0,false,0,0,34,medium,7 chronic conditions; Age 60-74
+38d96869-3e34-d6c4-9e10-eaa1468de9a8,16,0,1,0,false,0,0,0,low,
+7decf363-d260-555d-ffaf-a2c2833f39d6,33,5,4,0,false,0,0,24,low,5 chronic conditions
+ef0de96b-3fd9-5be2-01c6-874c378cd727,51,3,0,0,false,0,0,23,low,3 chronic conditions; Age 40-59
+6dcdf9cd-efbe-c8c0-c633-ef255bc05ef5,63,4,2,0,false,0,0,34,medium,4 chronic conditions; Age 60-74
+f69c0b32-65cf-2de2-ca8e-16fc575c2801,57,6,6,0,false,0,1,34,medium,6 chronic conditions; 1 non-adherent meds; Age 40-59
+132baf63-cbc4-cfec-1772-d88d7762fc4e,2,0,0,0,false,0,0,5,low,Age 0-4
+80d1297c-3281-6838-9bb4-69cadd701720,31,7,3,1,false,0,2,39,medium,7 chronic conditions; 2 non-adherent meds; 1 acute visits in 12m
+073967cc-9195-3de9-8ce1-e0cd81461da4,109,5,1,0,false,0,0,44,medium,5 chronic conditions; Age 85+
+ef0b300f-2534-043f-86f7-f34119bf5bd4,18,0,0,0,false,0,0,0,low,
+1eb1b9e0-4cdf-7910-e76d-9f7534bcc7f0,22,1,0,0,false,0,0,6,low,1 chronic conditions
+4f9e0bb9-3c3f-8c77-cabb-bca40c16fbf7,24,0,2,0,false,0,0,0,low,
+27cb1c2f-4ec0-6e24-d080-e46178f712d5,35,4,6,1,false,0,1,34,medium,4 chronic conditions; 1 acute visits in 12m; 1 non-adherent meds
+50253c1b-528a-3481-74a5-3a879de27675,17,0,0,0,false,0,0,0,low,
+3a580919-26bf-fede-0908-33d23ba8fbc4,39,4,4,0,false,0,1,29,low,4 chronic conditions; 1 non-adherent meds
+bc9af01f-cf22-0840-da94-48fa2d310716,55,7,4,0,false,0,0,29,low,7 chronic conditions; Age 40-59
+f75ea7e0-0e86-8de5-2093-c7ae709ab0c6,87,7,2,1,false,0,0,49,medium,7 chronic conditions; Age 85+; 1 acute visits in 12m
+ac3149dd-1bcb-cfa9-0e7b-db86b88c36a0,41,3,0,0,false,0,0,23,low,3 chronic conditions; Age 40-59
+74bde71d-2498-6fa9-d8e1-1734c092af93,54,3,0,1,false,1,0,36,medium,3 chronic conditions; 1 missed follow-ups; 1 acute visits in 12m
+c509eb5c-27d4-e7f6-59f8-54c8e8997877,52,5,5,0,false,0,2,39,medium,5 chronic conditions; 2 non-adherent meds; Age 40-59
+e7028c1f-d3af-b947-c7df-8757337e9ef3,31,1,0,0,false,0,0,6,low,1 chronic conditions
+3ccff3bb-35a0-bf09-e87e-ff16b4fd6a66,14,1,1,0,false,0,0,6,low,1 chronic conditions
+9be0edbf-60c3-cbd4-4e68-5d6000282684,14,0,0,0,false,0,0,0,low,
+509344d5-cb2b-036c-17a8-a1ddedb8528d,21,1,1,0,false,0,0,6,low,1 chronic conditions
+a8259641-ea43-ab98-3577-e1027c2dac2b,20,1,2,0,false,0,0,6,low,1 chronic conditions
+382bd5b8-f7b6-1132-b8fd-49ed4a44f6da,48,5,1,0,false,0,1,34,medium,5 chronic conditions; 1 non-adherent meds; Age 40-59
+8a19de22-523c-e702-74b3-da3ee570507e,26,3,5,0,false,0,1,23,low,3 chronic conditions; 1 non-adherent meds
+bfc8a71f-2f61-d8fc-e2aa-615b1d4598d3,7,0,0,0,false,0,0,0,low,
+c580eef6-e1bc-0a18-9d50-72acd9c9f95a,46,4,0,0,false,0,0,29,low,4 chronic conditions; Age 40-59
+fdacb252-9528-be09-c6c6-ac9efee10380,76,5,9,0,false,0,2,49,medium,5 chronic conditions; Age 75-84; 2 non-adherent meds
+0cf08145-a634-329f-54d3-9cbd04ba18cc,21,1,6,0,false,0,1,11,low,1 chronic conditions; 1 non-adherent meds
+76ddfad7-424d-d66a-30da-33c1ba147bc2,18,0,1,0,false,0,0,0,low,
+ef010cf4-6db3-21c7-2c49-4435fe408745,40,5,0,1,false,0,0,34,medium,5 chronic conditions; 1 acute visits in 12m; Age 40-59
+42097188-e0c2-ebfb-1e28-e8580dfa83f3,27,0,0,0,false,0,1,5,low,1 non-adherent meds
+73de334e-d9f4-7500-4b9e-deef5067a008,59,4,0,0,false,0,0,29,low,4 chronic conditions; Age 40-59
+02df500c-4884-89ee-981c-e160dd1f6902,9,0,0,0,false,0,0,0,low,
+fc3aa467-2e84-d473-50cc-d6aefa6bd94b,66,9,3,6,true,1,5,82,high,9 chronic conditions; 6 acute visits in 12m; 5 non-adherent meds
+34108223-8018-ed73-d675-449d69965f95,12,3,0,1,false,0,0,23,low,3 chronic conditions; 1 acute visits in 12m
+46413549-1fc0-bce3-4aa7-005e47c88eb1,48,3,0,0,false,0,0,23,low,3 chronic conditions; Age 40-59
+9c532b25-cd38-f13a-f2de-2f5538326ed6,42,11,5,1,false,0,1,39,medium,11 chronic conditions; 1 acute visits in 12m; 1 non-adherent meds
+cce90058-f5c7-79b8-1d70-aa6825e6089c,84,4,3,0,false,0,0,39,medium,4 chronic conditions; Age 75-84
+3e078645-65f0-4863-8556-d076402382b2,58,4,3,0,false,0,0,29,low,4 chronic conditions; Age 40-59
+236bc48b-5230-46f9-3725-a7b5274f4798,20,1,3,1,false,0,1,16,low,1 chronic conditions; 1 acute visits in 12m; 1 non-adherent meds
+ba98c858-d00a-77a3-3453-ba337ffdaead,17,1,0,0,false,0,0,6,low,1 chronic conditions
+79161603-dc83-d0eb-3728-8dffc0c3407e,69,5,2,1,false,1,0,47,medium,5 chronic conditions; Age 60-74; 1 missed follow-ups
+b3ab4196-c646-5d1b-a25a-cc750abfc4bb,33,5,1,0,false,0,0,24,low,5 chronic conditions
+409330fa-7ffd-dbfb-4eba-2349d58a6324,42,2,0,0,false,0,0,17,low,2 chronic conditions; Age 40-59
+cb328021-a854-dc94-e7ae-426580477308,57,11,3,11,true,4,5,85,high,11 chronic conditions; 4 missed follow-ups; 11 acute visits in 12m
+41862157-5c14-f706-4a94-d2929be969e7,54,4,0,0,false,0,0,29,low,4 chronic conditions; Age 40-59
+d53c57a5-4480-2481-32ee-b2844a991c9d,73,5,2,0,false,0,0,34,medium,5 chronic conditions; Age 60-74
+cb1b2c74-d1c5-997c-6f8b-20ca9f332eef,63,5,1,0,false,2,0,50,medium,5 chronic conditions; 2 missed follow-ups; Age 60-74
