@@ -5,7 +5,7 @@
  */
 
 import React, { useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { usePatients } from '../../api/queries.js';
 import { useAuth } from '../../auth/AuthContext.jsx';
