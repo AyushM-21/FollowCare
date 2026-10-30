@@ -189,6 +189,66 @@ tasksRouter.get(
 // PATCH /tasks/:id/status (Kanban Drag and Drop / Status Transition)
 // ============================================================================
 // ============================================================================
+ // GET /tasks/:id/activity (Department-scoped comments and contact history)
+ // ============================================================================
+tasksRouter.get(
+  '/tasks/:id/activity',
+  authenticate,
+  requirePermission(Permissions.TASK_WORK),
+  deptScope(),
+  async (req, res, next) => {
+    try {
+      const taskRes = await pool.query(
+        'SELECT id, department_id FROM tasks WHERE id = $1',
+        [req.params.id]
+      );
+      if (taskRes.rowCount === 0) return next(new AppError('Task not found', 404));
+      if (req.departmentIds !== null && !req.departmentIds.includes(taskRes.rows[0].department_id)) {
+        return next(new AppError('Forbidden: Access to task department denied', 403));
+      }
+
+      const [commentsRes, attemptsRes, transfersRes] = await Promise.all([
+        pool.query(
+          `SELECT c.id, c.body, c.created_at, u.full_name AS author_name
+           FROM task_comments c
+           LEFT JOIN users u ON c.author_id = u.id
+           WHERE c.task_id = $1
+           ORDER BY c.created_at DESC, c.id DESC`,
+          [req.params.id]
+        ),
+        pool.query(
+          `SELECT a.id, a.channel, a.outcome, a.notes, a.callback_at,
+                  a.attempted_at, u.full_name AS staff_name
+           FROM contact_attempts a
+           LEFT JOIN users u ON a.staff_id = u.id
+           WHERE a.task_id = $1
+           ORDER BY a.attempted_at DESC, a.id DESC`,
+          [req.params.id]
+        ),
+        pool.query(
+          `SELECT tr.id, tr.reason, tr.created_at,
+                  fu.full_name AS from_user_name, tu.full_name AS to_user_name
+           FROM task_transfers tr
+           LEFT JOIN users fu ON tr.from_user = fu.id
+           LEFT JOIN users tu ON tr.to_user = tu.id
+           WHERE tr.task_id = $1
+           ORDER BY tr.created_at DESC, tr.id DESC`,
+          [req.params.id]
+        )
+      ]);
+
+      res.status(200).json({
+        comments: commentsRes.rows,
+        contactAttempts: attemptsRes.rows,
+        transfers: transfersRes.rows
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+// ============================================================================
 // GET /tasks/:id/checklist (Department-scoped checklist)
 // ============================================================================
 tasksRouter.get(
