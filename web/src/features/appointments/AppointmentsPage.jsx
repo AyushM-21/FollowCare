@@ -95,7 +95,7 @@ export default function AppointmentsPage() {
   const { activeDepartmentId } = useAuth();
   const queryClient = useQueryClient();
   const { data, isLoading, isError, error, refetch } = useAppointments({ departmentId: activeDepartmentId });
-  const patientsQuery = usePatients({ departmentId: activeDepartmentId });
+  const patientsQuery = usePatients({ search: patientSearch.trim() || undefined, departmentId: activeDepartmentId });
   const departmentsQuery = useDepartments();
   const [showForm, setShowForm] = useState(false);
   const [editingAppointment, setEditingAppointment] = useState(null);
@@ -227,7 +227,7 @@ export default function AppointmentsPage() {
                   <label htmlFor="appointment-patient" className="mb-1.5 mt-3 block text-xs font-semibold text-slate-600">Patient</label>
                   <select id="appointment-patient" required value={patientId} onChange={event => { setPatientId(event.target.value); setClinicianId(''); }} className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm">
                     <option value="">Select patient</option>
-                    {patients.filter(patient => !patientSearch || patient.fullName?.toLowerCase().includes(patientSearch.toLowerCase()) || patient.hospitalRegNo?.toLowerCase().includes(patientSearch.toLowerCase())).map(patient => (
+                    {patients.map(patient => (
                       <option key={patient.id} value={patient.id}>{patient.fullName} · {patient.hospitalRegNo}</option>
                     ))}
                   </select>
