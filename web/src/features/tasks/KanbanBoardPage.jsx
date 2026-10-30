@@ -1,6 +1,6 @@
 import { normalizeReasons, formatRule } from '../../lib/priority.js';
 import React, { useState } from 'react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useTasksBoard } from '../../api/queries.js';
 import { api } from '../../api/client.js';
 import { TaskStatus, TaskType, Permissions } from '@followcare/shared';
@@ -141,6 +141,12 @@ function KanbanColumn({ column, tasks, onOpenTask }) {
 function TaskDrawer({ task, onClose }) {
   const { hasPermission } = useAuth();
   const queryClient = useQueryClient();
+  const activityQuery = useQuery({
+    queryKey: ['tasks', task.id, 'activity'],
+    queryFn: () => api.get(`/api/tasks/${task.id}/activity`),
+    enabled: Boolean(task.id),
+    staleTime: 0
+  });
   const canWork = hasPermission(Permissions.TASK_WORK);
   const canLogOutcome = hasPermission(Permissions.TASK_LOG_OUTCOME);
 
@@ -154,6 +160,7 @@ function TaskDrawer({ task, onClose }) {
 
   const invalidate = () => {
     queryClient.invalidateQueries({ queryKey: ['tasks', 'board'] });
+    queryClient.invalidateQueries({ queryKey: ['tasks', task.id, 'activity'] });
   };
 
   const statusMutation = useMutation({
@@ -313,7 +320,7 @@ function TaskDrawer({ task, onClose }) {
                   aria-label="Select new task status"
                 >
                   {COLUMNS.filter(column =>
-                    column.key !== TaskStatus.COMPLETED || task.status === TaskStatus.COMPLETED
+                    column.key !== TaskStatus.COMPLETED || [TaskStatus.IN_PROGRESS, TaskStatus.AWAITING_RESPONSE, TaskStatus.ESCALATED, TaskStatus.COMPLETED].includes(task.status)
                   ).map(column => (
                     <option key={column.key} value={column.key}>{column.label}</option>
                   ))}
@@ -468,6 +475,85 @@ function TaskDrawer({ task, onClose }) {
               <p className="mt-2 rounded-lg bg-red-50 px-3 py-2 text-xs text-red-700" role="alert">
                 {commentMutation.error?.message || 'Could not post comment.'}
               </p>
+            )}
+          </section>
+
+          <section className="rounded-2xl border border-slate-200 p-4">
+            <div className="mb-3 flex items-center justify-between gap-3">
+              <h3 className="text-sm font-bold text-slate-900">Task history</h3>
+              <button
+                type="button"
+                onClick={() => activityQuery.refetch()}
+                className="text-xs font-semibold text-blue-700 hover:text-blue-800"
+              >
+                Refresh
+              </button>
+            </div>
+
+            {activityQuery.isLoading && <p className="text-xs text-slate-500">Loading task history…</p>}
+            {activityQuery.isError && (
+              <p className="rounded-lg bg-red-50 px-3 py-2 text-xs text-red-700" role="alert">
+                {activityQuery.error?.message || 'Could not load task history.'}
+              </p>
+            )}
+
+            {!activityQuery.isLoading && !activityQuery.isError && (
+              <div className="space-y-4">
+                <div>
+                  <h4 className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">Contact attempts</h4>
+                  {(activityQuery.data?.contactAttempts || []).length === 0 ? (
+                    <p className="text-xs text-slate-400">No contact attempts recorded.</p>
+                  ) : (
+                    <ul className="space-y-2">
+                      {activityQuery.data.contactAttempts.map(attempt => (
+                        <li key={attempt.id} className="rounded-xl bg-slate-50 p-3">
+                          <p className="text-xs font-semibold text-slate-800">
+                            {String(attempt.outcome || '').replaceAll('_', ' ')} · {String(attempt.channel || '').replaceAll('_', ' ')}
+                          </p>
+                          <p className="mt-1 text-xs text-slate-500">
+                            {attempt.staff_name || 'Staff'} · {formatDate(attempt.attempted_at, true) || 'Date unavailable'}
+                          </p>
+                          {attempt.notes && <p className="mt-2 whitespace-pre-wrap text-sm text-slate-700">{attempt.notes}</p>}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+
+                <div>
+                  <h4 className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">Team comments</h4>
+                  {(activityQuery.data?.comments || []).length === 0 ? (
+                    <p className="text-xs text-slate-400">No comments recorded.</p>
+                  ) : (
+                    <ul className="space-y-2">
+                      {activityQuery.data.comments.map(item => (
+                        <li key={item.id} className="rounded-xl bg-slate-50 p-3">
+                          <p className="whitespace-pre-wrap text-sm text-slate-700">{item.body}</p>
+                          <p className="mt-2 text-xs text-slate-500">
+                            {item.author_name || 'Staff'} · {formatDate(item.created_at, true) || 'Date unavailable'}
+                          </p>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+
+                <div>
+                  <h4 className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">Assignment history</h4>
+                  {(activityQuery.data?.transfers || []).length === 0 ? (
+                    <p className="text-xs text-slate-400">No reassignment history.</p>
+                  ) : (
+                    <ul className="space-y-2">
+                      {activityQuery.data.transfers.map(item => (
+                        <li key={item.id} className="rounded-xl bg-slate-50 p-3 text-xs text-slate-700">
+                          {item.from_user_name || 'Unassigned'} → {item.to_user_name || 'Unknown'}
+                          <p className="mt-1 text-slate-500">{formatDate(item.created_at, true) || 'Date unavailable'}</p>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </div>
             )}
           </section>
         </div>
