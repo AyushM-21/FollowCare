@@ -45,12 +45,33 @@ plansRouter.post(
       }
 
       // Check patient exists
-      const ptRes = await client.query(`SELECT id FROM patients WHERE id = $1 AND deleted_at IS NULL`, [patient_id]);
+      const ptRes = await client.query(`SELECT id, assigned_department_id FROM patients WHERE id = $1 AND deleted_at IS NULL`, [patient_id]);
       if (ptRes.rowCount === 0) {
         return next(new AppError('Patient not found', 404));
       }
+      if (ptRes.rows[0].assigned_department_id && ptRes.rows[0].assigned_department_id !== department_id) {
+        return next(new AppError('Follow-up plan department must match the patient assigned department', 400));
+      }
 
       await client.query('BEGIN');
+
+      // Serialize plan creation for the same patient to prevent duplicate submissions.
+      await client.query('SELECT id FROM patients WHERE id = $1 FOR UPDATE', [patient_id]);
+      const duplicatePlanRes = await client.query(
+        `SELECT id FROM follow_up_plans
+         WHERE patient_id = $1
+           AND department_id = $2
+           AND reason_category = $3
+           AND window_start = $4::timestamptz
+           AND window_end = $5::timestamptz
+           AND status IN ('active', 'pending_approval')
+           AND deleted_at IS NULL
+         LIMIT 1`,
+        [patient_id, department_id, reason_category, window_start, window_end]
+      );
+      if (duplicatePlanRes.rowCount > 0) {
+        throw new AppError('An active or pending follow-up plan already exists for this patient with the same reason and date window', 409);
+      }
 
       // Nurse plans are draft/pending_approval, Doctor/Admin plans are active (ARCHITECTURE.md Section 8.2)
       const isNurse = req.user.role === UserRole.NURSE;
@@ -415,6 +436,21 @@ plansRouter.patch(
         ) VALUES ($1, $2, $3, $4, $5)`,
         [id, nextVersion, JSON.stringify(snapshot), req.user.id, change_reason]
       );
+
+      // Replace only queued reminders when the follow-up window changes.
+      if ((window_start || window_end) && curPlan.status === 'active') {
+        await client.query(
+          `UPDATE reminders SET status = 'suppressed'
+           WHERE plan_id = $1 AND status = 'queued'`,
+          [id]
+        );
+        await scheduleRemindersForPlan(client, {
+          planId: id,
+          patientId: curPlan.patient_id,
+          windowStart: updatedPlanRes.rows[0].window_start,
+          windowEnd: updatedPlanRes.rows[0].window_end
+        });
+      }
 
       await client.query('COMMIT');
 
