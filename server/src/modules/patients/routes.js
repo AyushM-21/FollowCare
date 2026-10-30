@@ -48,7 +48,15 @@ patientsRouter.get(
         params.push(req.departmentIds);
       }
 
-      queryText += ` ORDER BY p.created_at DESC LIMIT 100`;
+      const search = typeof req.query.search === 'string'
+        ? req.query.search.trim().slice(0, 100).toLocaleLowerCase()
+        : '';
+
+      // Names are encrypted at rest, so search them only after decrypting the
+      // department-scoped result set. Keep the normal list response bounded.
+      queryText += search
+        ? ` ORDER BY p.created_at DESC`
+        : ` ORDER BY p.created_at DESC LIMIT 100`;
 
       const result = await pool.query(queryText, params);
 
@@ -70,7 +78,15 @@ patientsRouter.get(
         };
       });
 
-      res.status(200).json({ patients });
+      const matchingPatients = search
+        ? patients.filter(patient =>
+            [patient.fullName, patient.hospitalRegNo].some(value =>
+              value?.toLocaleLowerCase().includes(search)
+            )
+          )
+        : patients;
+
+      res.status(200).json({ patients: matchingPatients });
     } catch (err) {
       next(err);
     }
