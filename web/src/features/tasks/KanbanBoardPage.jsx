@@ -155,6 +155,8 @@ function TaskDrawer({ task, onClose }) {
   const [contactChannel, setContactChannel] = useState('phone_call');
   const [contactOutcome, setContactOutcome] = useState('reached');
   const [contactNotes, setContactNotes] = useState('');
+  const [closeFollowUp, setCloseFollowUp] = useState(false);
+  const [finalStatus, setFinalStatus] = useState('');
   const [contactLogged, setContactLogged] = useState('');
   const [showContactForm, setShowContactForm] = useState(false);
 
@@ -187,6 +189,8 @@ function TaskDrawer({ task, onClose }) {
     mutationFn: data => api.post(`/api/tasks/${task.id}/contact-attempts`, data),
     onSuccess: (_data, vars) => {
       setContactNotes('');
+      setCloseFollowUp(false);
+      setFinalStatus('');
       setShowContactForm(false);
       setContactLogged(
         `Contact attempt logged (${vars.outcome.replace(/_/g, ' ')}) at ${new Date().toLocaleTimeString()}`
@@ -204,7 +208,9 @@ function TaskDrawer({ task, onClose }) {
     contactMutation.mutate({
       channel: contactChannel,
       outcome: contactOutcome,
-      notes: contactNotes || undefined
+      notes: contactNotes || undefined,
+      close_follow_up: closeFollowUp,
+      final_status: closeFollowUp ? finalStatus : undefined
     });
   };
 
@@ -418,9 +424,49 @@ function TaskDrawer({ task, onClose }) {
                     />
                   </div>
 
+                  {task.planId && (
+                    <div className="rounded-xl border border-amber-200 bg-amber-50 p-3">
+                      <label className="flex items-start gap-2 text-sm font-semibold text-amber-900">
+                        <input
+                          type="checkbox"
+                          checked={closeFollowUp}
+                          onChange={event => {
+                            setCloseFollowUp(event.target.checked);
+                            if (!event.target.checked) setFinalStatus('');
+                          }}
+                          className="mt-0.5 rounded border-amber-300"
+                        />
+                        Close this follow-up after recording the contact
+                      </label>
+                      {closeFollowUp && (
+                        <div className="mt-3">
+                          <label className={labelClass} htmlFor="final-follow-up-status">Final outcome</label>
+                          <select
+                            id="final-follow-up-status"
+                            className={fieldClass}
+                            value={finalStatus}
+                            onChange={event => setFinalStatus(event.target.value)}
+                            required
+                          >
+                            <option value="">Select final outcome</option>
+                            <option value="attended">Attended</option>
+                            <option value="rescheduled">Rescheduled</option>
+                            <option value="visited_elsewhere">Visited elsewhere</option>
+                            <option value="declined">Declined</option>
+                            <option value="unreachable_unresolved">Unreachable — unresolved</option>
+                            <option value="cancelled">Cancelled</option>
+                          </select>
+                          <p className="mt-2 text-xs text-amber-800">
+                            All checklist items must be completed before the follow-up can be closed.
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
                   <button
                     type="submit"
-                    disabled={contactMutation.isPending}
+                    disabled={contactMutation.isPending || (closeFollowUp && !finalStatus)}
                     className="w-full rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:opacity-50"
                   >
                     {contactMutation.isPending ? 'Logging attempt…' : 'Log contact attempt'}
