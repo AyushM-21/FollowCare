@@ -62,9 +62,11 @@ patientPortalRouter.get('/me/appointments', async (req, res, next) => {
         a.scheduled_at,
         a.status,
         a.checked_in_at,
-        d.name AS department_name
+        d.name AS department_name,
+        u.full_name AS clinician_name
       FROM appointments a
       LEFT JOIN departments d ON a.department_id = d.id
+      LEFT JOIN users u ON a.clinician_id = u.id
       WHERE a.patient_id = $1
       ORDER BY a.scheduled_at ASC`,
       [req.patient.id]
