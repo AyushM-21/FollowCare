@@ -217,6 +217,7 @@ def run(processed_dir="data/processed", artifact_dir="ml/artifacts", quick=False
             "sensitivity_cv_on_training_only": sens, "validation_gates": gates,
             "probabilities_calibrated": bool(use_cal), "neutral_values": neutral,
             "categories": {c: sorted(map(str, data[c].unique())) for c in ["source_encounter_class", "followup_type", "priority"]},
+            "reason_groups": sorted(g for g in data["reason_grouped"].unique() if g != "Other"),
             "environment": {"python": platform.python_version(), "scikit_learn": sklearn.__version__,
                             "pandas": pd.__version__, "numpy": np.__version__},
             "artifact_sha256": {os.path.basename(mpath): sha(mpath), os.path.basename(cpath): sha(cpath)},
