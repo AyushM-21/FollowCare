@@ -440,6 +440,21 @@ tasksRouter.post(
         return next(new AppError('Forbidden: Access to task department denied', 403));
       }
 
+      const memberRes = await client.query(
+        `SELECT 1 FROM department_members dm
+         JOIN users u ON u.id = dm.user_id
+         WHERE dm.user_id = $1 AND dm.department_id = $2
+           AND dm.active = TRUE AND u.status = 'active'`,
+        [assignee_id, task.department_id]
+      );
+      if (memberRes.rowCount === 0) {
+        return next(new AppError('Assignee must be an active member of this task department', 400));
+      }
+
+      if (task.assignee_id === assignee_id) {
+        return res.status(200).json({ message: 'Task is already assigned to this staff member', task });
+      }
+
       await client.query('BEGIN');
 
       const updated = await client.query(
@@ -455,6 +470,16 @@ tasksRouter.post(
       );
 
       await client.query('COMMIT');
+
+      await recordAuditLog({
+        req,
+        action: 'update',
+        entityType: 'tasks',
+        entityId: id,
+        patientId: task.patient_id,
+        departmentId: task.department_id,
+        metadata: { action: 'reassigned', fromUser: task.assignee_id, toUser: assignee_id }
+      });
 
       res.status(200).json({ message: 'Task assigned successfully', task: updated.rows[0] });
     } catch (err) {
