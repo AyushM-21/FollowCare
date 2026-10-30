@@ -8,3 +8,6 @@ __MACOSX/
 data/raw/
 data/processed/
 ml/artifacts/
+__pycache__/
+.pytest_cache/
+.venv/

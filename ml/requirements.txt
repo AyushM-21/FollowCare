@@ -1,0 +1,5 @@
+pandas
+numpy
+scikit-learn>=1.2
+joblib
+pytest
