@@ -200,6 +200,80 @@ export default function AppointmentsPage() {
         )}
       </header>
 
+      <div className="flex justify-end">
+        <button type="button" onClick={openBooking} className="inline-flex items-center gap-2 rounded-xl bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-700">
+          <Plus className="h-4 w-4" /> Book appointment
+        </button>
+      </div>
+
+      {showForm && (
+        <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <div className="mb-4 flex items-center justify-between gap-3">
+            <div>
+              <h2 className="text-base font-bold text-slate-900">{editingAppointment ? 'Reschedule appointment' : 'Book an appointment'}</h2>
+              <p className="mt-1 text-xs text-slate-500">{editingAppointment ? 'Choose a new date and time.' : 'Select a patient, department, doctor and time.'}</p>
+            </div>
+            <button type="button" onClick={() => { setShowForm(false); setEditingAppointment(null); saveMutation.reset(); }} className="rounded-lg p-2 text-slate-400 hover:bg-slate-100" aria-label="Close appointment form">
+              <X className="h-4 w-4" />
+            </button>
+          </div>
+
+          <form onSubmit={handleSubmit} className="grid gap-4 sm:grid-cols-2">
+            {!editingAppointment && (
+              <>
+                <div className="sm:col-span-2">
+                  <label htmlFor="appointment-patient-search" className="mb-1.5 block text-xs font-semibold text-slate-600">Find patient</label>
+                  <input id="appointment-patient-search" value={patientSearch} onChange={event => { setPatientSearch(event.target.value); setPatientId(''); }} placeholder="Filter by patient name or registration number" className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100" />
+                  <label htmlFor="appointment-patient" className="mb-1.5 mt-3 block text-xs font-semibold text-slate-600">Patient</label>
+                  <select id="appointment-patient" required value={patientId} onChange={event => { setPatientId(event.target.value); setClinicianId(''); }} className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm">
+                    <option value="">Select patient</option>
+                    {patients.filter(patient => !patientSearch || patient.fullName?.toLowerCase().includes(patientSearch.toLowerCase()) || patient.hospitalRegNo?.toLowerCase().includes(patientSearch.toLowerCase())).map(patient => (
+                      <option key={patient.id} value={patient.id}>{patient.fullName} · {patient.hospitalRegNo}</option>
+                    ))}
+                  </select>
+                  {patientsQuery.isError && <p className="mt-1 text-xs text-red-700">{patientsQuery.error?.message || 'Could not load patients.'}</p>}
+                  {!patientsQuery.isLoading && patients.length === 0 && <p className="mt-1 text-xs text-slate-500">No patient records available in your permitted departments.</p>}
+                </div>
+
+                {!selectedPatient?.departmentId && (
+                  <div>
+                    <label htmlFor="appointment-department" className="mb-1.5 block text-xs font-semibold text-slate-600">Department</label>
+                    <select id="appointment-department" required value={departmentId} onChange={event => { setDepartmentId(event.target.value); setClinicianId(''); }} className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm">
+                      <option value="">Select department</option>
+                      {(departmentsQuery.data?.departments || []).map(department => <option key={department.id} value={department.id}>{department.name}</option>)}
+                    </select>
+                  </div>
+                )}
+
+                <div>
+                  <label htmlFor="appointment-clinician" className="mb-1.5 block text-xs font-semibold text-slate-600">Doctor (optional)</label>
+                  <select id="appointment-clinician" value={clinicianId} onChange={event => setClinicianId(event.target.value)} disabled={!effectiveDepartmentId || cliniciansQuery.isLoading} className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm disabled:bg-slate-50">
+                    <option value="">No doctor assigned</option>
+                    {(cliniciansQuery.data?.members || []).filter(member => member.role === 'doctor').map(member => <option key={member.id} value={member.id}>{member.fullName}</option>)}
+                  </select>
+                  {cliniciansQuery.isError && <p className="mt-1 text-xs text-red-700">Could not load doctors for this department.</p>}
+                </div>
+              </>
+            )}
+
+            <div className={editingAppointment ? 'sm:col-span-2' : ''}>
+              <label htmlFor="appointment-date" className="mb-1.5 block text-xs font-semibold text-slate-600">Date and time</label>
+              <input id="appointment-date" type="datetime-local" required value={scheduledAt} onChange={event => setScheduledAt(event.target.value)} className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm" />
+            </div>
+
+            {saveMutation.isError && <p className="sm:col-span-2 rounded-lg bg-red-50 px-3 py-2 text-xs text-red-700" role="alert">{saveMutation.error?.message || 'Could not save appointment.'}</p>}
+
+            <div className="flex justify-end gap-2 sm:col-span-2">
+              <button type="button" onClick={() => { setShowForm(false); setEditingAppointment(null); saveMutation.reset(); }} className="rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-semibold text-slate-700">Cancel</button>
+              <button type="submit" disabled={saveMutation.isPending || (!editingAppointment && (!patientId || !effectiveDepartmentId))} className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 disabled:opacity-50">
+                {saveMutation.isPending && <RefreshCw className="h-4 w-4 animate-spin" />}
+                {saveMutation.isPending ? 'Saving…' : editingAppointment ? 'Save new time' : 'Book appointment'}
+              </button>
+            </div>
+          </form>
+        </section>
+      )}
+
       {isLoading && <LoadingSpinner label="Loading appointments…" />}
 
       {isError && (
@@ -242,6 +316,7 @@ export default function AppointmentsPage() {
                 <AppointmentRow
                   key={appointment.id}
                   appointment={appointment}
+                  onReschedule={openReschedule}
                 />
               ))}
             </ul>
