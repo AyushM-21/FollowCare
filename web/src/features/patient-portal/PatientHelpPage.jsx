@@ -1,10 +1,7 @@
+
 /**
  * FollowCare — Patient Help / Barrier Assistance Page
- * POST /api/me/barriers (report barrier)
- * POST /api/me/requests (reschedule or callback request)
- * ARCHITECTURE.md Sections 8.5, 9.8, 10.3
- *
- * Plain-language barrier choices. Never labels patients as non-compliant.
+ * Preserves the existing barrier-reporting API and workflow.
  */
 
 import React, { useState } from 'react';
@@ -13,45 +10,63 @@ import { usePatientFollowUps } from '../../api/queries.js';
 import { api } from '../../api/client.js';
 import { BarrierType } from '@followcare/shared';
 import { LoadingSpinner } from '../../components/common/LoadingSpinner.jsx';
-import { CheckCircle2, HelpCircle } from 'lucide-react';
+import {
+  AlertCircle,
+  ArrowLeft,
+  ArrowRight,
+  CheckCircle2,
+  Clock3,
+  HeartHandshake,
+  Phone,
+  Send,
+  ShieldCheck,
+} from 'lucide-react';
 
 const BARRIER_OPTIONS = [
-  { value: BarrierType.TRAVEL, label: 'I have trouble getting to the hospital', emoji: '🚌' },
-  { value: BarrierType.COST, label: 'I\'m worried about cost', emoji: '💸' },
-  { value: BarrierType.WORK_SCHEDULE, label: 'I can\'t take time off work', emoji: '🏢' },
-  { value: BarrierType.CAREGIVER_UNAVAILABLE, label: 'I don\'t have someone to come with me', emoji: '👥' },
-  { value: BarrierType.HEALTH_CONCERN, label: 'I\'m not feeling well enough to travel', emoji: '🤒' },
-  { value: BarrierType.LANGUAGE, label: 'I need language support', emoji: '🗣️' },
-  { value: BarrierType.CONTACT_ISSUE, label: 'I have a new contact number', emoji: '📞' },
-  { value: BarrierType.OTHER, label: 'Something else', emoji: '❓' }
+  { value: BarrierType.TRAVEL, label: 'Getting to the hospital', description: 'Travel or transport is difficult', emoji: '🚌' },
+  { value: BarrierType.COST, label: 'Cost concerns', description: 'I am worried about the cost of care', emoji: '💸' },
+  { value: BarrierType.WORK_SCHEDULE, label: 'Work or schedule conflict', description: 'I cannot take time off work', emoji: '🏢' },
+  { value: BarrierType.CAREGIVER_UNAVAILABLE, label: 'Need someone to accompany me', description: 'I do not have someone available to come with me', emoji: '👥' },
+  { value: BarrierType.HEALTH_CONCERN, label: 'Not feeling well enough to travel', description: 'My health makes travelling difficult', emoji: '🤒' },
+  { value: BarrierType.LANGUAGE, label: 'Language support', description: 'I would like help communicating', emoji: '🗣️' },
+  { value: BarrierType.CONTACT_ISSUE, label: 'Contact information changed', description: 'I have a new phone number or contact detail', emoji: '📞' },
+  { value: BarrierType.OTHER, label: 'Something else', description: 'I have another concern to share', emoji: '💬' },
 ];
 
 function SuccessMessage({ onReset }) {
   return (
-    <div className="text-center py-10">
-      <div className="w-16 h-16 rounded-full bg-emerald-100 flex items-center justify-center mx-auto mb-4">
-        <CheckCircle2 className="w-9 h-9 text-emerald-600" />
+    <section className="fc-panel mx-auto max-w-xl px-6 py-12 text-center sm:px-10">
+      <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-emerald-50">
+        <CheckCircle2 className="h-9 w-9 text-emerald-600" />
       </div>
-      <h2 className="text-lg font-bold text-slate-900">Request received</h2>
-      <p className="text-sm text-slate-600 mt-2 max-w-sm mx-auto">
-        Thank you for reaching out. Your care team will contact you within 1–2 working days to help resolve this.
+      <p className="mb-2 text-xs font-bold uppercase tracking-wider text-emerald-700">
+        Request submitted
+      </p>
+      <h2 className="text-2xl font-bold tracking-tight text-slate-900">
+        Thank you for letting us know
+      </h2>
+      <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-slate-600">
+        Your care team has received your request. The expected response time is
+        1–2 working days.
       </p>
       <button
+        type="button"
         onClick={onReset}
-        className="mt-6 px-5 py-2.5 rounded-lg bg-brand-600 text-white font-semibold text-sm hover:bg-brand-700 transition-colors"
+        className="mt-7 inline-flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
       >
-        Back to home
+        Back to help options
+        <ArrowRight className="h-4 w-4" />
       </button>
-    </div>
+    </section>
   );
 }
 
 export default function PatientHelpPage() {
   const queryClient = useQueryClient();
   const { data: followUpsData, isLoading } = usePatientFollowUps();
-  const followUps = followUpsData?.followUps?.filter(f => f.status === 'active') || [];
+  const followUps = followUpsData?.followUps?.filter((f) => f.status === 'active') || [];
 
-  const [step, setStep] = useState('choose'); // 'choose' | 'detail' | 'success'
+  const [step, setStep] = useState('choose');
   const [selectedBarrier, setSelectedBarrier] = useState('');
   const [selectedPlanId, setSelectedPlanId] = useState('');
   const [note, setNote] = useState('');
@@ -64,14 +79,17 @@ export default function PatientHelpPage() {
       queryClient.invalidateQueries({ queryKey: ['me', 'follow-ups'] });
       setStep('success');
     },
-    onError: (err) => setError(err.message || 'Something went wrong. Please try again.')
+    onError: (err) => setError(err.message || 'Something went wrong. Please try again.'),
   });
 
   const handleBarrierSelect = (value) => {
     setSelectedBarrier(value);
+    setError('');
     setStep('detail');
-    // Auto-select first active plan if only one
-    if (followUps.length === 1) setSelectedPlanId(followUps[0].id);
+
+    if (followUps.length === 1) {
+      setSelectedPlanId(followUps[0].id);
+    }
   };
 
   const handleSubmit = (e) => {
@@ -87,127 +105,243 @@ export default function PatientHelpPage() {
       plan_id: selectedPlanId,
       barrier_type: selectedBarrier,
       note: note.trim() || undefined,
-      requested_callback: requestCallback
+      requested_callback: requestCallback,
     });
   };
 
-  if (isLoading) return <LoadingSpinner label="Loading…" />;
+  const resetForm = () => {
+    setStep('choose');
+    setSelectedBarrier('');
+    setSelectedPlanId('');
+    setNote('');
+    setRequestCallback(true);
+    setError('');
+  };
+
+  if (isLoading) return <LoadingSpinner label="Loading help options…" />;
 
   if (step === 'success') {
     return (
-      <div className="p-4">
-        <SuccessMessage onReset={() => { setStep('choose'); setSelectedBarrier(''); setNote(''); }} />
+      <div className="mx-auto max-w-5xl p-4 sm:p-6 lg:p-8">
+        <SuccessMessage onReset={resetForm} />
       </div>
     );
   }
 
+  const selectedOption = BARRIER_OPTIONS.find((option) => option.value === selectedBarrier);
+
   return (
-    <div className="p-4 space-y-5">
-      <div>
-        <h1 className="text-lg font-bold text-slate-900">Get Help</h1>
-        <p className="text-sm text-slate-500 mt-1">
-          We're here to support you. Tell us what's making it difficult and we'll find a way to help.
-        </p>
+    <div className="mx-auto max-w-5xl space-y-7 p-4 sm:p-6 lg:p-8">
+      <header className="space-y-3">
+        <div className="flex items-center gap-2 text-sm font-semibold text-blue-700">
+          <HeartHandshake className="h-4 w-4" />
+          Patient support
+        </div>
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight text-slate-900">
+            Get help with your care
+          </h1>
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500 sm:text-base">
+            Let your care team know what is making your follow-up difficult.
+            We will work with you to find a way forward.
+          </p>
+        </div>
+      </header>
+
+      <div className="grid gap-4 sm:grid-cols-3">
+        <div className="fc-panel flex items-start gap-3 p-4">
+          <div className="rounded-xl bg-blue-50 p-2.5">
+            <HeartHandshake className="h-5 w-5 text-blue-600" />
+          </div>
+          <div>
+            <p className="text-sm font-semibold text-slate-900">Support without judgement</p>
+            <p className="mt-1 text-xs leading-5 text-slate-500">Your concerns help us support you.</p>
+          </div>
+        </div>
+        <div className="fc-panel flex items-start gap-3 p-4">
+          <div className="rounded-xl bg-violet-50 p-2.5">
+            <Phone className="h-5 w-5 text-violet-600" />
+          </div>
+          <div>
+            <p className="text-sm font-semibold text-slate-900">Choose a callback</p>
+            <p className="mt-1 text-xs leading-5 text-slate-500">Tell us if you would like a call.</p>
+          </div>
+        </div>
+        <div className="fc-panel flex items-start gap-3 p-4">
+          <div className="rounded-xl bg-emerald-50 p-2.5">
+            <ShieldCheck className="h-5 w-5 text-emerald-600" />
+          </div>
+          <div>
+            <p className="text-sm font-semibold text-slate-900">A simple request</p>
+            <p className="mt-1 text-xs leading-5 text-slate-500">Only share details needed to help.</p>
+          </div>
+        </div>
       </div>
 
-      {step === 'choose' && (
-        <div className="space-y-2">
-          <p className="text-sm font-medium text-slate-700">What's making it hard to come in?</p>
-          {BARRIER_OPTIONS.map(opt => (
-            <button
-              key={opt.value}
-              onClick={() => handleBarrierSelect(opt.value)}
-              className="w-full text-left flex items-center gap-3 p-4 rounded-xl bg-white border border-slate-200 hover:border-brand-300 hover:bg-brand-50 transition-colors min-h-[60px]"
-            >
-              <span className="text-2xl flex-shrink-0" aria-hidden="true">{opt.emoji}</span>
-              <span className="text-sm font-medium text-slate-800">{opt.label}</span>
-            </button>
-          ))}
-        </div>
-      )}
-
-      {step === 'detail' && (
-        <div>
-          <button
-            onClick={() => setStep('choose')}
-            className="text-sm text-brand-600 hover:underline mb-4"
-          >
-            ← Change my answer
-          </button>
-
-          <div className="bg-brand-50 border border-brand-100 rounded-xl p-4 mb-5">
-            <p className="text-sm font-semibold text-brand-800">
-              {BARRIER_OPTIONS.find(o => o.value === selectedBarrier)?.emoji}{' '}
-              {BARRIER_OPTIONS.find(o => o.value === selectedBarrier)?.label}
-            </p>
+      <section className="fc-panel overflow-hidden">
+        <div className="border-b border-slate-100 px-5 py-4 sm:px-7">
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                Help request
+              </p>
+              <h2 className="mt-1 text-lg font-bold text-slate-900">
+                {step === 'choose' ? 'What do you need help with?' : 'Tell us a little more'}
+              </h2>
+            </div>
+            <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
+              Step {step === 'choose' ? '1' : '2'} of 2
+            </span>
           </div>
+          <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-slate-100">
+            <div
+              className={`h-full rounded-full bg-blue-600 transition-all ${step === 'choose' ? 'w-1/2' : 'w-full'}`}
+            />
+          </div>
+        </div>
 
-          {error && (
-            <div className="mb-4 rounded-md bg-red-50 border border-red-200 p-3 text-sm text-red-700" role="alert">
-              {error}
+        <div className="p-5 sm:p-7">
+          {step === 'choose' && (
+            <div>
+              <p className="mb-5 text-sm text-slate-500">
+                Select the option that best describes your situation.
+              </p>
+              <div className="grid gap-3 sm:grid-cols-2">
+                {BARRIER_OPTIONS.map((option) => (
+                  <button
+                    key={option.value}
+                    type="button"
+                    onClick={() => handleBarrierSelect(option.value)}
+                    className="group flex min-h-24 items-center gap-4 rounded-xl border border-slate-200 bg-white p-4 text-left transition hover:border-blue-300 hover:bg-blue-50/50 focus-visible:outline-blue-500"
+                  >
+                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-slate-50 text-2xl transition group-hover:bg-blue-100">
+                      {option.emoji}
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-sm font-semibold text-slate-900">
+                        {option.label}
+                      </span>
+                      <span className="mt-1 block text-xs leading-5 text-slate-500">
+                        {option.description}
+                      </span>
+                    </span>
+                    <ArrowRight className="h-4 w-4 shrink-0 text-slate-300 transition group-hover:translate-x-1 group-hover:text-blue-600" />
+                  </button>
+                ))}
+              </div>
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Plan selector */}
-            {followUps.length > 1 && (
-              <div>
-                <label htmlFor="plan_select" className="block text-sm font-medium text-slate-700 mb-1">
-                  Which follow-up is this about?
-                </label>
-                <select
-                  id="plan_select"
-                  className="w-full rounded-lg border border-slate-300 px-3 py-3 text-sm focus:ring-2 focus:ring-brand-500"
-                  value={selectedPlanId}
-                  onChange={e => setSelectedPlanId(e.target.value)}
-                  required
-                >
-                  <option value="">Select…</option>
-                  {followUps.map(f => (
-                    <option key={f.id} value={f.id}>{f.reason_category}</option>
-                  ))}
-                </select>
-              </div>
-            )}
-
-            {/* Note */}
+          {step === 'detail' && (
             <div>
-              <label htmlFor="help_note" className="block text-sm font-medium text-slate-700 mb-1">
-                Any other details? <span className="text-slate-400 font-normal">(optional)</span>
-              </label>
-              <textarea
-                id="help_note"
-                className="w-full rounded-lg border border-slate-300 px-3 py-3 text-sm resize-none focus:ring-2 focus:ring-brand-500"
-                rows={3}
-                placeholder="Tell us anything that would help us support you…"
-                value={note}
-                onChange={e => setNote(e.target.value)}
-                maxLength={500}
-              />
+              <button
+                type="button"
+                onClick={() => {
+                  setStep('choose');
+                  setError('');
+                }}
+                className="mb-5 inline-flex items-center gap-2 text-sm font-semibold text-blue-700 hover:text-blue-800"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                Change my answer
+              </button>
+
+              <div className="mb-6 flex items-center gap-3 rounded-xl border border-blue-100 bg-blue-50 p-4">
+                <span className="text-2xl">{selectedOption?.emoji}</span>
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-blue-700">
+                    Selected concern
+                  </p>
+                  <p className="mt-0.5 text-sm font-semibold text-blue-950">
+                    {selectedOption?.label}
+                  </p>
+                </div>
+              </div>
+
+              {error && (
+                <div className="mb-5 flex items-start gap-3 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700" role="alert">
+                  <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+                  {error}
+                </div>
+              )}
+
+              <form onSubmit={handleSubmit} className="space-y-6">
+                {followUps.length > 1 && (
+                  <div>
+                    <label htmlFor="plan_select" className="mb-2 block text-sm font-semibold text-slate-800">
+                      Which follow-up is this about?
+                    </label>
+                    <select
+                      id="plan_select"
+                      className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-blue-400 focus:ring-4 focus:ring-blue-100"
+                      value={selectedPlanId}
+                      onChange={(e) => setSelectedPlanId(e.target.value)}
+                      required
+                    >
+                      <option value="">Select a follow-up</option>
+                      {followUps.map((followUp) => (
+                        <option key={followUp.id} value={followUp.id}>
+                          {followUp.reason_category}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+
+                <div>
+                  <label htmlFor="help_note" className="mb-2 block text-sm font-semibold text-slate-800">
+                    Anything else we should know?
+                    <span className="ml-2 font-normal text-slate-400">Optional</span>
+                  </label>
+                  <textarea
+                    id="help_note"
+                    className="w-full resize-y rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm leading-6 text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-blue-400 focus:ring-4 focus:ring-blue-100"
+                    rows={4}
+                    placeholder="Share any details that could help your care team support you…"
+                    value={note}
+                    onChange={(e) => setNote(e.target.value)}
+                    maxLength={500}
+                  />
+                  <p className="mt-1 text-right text-xs text-slate-400">{note.length}/500</p>
+                </div>
+
+                <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-slate-200 p-4 transition hover:bg-slate-50">
+                  <input
+                    type="checkbox"
+                    className="mt-0.5 h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                    checked={requestCallback}
+                    onChange={(e) => setRequestCallback(e.target.checked)}
+                  />
+                  <span>
+                    <span className="flex items-center gap-2 text-sm font-semibold text-slate-800">
+                      <Phone className="h-4 w-4 text-slate-500" />
+                      Please have someone from my care team call me
+                    </span>
+                    <span className="mt-1 block text-xs leading-5 text-slate-500">
+                      You can leave this unchecked if you prefer another way to be contacted.
+                    </span>
+                  </span>
+                </label>
+
+                <div className="flex items-start gap-2 rounded-xl bg-slate-50 p-4 text-xs leading-5 text-slate-500">
+                  <Clock3 className="mt-0.5 h-4 w-4 shrink-0" />
+                  Your care team is expected to respond within 1–2 working days.
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={barrierMutation.isPending}
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+                  aria-busy={barrierMutation.isPending}
+                >
+                  <Send className="h-4 w-4" />
+                  {barrierMutation.isPending ? 'Sending request…' : 'Send my request'}
+                </button>
+              </form>
             </div>
-
-            {/* Callback preference */}
-            <label className="flex items-center gap-3 cursor-pointer">
-              <input
-                type="checkbox"
-                className="w-5 h-5 rounded border-slate-300 text-brand-600 focus:ring-brand-500"
-                checked={requestCallback}
-                onChange={e => setRequestCallback(e.target.checked)}
-              />
-              <span className="text-sm text-slate-700">Please have someone from my care team call me</span>
-            </label>
-
-            <button
-              type="submit"
-              disabled={barrierMutation.isPending}
-              className="w-full py-3.5 rounded-xl bg-brand-600 text-white font-semibold text-base hover:bg-brand-700 disabled:opacity-50 transition-colors"
-              aria-busy={barrierMutation.isPending}
-            >
-              {barrierMutation.isPending ? 'Sending…' : 'Send my request'}
-            </button>
-          </form>
+          )}
         </div>
-      )}
+      </section>
     </div>
   );
 }

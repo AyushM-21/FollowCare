@@ -8,43 +8,137 @@ import { usePlans } from '../../api/queries.js';
 import { useAuth } from '../../auth/AuthContext.jsx';
 import { LoadingSpinner } from '../../components/common/LoadingSpinner.jsx';
 import { ErrorState } from '../../components/common/ErrorState.jsx';
-import { Plus, Calendar, ChevronRight } from 'lucide-react';
+import {
+  Plus,
+  Calendar,
+  ChevronRight,
+  ClipboardList,
+  Clock
+} from 'lucide-react';
 
 const STATUS_STYLES = {
   draft: 'bg-slate-100 text-slate-600',
   pending_approval: 'bg-amber-100 text-amber-700',
-  active: 'bg-brand-100 text-brand-700',
+  active: 'bg-blue-100 text-blue-700',
   completed: 'bg-emerald-100 text-emerald-700',
   cancelled: 'bg-red-100 text-red-600',
   superseded: 'bg-slate-100 text-slate-500'
 };
 
+function StatusBadge({ status }) {
+  const normalizedStatus = status || 'unknown';
+
+  return (
+    <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold capitalize ${
+      STATUS_STYLES[normalizedStatus] || 'bg-slate-100 text-slate-600'
+    }`}>
+      {normalizedStatus.replaceAll('_', ' ')}
+    </span>
+  );
+}
+
+function UrgencyLabel({ urgency }) {
+  const normalizedUrgency = urgency || 'routine';
+
+  const styles = {
+    urgent: 'text-red-600 bg-red-50',
+    priority: 'text-amber-700 bg-amber-50',
+    routine: 'text-sky-700 bg-sky-50'
+  };
+
+  return (
+    <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold capitalize ${
+      styles[normalizedUrgency] || 'text-slate-600 bg-slate-50'
+    }`}>
+      <span className="h-1.5 w-1.5 rounded-full bg-current" />
+      {normalizedUrgency}
+    </span>
+  );
+}
+
 export default function PlansPage() {
   const { activeDepartmentId } = useAuth();
-  const { data, isLoading, isError, error, refetch } = usePlans({ departmentId: activeDepartmentId });
+  const { data, isLoading, isError, error, refetch } = usePlans({
+    departmentId: activeDepartmentId
+  });
+
   const plans = data?.plans || [];
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h1 className="text-xl font-bold text-slate-900">Follow-up Plans</h1>
+    <div className="space-y-6">
+      {/* Page header */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-wider text-brand-600">
+            Care management
+          </p>
+          <h1 className="mt-1 text-2xl font-bold tracking-tight text-slate-950">
+            Follow-up Plans
+          </h1>
+          <p className="mt-1 text-sm text-slate-500">
+            Create and manage patient follow-up plans.
+          </p>
+        </div>
+
         <Link
           to="/staff/plans/new"
-          className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium rounded-md bg-brand-600 text-white hover:bg-brand-700 transition-colors"
+          className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-700 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand-500/20"
         >
-          <Plus className="w-4 h-4" /> New Plan
+          <Plus className="h-4 w-4" aria-hidden="true" />
+          New Plan
         </Link>
       </div>
 
-      {isLoading && <LoadingSpinner label="Loading plans…" />}
-      {isError && <ErrorState title="Failed to load plans" message={error?.message} onRetry={refetch} />}
+      {/* Loading and error states */}
+      {isLoading && <LoadingSpinner label="Loading plans..." />}
 
+      {isError && (
+        <ErrorState
+          title="Failed to load plans"
+          message={error?.message}
+          onRetry={refetch}
+        />
+      )}
+
+      {/* Plans list */}
       {!isLoading && !isError && (
-        <div className="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden">
+        <section className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-sm">
+          <div className="flex items-center justify-between border-b border-slate-100 px-5 py-4 sm:px-6">
+            <div>
+              <h2 className="text-base font-bold text-slate-900">
+                All plans
+              </h2>
+              <p className="mt-0.5 text-xs text-slate-500">
+                Follow-up plans in the selected department.
+              </p>
+            </div>
+
+            <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
+              {plans.length} {plans.length === 1 ? 'plan' : 'plans'}
+            </span>
+          </div>
+
           {plans.length === 0 ? (
-            <div className="text-center py-12 text-sm text-slate-500">
-              No follow-up plans yet.{' '}
-              <Link to="/staff/plans/new" className="text-brand-600 hover:underline">Create one.</Link>
+            <div className="flex flex-col items-center px-5 py-14 text-center">
+              <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-100">
+                <ClipboardList className="h-6 w-6 text-slate-400" aria-hidden="true" />
+              </div>
+
+              <h3 className="text-sm font-bold text-slate-800">
+                No follow-up plans yet
+              </h3>
+
+              <p className="mt-1 max-w-sm text-sm text-slate-500">
+                Create a follow-up plan to begin organizing and tracking patient care.
+              </p>
+
+              <Link
+                to="/staff/plans/new"
+                className="mt-5 inline-flex items-center gap-2 rounded-xl bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-700"
+              >
+                <Plus className="h-4 w-4" aria-hidden="true" />
+                Create your first plan
+              </Link>
             </div>
           ) : (
             <ul role="list" className="divide-y divide-slate-100">
@@ -52,33 +146,46 @@ export default function PlansPage() {
                 <li key={plan.id}>
                   <Link
                     to={`/staff/plans/${plan.id}`}
-                    className="flex items-center gap-4 px-4 py-3 hover:bg-slate-50 transition-colors"
+                    className="group flex items-center gap-3 px-5 py-4 transition hover:bg-slate-50/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-500 sm:gap-4 sm:px-6"
                   >
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2">
-                        <p className="text-sm font-medium text-slate-800 truncate">{plan.reason_category}</p>
-                        <span className={`text-xs px-1.5 py-0.5 rounded font-medium ${STATUS_STYLES[plan.status] || ''}`}>
-                          {plan.status.replace('_', ' ')}
-                        </span>
+                    <div className="hidden h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600 sm:flex">
+                      <ClipboardList className="h-5 w-5" aria-hidden="true" />
+                    </div>
+
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <p className="truncate text-sm font-bold text-slate-900 transition group-hover:text-brand-700">
+                          {plan.reason_category || 'Follow-up plan'}
+                        </p>
+                        <StatusBadge status={plan.status} />
                       </div>
-                      <p className="text-xs text-slate-500 mt-0.5">
-                        Patient: {plan.hospital_reg_no || plan.patient_id}
+
+                      <p className="mt-1 truncate text-xs text-slate-500">
+                        Patient: {plan.hospital_reg_no || plan.patient_id || '—'}
                       </p>
-                      <div className="flex items-center gap-1 mt-1 text-xs text-slate-400">
-                        <Calendar className="w-3 h-3" />
-                        {plan.window_end ? new Date(plan.window_end).toLocaleDateString() : '—'}
-                        <span className={`ml-2 font-medium ${plan.urgency === 'urgent' ? 'text-red-600' : plan.urgency === 'priority' ? 'text-amber-600' : 'text-sky-600'}`}>
-                          {plan.urgency}
+
+                      <div className="mt-2 flex flex-wrap items-center gap-2">
+                        <span className="inline-flex items-center gap-1.5 text-xs text-slate-500">
+                          <Calendar className="h-3.5 w-3.5" aria-hidden="true" />
+                          Due: {plan.window_end
+                            ? new Date(plan.window_end).toLocaleDateString()
+                            : '—'}
                         </span>
+
+                        <UrgencyLabel urgency={plan.urgency} />
                       </div>
                     </div>
-                    <ChevronRight className="w-4 h-4 text-slate-400 flex-shrink-0" />
+
+                    <ChevronRight
+                      className="h-5 w-5 shrink-0 text-slate-400 transition group-hover:translate-x-0.5 group-hover:text-brand-600"
+                      aria-hidden="true"
+                    />
                   </Link>
                 </li>
               ))}
             </ul>
           )}
-        </div>
+        </section>
       )}
     </div>
   );
