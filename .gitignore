@@ -4,3 +4,7 @@ dist/
 .DS_Store
 __MACOSX/
 *.log
+
+data/raw/
+data/processed/
+ml/artifacts/
