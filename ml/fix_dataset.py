@@ -107,7 +107,7 @@ def build(data_dir: str, lead_days: int = 0, top_reasons: int = 15):
 
     df = point_in_time_history(df, lead_days)   # history uses all of the patient's rows, any status
     df["due_month"] = df["followup_due_date"].dt.month
-    df["due_dayofweek"] = df["followup_due_date"].dt.dayofweek
+    df["due_dayofweek"] = df["followup_due_date"].dt.day_of_week
 
     resolved = df["followup_status"].isin(TRAIN_STATUSES)
     top = df.loc[resolved, "reason_description"].value_counts().head(top_reasons).index.tolist()
