@@ -10,3 +10,5 @@ data/processed/
 ml/artifacts/scored_pending_queue.csv
 __pycache__/
 .pytest_cache/
+
+.venv/
