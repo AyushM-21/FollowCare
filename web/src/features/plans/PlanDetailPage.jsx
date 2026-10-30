@@ -3,7 +3,7 @@
  * GET /api/plans/:id (with versions in response)
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { usePlan } from '../../api/queries.js';
@@ -73,6 +73,22 @@ export default function PlanDetailPage() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['plans', id] })
   });
 
+  const [showReschedule, setShowReschedule] = useState(false);
+  const [windowStart, setWindowStart] = useState('');
+  const [windowEnd, setWindowEnd] = useState('');
+  const rescheduleMutation = useMutation({
+    mutationFn: () => api.patch(`/api/plans/${id}`, {
+      window_start: new Date(`${windowStart}T12:00:00`).toISOString(),
+      window_end: new Date(`${windowEnd}T12:00:00`).toISOString(),
+      change_reason: 'Rescheduled follow-up window'
+    }),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['plans', id] });
+      await queryClient.invalidateQueries({ queryKey: ['plans'] });
+      setShowReschedule(false);
+    }
+  });
+
   if (isLoading) return <LoadingSpinner label="Loading plan..." />;
 
   if (isError) {
@@ -98,6 +114,7 @@ export default function PlanDetailPage() {
   const canApprove =
     hasPermission(Permissions.PLAN_APPROVE) &&
     plan.status === 'pending_approval';
+  const canReschedule = hasPermission(Permissions.PLAN_EDIT) && plan.status === 'active';
 
   const instructions =
     plan.instructions?.approved_text ||
@@ -138,7 +155,23 @@ export default function PlanDetailPage() {
               </div>
             </div>
 
-            <StatusBadge status={plan.status} />
+            <div className="flex flex-wrap items-center gap-2">
+              <StatusBadge status={plan.status} />
+              {canReschedule && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setWindowStart(plan.window_start ? new Date(plan.window_start).toISOString().slice(0, 10) : '');
+                    setWindowEnd(plan.window_end ? new Date(plan.window_end).toISOString().slice(0, 10) : '');
+                    setShowReschedule(true);
+                    rescheduleMutation.reset();
+                  }}
+                  className="rounded-xl border border-blue-200 bg-blue-50 px-3 py-2 text-xs font-semibold text-blue-700 transition hover:bg-blue-100"
+                >
+                  Reschedule
+                </button>
+              )}
+            </div>
           </div>
         </div>
 
@@ -177,6 +210,33 @@ export default function PlanDetailPage() {
                 </div>
               </div>
             </div>
+          )}
+
+          {showReschedule && (
+            <form
+              onSubmit={event => { event.preventDefault(); rescheduleMutation.mutate(); }}
+              className="rounded-xl border border-blue-200 bg-blue-50/60 p-4"
+            >
+              <h2 className="text-sm font-bold text-slate-900">Reschedule follow-up window</h2>
+              <p className="mt-1 text-xs text-slate-600">The updated dates will be saved as a new plan version and queued reminders will be recalculated.</p>
+              <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                <div>
+                  <label htmlFor="plan-window-start" className="mb-1.5 block text-xs font-semibold text-slate-700">Window starts</label>
+                  <input id="plan-window-start" type="date" required value={windowStart} onChange={event => setWindowStart(event.target.value)} className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm" />
+                </div>
+                <div>
+                  <label htmlFor="plan-window-end" className="mb-1.5 block text-xs font-semibold text-slate-700">Window ends</label>
+                  <input id="plan-window-end" type="date" min={windowStart || undefined} required value={windowEnd} onChange={event => setWindowEnd(event.target.value)} className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm" />
+                </div>
+              </div>
+              {rescheduleMutation.isError && <p role="alert" className="mt-3 text-xs text-red-700">{rescheduleMutation.error?.message || 'Could not reschedule follow-up.'}</p>}
+              <div className="mt-4 flex justify-end gap-2">
+                <button type="button" onClick={() => setShowReschedule(false)} className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700">Cancel</button>
+                <button type="submit" disabled={rescheduleMutation.isPending || !windowStart || !windowEnd || windowEnd < windowStart} className="rounded-lg bg-blue-700 px-3 py-2 text-xs font-semibold text-white disabled:opacity-50">
+                  {rescheduleMutation.isPending ? 'Saving…' : 'Save new dates'}
+                </button>
+              </div>
+            </form>
           )}
 
           {/* Plan details */}
