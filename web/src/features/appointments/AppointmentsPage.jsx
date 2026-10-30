@@ -1,8 +1,11 @@
-import { useAppointments } from '../../api/queries.js';
+import React, { useState } from 'react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useAppointments, usePatients, useDepartments } from '../../api/queries.js';
+import { api } from '../../api/client.js';
 import { useAuth } from '../../auth/AuthContext.jsx';
 import { LoadingSpinner } from '../../components/common/LoadingSpinner.jsx';
 import { ErrorState } from '../../components/common/ErrorState.jsx';
-import { Calendar, Clock, UserRound, CalendarDays } from 'lucide-react';
+import { Calendar, Clock, UserRound, CalendarDays, Plus, X, RefreshCw } from 'lucide-react';
 
 const STATUS_STYLES = {
   scheduled: 'bg-blue-50 text-blue-700 ring-blue-600/10',
@@ -14,6 +17,14 @@ const STATUS_STYLES = {
   requested: 'bg-amber-50 text-amber-700 ring-amber-600/10',
   rescheduled: 'bg-violet-50 text-violet-700 ring-violet-600/10'
 };
+
+function toLocalDateTime(value) {
+  if (!value) return '';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return '';
+  const local = new Date(date.getTime() - date.getTimezoneOffset() * 60_000);
+  return local.toISOString().slice(0, 16);
+}
 
 function formatDate(value) {
   if (!value) return 'Date not set';
@@ -32,7 +43,7 @@ function formatDate(value) {
   });
 }
 
-function AppointmentRow({ appointment }) {
+function AppointmentRow({ appointment, onReschedule }) {
   const status = String(appointment.status || 'unknown').toLowerCase();
   const statusStyle = STATUS_STYLES[status] || 'bg-slate-100 text-slate-600 ring-slate-500/10';
 
@@ -65,10 +76,15 @@ function AppointmentRow({ appointment }) {
           </div>
         </div>
 
-        <div className="flex items-center pl-14 sm:pl-0">
+        <div className="flex items-center gap-2 pl-14 sm:pl-0">
           <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold capitalize ring-1 ring-inset ${statusStyle}`}>
             {status.replaceAll('_', ' ')}
           </span>
+          {['scheduled', 'confirmed', 'missed', 'rescheduled'].includes(status) && (
+            <button type="button" onClick={() => onReschedule(appointment)} className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50">
+              Reschedule
+            </button>
+          )}
         </div>
       </div>
     </li>
@@ -77,15 +93,86 @@ function AppointmentRow({ appointment }) {
 
 export default function AppointmentsPage() {
   const { activeDepartmentId } = useAuth();
-  const {
-    data,
-    isLoading,
-    isError,
-    error,
-    refetch
-  } = useAppointments({ departmentId: activeDepartmentId });
+  const queryClient = useQueryClient();
+  const { data, isLoading, isError, error, refetch } = useAppointments({ departmentId: activeDepartmentId });
+  const patientsQuery = usePatients({ departmentId: activeDepartmentId });
+  const departmentsQuery = useDepartments();
+  const [showForm, setShowForm] = useState(false);
+  const [editingAppointment, setEditingAppointment] = useState(null);
+  const [patientSearch, setPatientSearch] = useState('');
+  const [patientId, setPatientId] = useState('');
+  const [departmentId, setDepartmentId] = useState(activeDepartmentId || '');
+  const [clinicianId, setClinicianId] = useState('');
+  const [scheduledAt, setScheduledAt] = useState('');
+
+  const patients = patientsQuery.data?.patients || [];
+  const selectedPatient = patients.find(patient => patient.id === patientId);
+  const effectiveDepartmentId = selectedPatient?.departmentId || departmentId || activeDepartmentId || '';
+  const cliniciansQuery = useQuery({
+    queryKey: ['department-members', effectiveDepartmentId],
+    queryFn: () => api.get(`/api/departments/${effectiveDepartmentId}/members`),
+    enabled: Boolean(effectiveDepartmentId && showForm),
+    staleTime: 60_000
+  });
+
+  const saveMutation = useMutation({
+    mutationFn: ({ appointmentId, payload }) => appointmentId
+      ? api.patch(`/api/appointments/${appointmentId}`, payload)
+      : api.post('/api/appointments', payload),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['appointments'] });
+      await queryClient.invalidateQueries({ queryKey: ['me', 'appointments'] });
+      setShowForm(false);
+      setEditingAppointment(null);
+      setPatientId('');
+      setPatientSearch('');
+      setClinicianId('');
+      setScheduledAt('');
+    }
+  });
 
   const appointments = data?.appointments || [];
+  const openBooking = () => {
+    setEditingAppointment(null);
+    setPatientId('');
+    setPatientSearch('');
+    setClinicianId('');
+    setDepartmentId(activeDepartmentId || '');
+    setScheduledAt('');
+    saveMutation.reset();
+    setShowForm(true);
+  };
+  const openReschedule = appointment => {
+    setEditingAppointment(appointment);
+    setScheduledAt(toLocalDateTime(appointment.scheduled_at));
+    saveMutation.reset();
+    setShowForm(true);
+  };
+  const handleSubmit = event => {
+    event.preventDefault();
+    if (!scheduledAt) return;
+    if (editingAppointment) {
+      saveMutation.mutate({
+        appointmentId: editingAppointment.id,
+        payload: {
+          scheduled_at: new Date(scheduledAt).toISOString(),
+          status: editingAppointment.status === 'rescheduled' ? 'scheduled' : 'rescheduled'
+        }
+      });
+      return;
+    }
+    if (!selectedPatient) return;
+    const targetDepartmentId = selectedPatient.departmentId || departmentId || activeDepartmentId;
+    if (!targetDepartmentId) return;
+    saveMutation.mutate({
+      payload: {
+        patient_id: patientId,
+        department_id: targetDepartmentId,
+        clinician_id: clinicianId || undefined,
+        scheduled_at: new Date(scheduledAt).toISOString()
+      }
+    });
+  };
 
   return (
     <div className="space-y-6">
