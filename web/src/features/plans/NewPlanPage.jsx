@@ -225,7 +225,7 @@ export default function NewPlanPage() {
                   </option>
                   {patientsAll.map(patient => (
                     <option key={patient.id} value={patient.id}>
-                      {patient.patientName || patient.hospital_reg_no}
+                      {patient.fullName || patient.hospitalRegNo || 'Unnamed patient'}
                     </option>
                   ))}
                 </select>
