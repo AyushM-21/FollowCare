@@ -4,3 +4,9 @@ dist/
 .DS_Store
 __MACOSX/
 *.log
+
+data/raw/
+data/processed/
+ml/artifacts/scored_pending_queue.csv
+__pycache__/
+.pytest_cache/

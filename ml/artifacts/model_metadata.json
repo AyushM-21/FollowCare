@@ -1,0 +1,315 @@
+{
+  "model_version": "v20261030-014826",
+  "status": "candidate",
+  "task": "P(follow-up missed); administrative decision support only",
+  "data_is_synthetic_or_unverified": true,
+  "random_seed": 42,
+  "features": {
+    "numeric": [
+      "age_years",
+      "active_chronic_conditions",
+      "active_medications",
+      "acute_visits_last_12m",
+      "readmission_within_30d",
+      "non_adherent_medications",
+      "clinical_baseline_score",
+      "caregiver_on_file",
+      "prior_total_followups",
+      "prior_missed_followups",
+      "prior_late_followups",
+      "prior_missed_rate",
+      "days_since_last_followup",
+      "due_month",
+      "due_dayofweek"
+    ],
+    "categorical": [
+      "source_encounter_class",
+      "followup_type",
+      "reason_grouped",
+      "priority",
+      "GENDER",
+      "MARITAL",
+      "STATE",
+      "city_tier",
+      "preferred_language",
+      "preferred_contact_method",
+      "caregiver_relationship"
+    ]
+  },
+  "n_features": 26,
+  "training_rows": 2713,
+  "train_rows": 2243,
+  "test": {
+    "rows": 470,
+    "patients": 87,
+    "positives": 97,
+    "positive_rate": 0.2064,
+    "hgb_tuned_raw": {
+      "roc_auc": 0.6655,
+      "pr_auc": 0.3246,
+      "pr_auc_ci95": [
+        0.2166,
+        0.4039
+      ],
+      "roc_auc_ci95": [
+        0.5915,
+        0.722
+      ],
+      "precision_at_top_20pct": 0.3298,
+      "lift_at_top_20pct": 1.598,
+      "brier": 0.1556,
+      "ece": 0.0387,
+      "at_threshold": {
+        "threshold": 0.18,
+        "precision": 0.2841,
+        "recall": 0.7938,
+        "f1": 0.4185,
+        "confusion_matrix": {
+          "tn": 179,
+          "fp": 194,
+          "fn": 20,
+          "tp": 77
+        }
+      }
+    },
+    "hgb_tuned_calibrated": {
+      "roc_auc": 0.6655,
+      "pr_auc": 0.3246,
+      "pr_auc_ci95": [
+        0.2166,
+        0.4039
+      ],
+      "roc_auc_ci95": [
+        0.5915,
+        0.722
+      ],
+      "precision_at_top_20pct": 0.3298,
+      "lift_at_top_20pct": 1.598,
+      "brier": 0.156,
+      "ece": 0.035,
+      "at_threshold": {
+        "threshold": 0.193,
+        "precision": 0.2841,
+        "recall": 0.7938,
+        "f1": 0.4185,
+        "confusion_matrix": {
+          "tn": 179,
+          "fp": 194,
+          "fn": 20,
+          "tp": 77
+        }
+      }
+    },
+    "hgb_at_fixed_threshold_0.25": {
+      "threshold": 0.25,
+      "precision": 0.2994,
+      "recall": 0.4845,
+      "f1": 0.3701,
+      "confusion_matrix": {
+        "tn": 263,
+        "fp": 110,
+        "fn": 50,
+        "tp": 47
+      }
+    },
+    "hgb_with_requested_hyperparameters": {
+      "params": {
+        "learning_rate": 0.08,
+        "max_depth": 7,
+        "max_leaf_nodes": 15,
+        "min_samples_leaf": 10,
+        "l2_regularization": 10.0
+      },
+      "cv_pr_auc_train": 0.2814,
+      "roc_auc": 0.6705,
+      "pr_auc": 0.3551,
+      "pr_auc_ci95": [
+        0.2189,
+        0.4735
+      ],
+      "roc_auc_ci95": [
+        0.5933,
+        0.7287
+      ],
+      "precision_at_top_20pct": 0.3298,
+      "lift_at_top_20pct": 1.598
+    },
+    "logistic_regression_baseline": {
+      "roc_auc": 0.6747,
+      "pr_auc": 0.3445,
+      "pr_auc_ci95": [
+        0.2317,
+        0.4343
+      ],
+      "roc_auc_ci95": [
+        0.5916,
+        0.7285
+      ],
+      "precision_at_top_20pct": 0.3617,
+      "lift_at_top_20pct": 1.753
+    },
+    "rule_based_priority_baseline": {
+      "roc_auc": 0.5852,
+      "pr_auc": 0.2566,
+      "pr_auc_ci95": [
+        0.1489,
+        0.3552
+      ],
+      "roc_auc_ci95": [
+        0.4734,
+        0.6852
+      ],
+      "precision_at_top_20pct": 0.3298,
+      "lift_at_top_20pct": 1.598
+    },
+    "no_skill_pr_auc": 0.2064
+  },
+  "cv_search_top5": [
+    {
+      "params": {
+        "learning_rate": 0.08,
+        "max_depth": 5,
+        "max_leaf_nodes": 15,
+        "min_samples_leaf": 30,
+        "l2_regularization": 1.0
+      },
+      "cv_pr_auc": 0.2967,
+      "cv_roc_auc": 0.6109
+    },
+    {
+      "params": {
+        "learning_rate": 0.08,
+        "max_depth": 5,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 10,
+        "l2_regularization": 1.0
+      },
+      "cv_pr_auc": 0.2951,
+      "cv_roc_auc": 0.6191
+    },
+    {
+      "params": {
+        "learning_rate": 0.08,
+        "max_depth": 5,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 30,
+        "l2_regularization": 1.0
+      },
+      "cv_pr_auc": 0.2947,
+      "cv_roc_auc": 0.6112
+    },
+    {
+      "params": {
+        "learning_rate": 0.03,
+        "max_depth": 5,
+        "max_leaf_nodes": 15,
+        "min_samples_leaf": 10,
+        "l2_regularization": 1.0
+      },
+      "cv_pr_auc": 0.2944,
+      "cv_roc_auc": 0.6181
+    },
+    {
+      "params": {
+        "learning_rate": 0.03,
+        "max_depth": 3,
+        "max_leaf_nodes": 15,
+        "min_samples_leaf": 30,
+        "l2_regularization": 1.0
+      },
+      "cv_pr_auc": 0.2934,
+      "cv_roc_auc": 0.6231
+    }
+  ],
+  "best_params": {
+    "learning_rate": 0.08,
+    "max_depth": 5,
+    "max_leaf_nodes": 15,
+    "min_samples_leaf": 30,
+    "l2_regularization": 1.0
+  },
+  "n_iter_final": 32,
+  "decision_threshold": {
+    "raw": 0.18,
+    "calibrated": 0.193,
+    "chosen_on": "out-of-fold training predictions, max F1"
+  },
+  "sensitivity_cv_on_training_only": {
+    "cv_roc_auc_all_features": 0.6109,
+    "cv_roc_auc_without_patient_risk_snapshot_features": 0.585,
+    "cv_roc_auc_logistic_regression": 0.5845
+  },
+  "validation_gates": {
+    "roc_auc_ci_lower_above_0.5": true,
+    "pr_auc_ci_lower_above_no_skill": true,
+    "beats_rule_priority_roc_auc": true,
+    "beats_logistic_regression_roc_auc": false,
+    "probabilities_calibrated": true,
+    "validated_for_decision_support": true
+  },
+  "probabilities_calibrated": true,
+  "neutral_values": {
+    "source_encounter_class": "ambulatory",
+    "followup_type": "clinic_visit",
+    "reason_grouped": "Normal pregnancy",
+    "priority": "low",
+    "GENDER": "F",
+    "MARITAL": "M",
+    "STATE": "Tamil Nadu",
+    "city_tier": "metro",
+    "preferred_language": "Hindi",
+    "preferred_contact_method": "WhatsApp",
+    "caregiver_relationship": "None",
+    "age_years": 48.0,
+    "active_chronic_conditions": 4.0,
+    "active_medications": 3.0,
+    "acute_visits_last_12m": 1.0,
+    "readmission_within_30d": 0.0,
+    "non_adherent_medications": 1.0,
+    "clinical_baseline_score": 18.0,
+    "caregiver_on_file": 0.0,
+    "prior_total_followups": 3.0,
+    "prior_missed_followups": 0.0,
+    "prior_late_followups": 0.0,
+    "prior_missed_rate": 0.0,
+    "days_since_last_followup": 20.0,
+    "due_month": 7.0,
+    "due_dayofweek": 3.0
+  },
+  "categories": {
+    "source_encounter_class": [
+      "ambulatory",
+      "emergency",
+      "inpatient",
+      "outpatient",
+      "urgentcare"
+    ],
+    "followup_type": [
+      "clinic_visit",
+      "lab_test",
+      "medication_review",
+      "phone_check",
+      "specialist_referral"
+    ],
+    "priority": [
+      "high",
+      "low",
+      "medium"
+    ]
+  },
+  "environment": {
+    "python": "3.12.3",
+    "scikit_learn": "1.8.0",
+    "pandas": "3.0.2",
+    "numpy": "2.4.4"
+  },
+  "artifact_sha256": {
+    "followup_hgb_model.joblib": "2945d503108ad23d8c7587adbca38ee47da1aa7c25382c5e779b8dadf10bcf27",
+    "followup_calibrator.joblib": "9343f71adbd7cf26b09920fe31218a19e54d5759afd7f8ea7fb11e09fb428b7c"
+  },
+  "limitations": [
+    "Synthetic/unverified data: metrics are not real-world performance.",
+    "patient_risk.csv snapshot features (age, conditions, acute visits, readmission, non-adherence) are undated and may not be point-in-time.",
+    "Prior-history features use rows due strictly before the current due date (lead_days=0)."
+  ]
+}
