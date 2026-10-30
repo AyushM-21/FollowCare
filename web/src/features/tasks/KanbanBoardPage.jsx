@@ -148,9 +148,16 @@ function TaskDrawer({ task, onClose }) {
     staleTime: 0
   });
   const canWork = hasPermission(Permissions.TASK_WORK);
+  const membersQuery = useQuery({
+    queryKey: ['department-members', task.departmentId],
+    queryFn: () => api.get(`/api/departments/${task.departmentId}/members`),
+    enabled: canWork && Boolean(task.departmentId),
+    staleTime: 60_000
+  });
   const canLogOutcome = hasPermission(Permissions.TASK_LOG_OUTCOME);
 
   const [newStatus, setNewStatus] = useState(task.status);
+  const [selectedAssignee, setSelectedAssignee] = useState(task.assigneeId || '');
   const [comment, setComment] = useState('');
   const [contactChannel, setContactChannel] = useState('phone_call');
   const [contactOutcome, setContactOutcome] = useState('reached');
@@ -171,6 +178,14 @@ function TaskDrawer({ task, onClose }) {
         status,
         comment: comment || undefined
       }),
+    onSuccess: () => {
+      invalidate();
+      onClose();
+    }
+  });
+
+  const assignMutation = useMutation({
+    mutationFn: assignee_id => api.post(`/api/tasks/${task.id}/assign`, { assignee_id }),
     onSuccess: () => {
       invalidate();
       onClose();
@@ -310,6 +325,38 @@ function TaskDrawer({ task, onClose }) {
               </div>
             )}
           </section>
+
+          {canWork && (
+            <section className="rounded-2xl border border-slate-200 p-4">
+              <h3 className="text-sm font-bold text-slate-900">Assignment</h3>
+              <p className="mt-1 text-xs text-slate-500">Assign this task to an active member of its department.</p>
+              <div className="mt-3 flex flex-col gap-2 sm:flex-row">
+                <select
+                  className={fieldClass}
+                  value={selectedAssignee}
+                  onChange={event => setSelectedAssignee(event.target.value)}
+                  aria-label="Select task assignee"
+                >
+                  <option value="">Choose a staff member</option>
+                  {(membersQuery.data?.members || []).map(member => (
+                    <option key={member.id} value={member.id}>
+                      {member.fullName} ({String(member.role).replaceAll('_', ' ')})
+                    </option>
+                  ))}
+                </select>
+                <button
+                  type="button"
+                  onClick={() => assignMutation.mutate(selectedAssignee)}
+                  disabled={!selectedAssignee || selectedAssignee === task.assigneeId || assignMutation.isPending}
+                  className="shrink-0 rounded-xl border border-blue-200 bg-blue-50 px-4 py-2.5 text-sm font-semibold text-blue-700 transition hover:bg-blue-100 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {assignMutation.isPending ? 'Assigning…' : 'Assign task'}
+                </button>
+              </div>
+              {membersQuery.isError && <p className="mt-2 text-xs text-red-700" role="alert">{membersQuery.error?.message || 'Could not load staff members.'}</p>}
+              {assignMutation.isError && <p className="mt-2 text-xs text-red-700" role="alert">{assignMutation.error?.message || 'Could not assign task.'}</p>}
+            </section>
+          )}
 
           {canWork && (
             <section className="rounded-2xl border border-slate-200 p-4">
