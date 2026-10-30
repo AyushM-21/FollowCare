@@ -10,11 +10,10 @@
 import React, { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { usePatients, useDepartments } from '../../api/queries.js';
+import { usePatients } from '../../api/queries.js';
 import { useAuth } from '../../auth/AuthContext.jsx';
 import { api } from '../../api/client.js';
 import { UrgencyLevel, VisitChannel } from '@followcare/shared';
-import { ErrorState } from '../../components/common/ErrorState.jsx';
 
 const REASON_CATEGORIES = [
   'Post-surgical follow-up',
@@ -50,8 +49,12 @@ export default function NewPlanPage() {
   });
 
   const [validationError, setValidationError] = useState('');
+  const [patientSearch, setPatientSearch] = useState('');
 
-  const patientsQuery = usePatients({ departmentId: form.department_id });
+  const patientsQuery = usePatients({
+    search: patientSearch.trim() || undefined,
+    departmentId: form.department_id
+  });
   const patientsAll = patientsQuery.data?.patients || [];
 
   const mutation = useMutation({
@@ -107,15 +110,51 @@ export default function NewPlanPage() {
       <form onSubmit={handleSubmit} className="bg-white rounded-lg border border-slate-200 shadow-sm p-5 space-y-5" noValidate>
         {/* Patient */}
         <div>
-          <label htmlFor="patient_id" className="block text-sm font-medium text-slate-700 mb-1">
+          <label htmlFor="patient_search" className="block text-sm font-medium text-slate-700 mb-1">
+            Search patients
+          </label>
+          <input
+            id="patient_search"
+            type="search"
+            className={fieldClass}
+            value={patientSearch}
+            onChange={event => setPatientSearch(event.target.value)}
+            placeholder="Search by patient name or registration number…"
+            autoComplete="off"
+          />
+          <label htmlFor="patient_id" className="block text-sm font-medium text-slate-700 mt-3 mb-1">
             Patient <span className="text-red-500">*</span>
           </label>
-          <select id="patient_id" className={fieldClass} value={form.patient_id} onChange={set('patient_id')} required>
-            <option value="">Select patient…</option>
-            {patientsAll.map(p => (
-              <option key={p.id} value={p.id}>{p.patientName || p.hospital_reg_no}</option>
+          <select
+            id="patient_id"
+            className={fieldClass}
+            value={form.patient_id}
+            onChange={set('patient_id')}
+            required
+            disabled={patientsQuery.isLoading || patientsAll.length === 0}
+          >
+            <option value="">
+              {patientsQuery.isLoading ? 'Loading patients…' : 'Select patient…'}
+            </option>
+            {patientsAll.map(patient => (
+              <option key={patient.id} value={patient.id}>
+                {patient.fullName || patient.hospitalRegNo || 'Unnamed patient'}
+                {patient.hospitalRegNo ? ` — ${patient.hospitalRegNo}` : ''}
+              </option>
             ))}
           </select>
+          {patientsQuery.isError && (
+            <p className="mt-1 text-sm text-red-600" role="alert">
+              Could not load patients. Please refresh and try again.
+            </p>
+          )}
+          {!patientsQuery.isLoading && !patientsQuery.isError && patientsAll.length === 0 && (
+            <p className="mt-1 text-sm text-slate-500">
+              {patientSearch.trim()
+                ? 'No patients match that search.'
+                : 'No patients are available in this department.'}
+            </p>
+          )}
         </div>
 
         {/* Department */}
