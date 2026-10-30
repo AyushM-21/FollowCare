@@ -12,7 +12,8 @@ export async function recordAuditLog({
   required = false
 }) {
   try {
-    const actorId = req?.user?.id || req?.patient?.id || null;
+    // audit_logs.actor_id references users(id); patient identities belong in patient_id only.
+    const actorId = req?.user?.id || null;
     const actorRole = req?.user?.role || req?.patient?.role || null;
     const ip = req?.ip || req?.socket?.remoteAddress || '127.0.0.1';
     const userAgent = req?.headers?.['user-agent'] || null;
