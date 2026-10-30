@@ -201,6 +201,27 @@ export const ROLE_PERMISSIONS = {
 };
 
 // Validation Schemas
+
+export const CreateAppointmentSchema = z.object({
+  plan_id: z.string().uuid().nullable().optional(),
+  patient_id: z.string().uuid(),
+  department_id: z.string().uuid(),
+  clinician_id: z.string().uuid().nullable().optional(),
+  scheduled_at: z.string().refine((value) => !Number.isNaN(Date.parse(value)), {
+    message: 'Invalid appointment date/time'
+  }),
+  walk_in: z.boolean().default(false)
+});
+
+export const UpdateAppointmentSchema = z.object({
+  status: z.enum(['requested', 'scheduled', 'confirmed', 'checked_in', 'attended', 'missed', 'cancelled', 'rescheduled']).optional(),
+  scheduled_at: z.string().refine((value) => !Number.isNaN(Date.parse(value)), {
+    message: 'Invalid appointment date/time'
+  }).optional()
+}).refine((value) => value.status !== undefined || value.scheduled_at !== undefined, {
+  message: 'At least one of status or scheduled_at must be provided'
+});
+
 export const LoginSchema = z.object({
   email: z.string().email(),
   password: z.string().min(6)
@@ -228,6 +249,9 @@ export const CreatePlanSchema = z.object({
   required_tests: z.array(z.string()).default([]),
   required_documents: z.array(z.string()).default([]),
   owner_task_assignee: z.string().uuid().optional()
+}).refine((value) => Date.parse(value.window_end) >= Date.parse(value.window_start), {
+  message: 'Follow-up window end must be on or after its start date',
+  path: ['window_end']
 });
 
 export const UpdateTaskStatusSchema = z.object({
@@ -237,6 +261,10 @@ export const UpdateTaskStatusSchema = z.object({
 
 export const AssignTaskSchema = z.object({
   assignee_id: z.string().uuid()
+});
+
+export const UpdateTaskChecklistItemSchema = z.object({
+  done: z.boolean()
 });
 
 export const LogContactAttemptSchema = z.object({

@@ -6,7 +6,7 @@ It borrows its mental model from Google Classroom: departments are workspaces, f
 
 > **Project boundary:** administrative continuity-of-care support only. FollowCare must not diagnose, triage clinically, change treatment, or give emergency medical advice. Clinicians keep authority over clinical instructions and urgency.
 >
-> **Prototype status:** a hackathon prototype run on synthetic demo data. It is **not** production-ready, has not had a security audit, and sends **no real SMS/WhatsApp/email** (mock provider only).
+> **Prototype status:** a hackathon prototype run on synthetic demo data. It is **not** production-ready, has not had a security audit, and defaults to the mock notification provider; an optional Twilio SMS/WhatsApp adapter is available but has not been verified with live credentials.
 
 Design reference: [`ARCHITECTURE.md`](./ARCHITECTURE.md)
 
@@ -135,7 +135,19 @@ Staff and patient logins share one browser cookie on `localhost`, so signing in 
 4. Open **Priority Queue** (coordinator/admin) to see the same work ranked by score.
 5. Sign in as `admin@followcare.org` and open **Privacy & Audit** to see recorded access events.
 
-To see failure handling, a mock delivery fails for any phone number ending in `999` or containing `0000`. After three attempts the worker opens a "Reminder could not be delivered" task for staff.
+To see failure handling with the default mock provider, a delivery fails for any phone number ending in `999` or containing `0000`. After three attempts the worker opens a "Reminder could not be delivered" task for staff.
+
+### Optional Twilio demo provider (sends real messages)
+
+The default remains `NOTIFY_PROVIDER=mock`. To opt into real delivery:
+
+1. Use a Twilio trial/sandbox account and **only your own verified test number(s)**. Do not use patient contact data for a demo.
+2. Add `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, and an SMS-capable `TWILIO_FROM_NUMBER` to the private `server/.env`; set `NOTIFY_PROVIDER=twilio`. For WhatsApp, configure `TWILIO_WHATSAPP_FROM` with the sender format Twilio assigned.
+3. To receive delivery-status callbacks, expose the API through a public HTTPS URL and set `PUBLIC_API_URL` to that origin. Twilio will call `POST /api/webhooks/twilio/status`; callbacks are validated using `X-Twilio-Signature`. Without a public URL, the message can be accepted by Twilio but final delivery state will not be confirmed in FollowCare.
+4. Restart both API and worker. Send a single synthetic reminder and verify the delivery record and callback before trying any broader demo.
+
+The adapter sends a generic reminder message and does not include diagnoses, clinician names, departments, or patient names. Twilio acceptance is recorded as `sent`, not `delivered`; signed callbacks update the final status. The integration code is covered by mocked provider/signature tests, but this repository has **not** verified live Twilio credentials, sender approval, account/trial restrictions, callback reachability, billing, or carrier delivery. Keep mock mode for ordinary local development and CI.
+
 
 ## Why some pages are missing from your sidebar
 
@@ -188,7 +200,7 @@ Evidence standard: "verified" means observed in the running prototype, confirmed
 Browser (React + Vite)  ──/api──▶  Express API ──▶ PostgreSQL
  staff workspace / patient PWA          │            (sessions, data, audit)
                                         ▼
-                                      Redis ◀── BullMQ worker ──▶ mock SMS/WhatsApp provider
+                                      Redis ◀── BullMQ worker ──▶ mock or optional Twilio SMS/WhatsApp provider
 ```
 
 - **Auth:** server-side cookie sessions stored in Postgres. Each login (staff or patient) starts a fresh session holding exactly one identity. Patients sign in with a one-time code. Codes are random, expire after 5 minutes, allow 5 guesses, and the response is identical for registered and unregistered numbers. Login and OTP endpoints are rate-limited (Redis-backed).
@@ -247,10 +259,15 @@ Server test files: `api.test.js` (auth, plans, tasks, dashboard, patient portal,
 | `PHI_ENC_KEY` | generate | Required; exactly 64 hex characters; keep secret |
 | `PORT` | `3001` | API port |
 | `CLIENT_URL` | `http://localhost:5173` | CORS origin |
-| `NOTIFY_PROVIDER` | `mock` | Mock only; no real messages |
-| `FAIL_RATE` | `0.0` | Random simulated delivery failure rate; keep `0.0` unless deliberately testing |
+| `NOTIFY_PROVIDER` | `mock` | `mock` (default) or `twilio`; Twilio sends real messages if configured |
+| `FAIL_RATE` | `0.0` | Random simulated failure rate for the mock provider |
 | `CLINIC_TZ` | `Asia/Kolkata` | Time zone for quiet hours |
 | `NODE_ENV` | `development` | Development mode exposes the OTP `debugCode`. Do not deploy like this |
+| `TWILIO_ACCOUNT_SID` | provider console | Twilio account SID; secret/configuration, never commit credentials |
+| `TWILIO_AUTH_TOKEN` | provider console | Twilio auth token; keep private |
+| `TWILIO_FROM_NUMBER` | `+1...` | SMS-capable Twilio sender number |
+| `TWILIO_WHATSAPP_FROM` | `whatsapp:+1...` | Approved WhatsApp sender/sandbox address, when using WhatsApp |
+| `PUBLIC_API_URL` | `https://demo.example.com` | Public HTTPS API origin; required for signed delivery status callbacks, no trailing slash |
 
 ## API overview
 
@@ -288,10 +305,38 @@ Listing an endpoint here does not mean every permission branch has been tested.
 
 If something fails and you cannot tell why, run `npm test` and `curl localhost:3001/healthz` and include the output when asking for help.
 
+## Imported synthetic dataset explorer
+
+The repository includes three synthetic CSV files under `server/data/`:
+- `patients_followcare.csv`
+- `followups.csv`
+- `patient_risk.csv`
+
+The dataset explorer imports a minimized copy into separate `imported_dataset_*` tables. It does not modify the live `patients`, `follow_up_plans`, or `tasks` tables. The importer excludes direct contact details, names, addresses, caregiver contact data, encounter IDs, and diagnosis-like free text from the imported copy.
+
+From the repository root, with PostgreSQL configured and running:
+
+```bash
+npm run migrate
+npm run import:dataset
+npm run dev
+```
+
+Sign in as the seeded admin or coordinator account and open **Dataset Explorer** in the staff sidebar, or go to `http://localhost:5173/staff/dataset`.
+
+The API exposes:
+- `GET /api/dataset/summary`
+- `GET /api/dataset/followups?limit=25`
+- `GET /api/dataset/risk?limit=10`
+
+The page displays follow-up statuses, overdue days, outreach attempts, priority labels, and the risk scores supplied by the dataset. The supplied risk score is exploratory only. It does not modify FollowCare's rule-based priority queue and is not a validated prediction or clinical decision. The imported dataset endpoints are available to admin and coordinator staff only.
+
+Re-running `npm run import:dataset` refreshes only the imported dataset tables. It does not delete or replace application patients, plans, or tasks. Use only synthetic data.
+
 ## Safety and development notes
 
 - Use only synthetic data in development and demos.
-- The mock provider records simulated delivery; it never contacts a patient.
+- The mock provider records simulated delivery and never contacts a patient. The optional Twilio provider can contact real numbers when explicitly configured; only use consented test recipients and never real patient data for demos.
 - Do not describe the prototype as production-ready, clinically validated, or legally certified.
 - FollowCare supports administrative workflow only. Ambiguous clinical information must go to a human reviewer.
 - Before any real deployment: change all secrets and demo credentials, remove debug OTP behavior, set `NODE_ENV=production`, configure real consented messaging, complete a security and compliance review (including India's DPDP Act), and load-test against expected clinic volume.

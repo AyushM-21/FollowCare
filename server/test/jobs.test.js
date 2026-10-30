@@ -17,15 +17,23 @@ const created = { patients: [] };
 let deptId;
 let creatorId;
 
-async function makePatient({ phone, quiet = NEVER_QUIET }) {
+async function makePatient({ phone, quiet = NEVER_QUIET, consent = true, channel = 'sms' }) {
   const reg = `JT-${crypto.randomBytes(4).toString('hex')}`;
   const r = await pool.query(
-    `INSERT INTO patients (hospital_reg_no, full_name_enc, primary_phone_enc, phone_hash, quiet_hours, assigned_department_id)
-     VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`,
-    [reg, encrypt('Job Test Patient'), encrypt(phone), hashPhone(phone), quiet, deptId]
+    `INSERT INTO patients (hospital_reg_no, full_name_enc, primary_phone_enc, phone_hash, quiet_hours, assigned_department_id, preferred_channel)
+     VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id`,
+    [reg, encrypt('Job Test Patient'), encrypt(phone), hashPhone(phone), quiet, deptId, channel]
   );
-  created.patients.push(r.rows[0].id);
-  return r.rows[0].id;
+  const patientId = r.rows[0].id;
+  created.patients.push(patientId);
+  if (consent) {
+    await pool.query(
+      `INSERT INTO patient_consents (patient_id, consent_type, granted)
+       VALUES ($1, 'reminders', TRUE)`,
+      [patientId]
+    );
+  }
+  return patientId;
 }
 
 async function makePlan(patientId, { windowStart, windowEnd, status = 'active', urgency = 'routine' }) {
@@ -125,6 +133,113 @@ describe('Background jobs', () => {
       `SELECT count(*)::int AS n FROM reminder_deliveries rd JOIN reminders r ON r.id = rd.reminder_id WHERE r.plan_id = $1`, [planId]
     );
     expect(d.rows[0].n).toBe(0);
+  });
+
+  it('suppresses reminders when consent is missing or has been revoked', async () => {
+    const missingConsentPatient = await makePatient({
+      phone: '+919812300002',
+      consent: false
+    });
+    const missingConsentPlan = await makePlan(missingConsentPatient, {
+      windowStart: dayOffset(1), windowEnd: dayOffset(8)
+    });
+    const missingReminder = await pool.query(
+      `INSERT INTO reminders (plan_id, patient_id, recipient_id, scheduled_for)
+       VALUES ($1, $2, $2, NOW() - INTERVAL '1 minute') RETURNING id`,
+      [missingConsentPlan, missingConsentPatient]
+    );
+
+    const revokedConsentPatient = await makePatient({ phone: '+919812300003' });
+    await pool.query(
+      `UPDATE patient_consents
+       SET revoked_at = NOW()
+       WHERE patient_id = $1 AND consent_type = 'reminders'`,
+      [revokedConsentPatient]
+    );
+    const revokedConsentPlan = await makePlan(revokedConsentPatient, {
+      windowStart: dayOffset(1), windowEnd: dayOffset(8)
+    });
+    const revokedReminder = await pool.query(
+      `INSERT INTO reminders (plan_id, patient_id, recipient_id, scheduled_for)
+       VALUES ($1, $2, $2, NOW() - INTERVAL '1 minute') RETURNING id`,
+      [revokedConsentPlan, revokedConsentPatient]
+    );
+
+    await dispatchDueReminders();
+
+    const statuses = await pool.query(
+      `SELECT id, status FROM reminders WHERE id = ANY($1::uuid[])`,
+      [[missingReminder.rows[0].id, revokedReminder.rows[0].id]]
+    );
+    expect(statuses.rows).toHaveLength(2);
+    expect(statuses.rows.every((row) => row.status === 'suppressed')).toBe(true);
+
+    const deliveries = await pool.query(
+      `SELECT count(*)::int AS n FROM reminder_deliveries
+       WHERE reminder_id = ANY($1::uuid[])`,
+      [[missingReminder.rows[0].id, revokedReminder.rows[0].id]]
+    );
+    expect(deliveries.rows[0].n).toBe(0);
+  });
+
+  it('suppresses WhatsApp reminders when channel-specific consent is missing or revoked', async () => {
+    const missingConsentPatient = await makePatient({
+      phone: '+919812300006',
+      channel: 'whatsapp',
+      consent: true
+    });
+    const revokedConsentPatient = await makePatient({
+      phone: '+919812300007',
+      channel: 'whatsapp',
+      consent: true
+    });
+
+    await pool.query(
+      `INSERT INTO patient_consents (patient_id, consent_type, granted)
+       VALUES ($1, 'whatsapp_contact', TRUE)`,
+      [revokedConsentPatient]
+    );
+    await pool.query(
+      `UPDATE patient_consents
+       SET revoked_at = NOW()
+       WHERE patient_id = $1 AND consent_type = 'whatsapp_contact'`,
+      [revokedConsentPatient]
+    );
+
+    const missingPlan = await makePlan(missingConsentPatient, {
+      windowStart: dayOffset(1), windowEnd: dayOffset(8)
+    });
+    const revokedPlan = await makePlan(revokedConsentPatient, {
+      windowStart: dayOffset(1), windowEnd: dayOffset(8)
+    });
+    const reminderIds = [];
+    for (const [planId, patientId] of [
+      [missingPlan, missingConsentPatient],
+      [revokedPlan, revokedConsentPatient]
+    ]) {
+      const reminder = await pool.query(
+        `INSERT INTO reminders (plan_id, patient_id, recipient_id, scheduled_for)
+         VALUES ($1, $2, $2, NOW() - INTERVAL '1 minute') RETURNING id`,
+        [planId, patientId]
+      );
+      reminderIds.push(reminder.rows[0].id);
+    }
+
+    await dispatchDueReminders();
+
+    const statuses = await pool.query(
+      `SELECT id, status FROM reminders WHERE id = ANY($1::uuid[])`,
+      [reminderIds]
+    );
+    expect(statuses.rows).toHaveLength(2);
+    expect(statuses.rows.every((row) => row.status === 'suppressed')).toBe(true);
+
+    const deliveries = await pool.query(
+      `SELECT count(*)::int AS n FROM reminder_deliveries
+       WHERE reminder_id = ANY($1::uuid[])`,
+      [reminderIds]
+    );
+    expect(deliveries.rows[0].n).toBe(0);
   });
 
   it('defers (does not drop) reminders that fall in quiet hours', async () => {

@@ -79,6 +79,11 @@ describe('FollowCare Backend MVP Domain Modules & APIs Integration Suite', () =>
       expect(res.body.permissions).toContain('plan:approve');
       expect(res.body.departments[0].code).toBe('CARD');
       expect(res.headers['set-cookie']).toBeDefined();
+      const staffCookie = res.headers['set-cookie'].join(';');
+      const staffExpiry = Date.parse(staffCookie.match(/Expires=([^;]+)/)[1]);
+      const staffRemainingMs = staffExpiry - Date.now();
+      expect(staffRemainingMs).toBeGreaterThan(14 * 60 * 1000);
+      expect(staffRemainingMs).toBeLessThanOrEqual(15 * 60 * 1000);
     });
 
     it('authenticates Coordinator Rahul and establishes coordinator session', async () => {
@@ -115,6 +120,37 @@ describe('FollowCare Backend MVP Domain Modules & APIs Integration Suite', () =>
       expect(res.body.user.role).toBe('doctor');
     });
 
+    it('invalidates the session after logout', async () => {
+      const agent = request.agent(app);
+      const login = await agent
+        .post('/api/auth/login')
+        .send({ email: 'coord.rahul@followcare.org', password: 'Password123!' });
+      expect(login.status).toBe(200);
+
+      const logout = await agent.post('/api/auth/logout');
+      expect(logout.status).toBe(200);
+      expect(logout.body.message).toBe('Logged out successfully');
+
+      const me = await agent.get('/api/auth/me');
+      expect(me.status).toBe(401);
+    });
+
+    it('returns the same public OTP message for registered and unregistered numbers', async () => {
+      const registered = await request(app)
+        .post('/api/patient-auth/otp/request')
+        .send({ phone: '+919876543210' });
+      const unregistered = await request(app)
+        .post('/api/patient-auth/otp/request')
+        .send({ phone: '+910000000002' });
+
+      expect(registered.status).toBe(200);
+      expect(unregistered.status).toBe(200);
+      expect(registered.body.message).toBe(unregistered.body.message);
+      expect(registered.body.expiresInSeconds).toBe(unregistered.body.expiresInSeconds);
+      // The development-only OTP is intentionally not part of the public response contract.
+      expect(unregistered.body.debugCode).toBeUndefined();
+    });
+
     it('requests patient OTP with generic anti-enumeration response', async () => {
       const res = await request(app)
         .post('/api/patient-auth/otp/request')
@@ -146,6 +182,20 @@ describe('FollowCare Backend MVP Domain Modules & APIs Integration Suite', () =>
       expect(res.status).toBe(200);
       expect(res.body.patient.hospitalRegNo).toBe('FC-1001');
       expect(res.headers['set-cookie']).toBeDefined();
+      const patientCookie = res.headers['set-cookie'].join(';');
+      const patientExpiry = Date.parse(patientCookie.match(/Expires=([^;]+)/)[1]);
+      const patientRemainingMs = patientExpiry - Date.now();
+      expect(patientRemainingMs).toBeGreaterThan(9 * 60 * 1000);
+      expect(patientRemainingMs).toBeLessThanOrEqual(10 * 60 * 1000);
+    });
+
+    it('rejects reuse of an OTP after successful verification', async () => {
+      const res = await request(app)
+        .post('/api/patient-auth/otp/verify')
+        .send({ phone: '+919876543210', code: otpCode });
+
+      expect(res.status).toBe(400);
+      expect(res.body.detail).toBe('Invalid or expired verification code');
     });
   });
 
@@ -198,13 +248,97 @@ describe('FollowCare Backend MVP Domain Modules & APIs Integration Suite', () =>
       expect(res.body.detail).toContain('unauthorized department');
     });
 
+    it('prevents Cardiology doctor from creating a plan in Oncology for an Oncology patient', async () => {
+      const before = await pool.query(
+        `SELECT count(*)::int AS count FROM follow_up_plans WHERE patient_id = $1`,
+        [oncoPatientId]
+      );
+
+      const res = await doctorAgent
+        .post('/api/plans')
+        .send({
+          patient_id: oncoPatientId,
+          department_id: oncoDeptId,
+          window_start: '2026-11-10',
+          window_end: '2026-11-17',
+          urgency: 'routine',
+          reason_category: 'Department isolation test',
+          channel: 'in_person',
+          instructions_text: 'Synthetic test instructions'
+        });
+
+      expect(res.status).toBe(403);
+      expect(res.body.title).toBe('Forbidden');
+      expect(res.body.detail.toLowerCase()).toContain('department');
+
+      const after = await pool.query(
+        `SELECT count(*)::int AS count FROM follow_up_plans WHERE patient_id = $1`,
+        [oncoPatientId]
+      );
+      expect(after.rows[0].count).toBe(before.rows[0].count);
+    });
+
+    it('prevents Cardiology doctor from booking an Oncology appointment', async () => {
+      const before = await pool.query(
+        `SELECT count(*)::int AS count FROM appointments WHERE patient_id = $1`,
+        [oncoPatientId]
+      );
+
+      const res = await doctorAgent
+        .post('/api/appointments')
+        .send({
+          patient_id: oncoPatientId,
+          department_id: oncoDeptId,
+          scheduled_at: '2026-11-15T10:00:00.000Z',
+          walk_in: false
+        });
+
+      expect(res.status).toBe(403);
+      expect(res.body.title).toBe('Forbidden');
+      expect(res.body.detail.toLowerCase()).toContain('department');
+
+      const after = await pool.query(
+        `SELECT count(*)::int AS count FROM appointments WHERE patient_id = $1`,
+        [oncoPatientId]
+      );
+      expect(after.rows[0].count).toBe(before.rows[0].count);
+    });
+
+    it('prevents Cardiology doctor from changing an Oncology task status', async () => {
+      const taskRes = await pool.query(
+        `SELECT id, status FROM tasks WHERE department_id = $1 ORDER BY created_at ASC LIMIT 1`,
+        [oncoDeptId]
+      );
+      expect(taskRes.rowCount).toBe(1);
+      const oncologyTask = taskRes.rows[0];
+
+      const res = await doctorAgent
+        .patch(`/api/tasks/${oncologyTask.id}/status`)
+        .send({
+          status: oncologyTask.status === 'in_progress' ? 'awaiting_response' : 'in_progress',
+          comment: 'Cross-department isolation test'
+        });
+
+      expect(res.status).toBe(403);
+      expect(res.body.title).toBe('Forbidden');
+      expect(res.body.detail.toLowerCase()).toContain('department');
+
+      const after = await pool.query(
+        `SELECT status FROM tasks WHERE id = $1`,
+        [oncologyTask.id]
+      );
+      expect(after.rows[0].status).toBe(oncologyTask.status);
+    });
+
     it('returns masked phone number and logs audit entry when viewing patient', async () => {
       const res = await doctorAgent.get(`/api/patients/${cardPatientId}`);
 
       expect(res.status).toBe(200);
       expect(res.body.patient.hospitalRegNo).toBe('FC-1001');
       expect(res.body.patient.fullName).toBe('Aarav Mehta');
-      expect(res.body.patient.phone).toMatch(/^\+91 •••• \d{3}$/); // Masked format
+      expect(res.body.patient.phone).toMatch(/^\+91 •••• \d{3}$/);
+      expect(res.body.patient.email).toBeNull(); // Hidden without an active assigned task
+      expect(res.body.patient.address).toBeNull(); // Masked format
 
       // Verify audit log entry was written
       const auditRes = await pool.query(
@@ -214,6 +348,35 @@ describe('FollowCare Backend MVP Domain Modules & APIs Integration Suite', () =>
       );
       expect(auditRes.rowCount).toBe(1);
     });
+    it('prevents audit log updates and deletes', async () => {
+      const auditRes = await pool.query(
+        `SELECT id, metadata FROM audit_logs
+         WHERE patient_id = $1 AND action = 'view'
+         ORDER BY created_at DESC LIMIT 1`,
+        [cardPatientId]
+      );
+      expect(auditRes.rowCount).toBe(1);
+      const auditId = auditRes.rows[0].id;
+
+      await expect(
+        pool.query(
+          `UPDATE audit_logs SET metadata = '{"tampered": true}'::jsonb WHERE id = $1`,
+          [auditId]
+        )
+      ).rejects.toThrow(/append-only/i);
+
+      await expect(
+        pool.query(`DELETE FROM audit_logs WHERE id = $1`, [auditId])
+      ).rejects.toThrow(/append-only/i);
+
+      const after = await pool.query(
+        `SELECT metadata FROM audit_logs WHERE id = $1`,
+        [auditId]
+      );
+      expect(after.rowCount).toBe(1);
+      expect(after.rows[0].metadata).not.toHaveProperty('tampered');
+    });
+
   });
 
   // ==========================================================================
@@ -307,7 +470,7 @@ describe('FollowCare Backend MVP Domain Modules & APIs Integration Suite', () =>
           comment: 'Initiated outbound call attempt to patient'
         });
 
-      expect(res.status).toBe(200);
+            expect(res.status).toBe(200);
       expect(res.body.task.status).toBe('in_progress');
 
       // Verify comment was logged in task_comments
@@ -317,6 +480,44 @@ describe('FollowCare Backend MVP Domain Modules & APIs Integration Suite', () =>
       );
       expect(commentRes.rowCount).toBe(1);
       expect(commentRes.rows[0].body).toContain('Initiated outbound call');
+    });
+
+    it('rejects follow-up closure while checklist items remain incomplete', async () => {
+      const res = await coordinatorAgent
+        .post(`/api/tasks/${createdTaskId}/contact-attempts`)
+        .send({
+          channel: 'phone_call',
+          outcome: 'reached',
+          notes: 'Follow-up discussed.',
+          close_follow_up: true,
+          final_status: 'visited_elsewhere'
+        });
+
+      expect(res.status).toBe(409);
+      expect(res.body.detail).toContain('checklist items');
+      const taskRes = await pool.query('SELECT status FROM tasks WHERE id = $1', [createdTaskId]);
+      expect(taskRes.rows[0].status).toBe('in_progress');
+    });
+
+    it('records checklist completion and rejects direct closure without a final outcome', async () => {
+      const listRes = await coordinatorAgent.get(`/api/tasks/${createdTaskId}/checklist`);
+      expect(listRes.status).toBe(200);
+      expect(listRes.body.checklist).toHaveLength(2);
+      for (const item of listRes.body.checklist) {
+        const updateRes = await coordinatorAgent
+          .patch(`/api/tasks/${createdTaskId}/checklist/${item.id}`)
+          .send({ done: true });
+        expect(updateRes.status).toBe(200);
+        expect(updateRes.body.checklistItem.done).toBe(true);
+        expect(updateRes.body.checklistItem.done_by).toBeDefined();
+        expect(updateRes.body.checklistItem.done_at).toBeDefined();
+      }
+
+      const closeRes = await coordinatorAgent
+        .patch(`/api/tasks/${createdTaskId}/status`)
+        .send({ status: 'completed' });
+      expect(closeRes.status).toBe(409);
+      expect(closeRes.body.detail).toContain('final follow-up outcome');
     });
 
     it('logs contact attempt and closes follow-up outcome when completed', async () => {

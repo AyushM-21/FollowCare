@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { Permissions, AppointmentStatus } from '@followcare/shared';
+import { Permissions, AppointmentStatus, CreateAppointmentSchema, UpdateAppointmentSchema } from '@followcare/shared';
 import { pool } from '../../config/db.js';
 import { decrypt } from '../../lib/crypto.js';
 import { authenticate } from '../../middleware/auth.js';
@@ -7,6 +7,7 @@ import { requirePermission } from '../../middleware/rbac.js';
 import { deptScope } from '../../middleware/deptScope.js';
 import { recordAuditLog } from '../../middleware/audit.js';
 import { AppError } from '../../middleware/errorHandler.js';
+import { validateBody } from '../../middleware/validate.js';
 
 export const appointmentsRouter = Router();
 
@@ -16,6 +17,7 @@ export const appointmentsRouter = Router();
 appointmentsRouter.get(
   '/appointments',
   authenticate,
+  requirePermission(Permissions.APPOINTMENT_BOOK),
   deptScope(),
   async (req, res, next) => {
     try {
@@ -74,6 +76,7 @@ appointmentsRouter.post(
   authenticate,
   requirePermission(Permissions.APPOINTMENT_BOOK),
   deptScope(),
+  validateBody(CreateAppointmentSchema),
   async (req, res, next) => {
     const client = await pool.connect();
     try {
@@ -92,6 +95,45 @@ appointmentsRouter.post(
 
       if (req.departmentIds !== null && !req.departmentIds.includes(department_id)) {
         return next(new AppError('Forbidden: Access to department denied', 403));
+      }
+
+
+      const patientRes = await client.query(
+        `SELECT assigned_department_id, status FROM patients WHERE id = $1 AND deleted_at IS NULL`,
+        [patient_id]
+      );
+      if (patientRes.rowCount === 0) {
+        return next(new AppError('Patient not found', 404));
+      }
+      if (patientRes.rows[0].assigned_department_id && patientRes.rows[0].assigned_department_id !== department_id) {
+        return next(new AppError('Appointment department must match the patient assigned department', 400));
+      }
+      if (patientRes.rows[0].status !== 'active') {
+        return next(new AppError('Appointments can only be booked for active patients', 400));
+      }
+
+      if (clinician_id) {
+        const clinicianRes = await client.query(
+          `SELECT 1 FROM department_members WHERE user_id = $1 AND department_id = $2 AND active = TRUE`,
+          [clinician_id, department_id]
+        );
+        if (clinicianRes.rowCount === 0) {
+          return next(new AppError('Clinician must be an active member of the selected department', 400));
+        }
+      }
+
+      if (plan_id) {
+        const planRes = await client.query(
+          `SELECT patient_id, department_id FROM follow_up_plans WHERE id = $1 AND deleted_at IS NULL`,
+          [plan_id]
+        );
+        if (planRes.rowCount === 0) {
+          return next(new AppError('Follow-up plan not found', 404));
+        }
+        const plan = planRes.rows[0];
+        if (plan.patient_id !== patient_id || plan.department_id !== department_id) {
+          return next(new AppError('Appointment patient and department must match the selected follow-up plan', 400));
+        }
       }
 
       await client.query('BEGIN');
@@ -144,6 +186,7 @@ appointmentsRouter.patch(
   authenticate,
   requirePermission(Permissions.APPOINTMENT_BOOK),
   deptScope(),
+  validateBody(UpdateAppointmentSchema),
   async (req, res, next) => {
     const client = await pool.connect();
     try {
@@ -156,6 +199,19 @@ appointmentsRouter.patch(
       }
 
       const appt = apptRes.rows[0];
+      const allowedTransitions = {
+        requested: ['scheduled', 'confirmed', 'cancelled'],
+        scheduled: ['confirmed', 'checked_in', 'attended', 'missed', 'cancelled', 'rescheduled'],
+        confirmed: ['checked_in', 'attended', 'missed', 'cancelled', 'rescheduled'],
+        checked_in: ['attended', 'cancelled'],
+        attended: [],
+        missed: ['scheduled', 'confirmed', 'rescheduled', 'cancelled'],
+        cancelled: [],
+        rescheduled: ['scheduled', 'confirmed', 'cancelled']
+      };
+      if (status && status !== appt.status && !allowedTransitions[appt.status]?.includes(status)) {
+        return next(new AppError(`Invalid appointment status transition: ${appt.status} -> ${status}`, 409, 'https://followcare.org/errors/conflict'));
+      }
       if (req.departmentIds !== null && !req.departmentIds.includes(appt.department_id)) {
         return next(new AppError('Forbidden: Access to department denied', 403));
       }
@@ -176,7 +232,7 @@ appointmentsRouter.patch(
       );
 
       // Invariant (Section 8.5): 'missed' auto-creates a barrier-resolution task, not a penalty
-      if (status === AppointmentStatus.MISSED) {
+      if (status === AppointmentStatus.MISSED && appt.status !== AppointmentStatus.MISSED) {
         await client.query(
           `INSERT INTO tasks (
             plan_id, patient_id, department_id, type, title, status,
@@ -201,6 +257,20 @@ appointmentsRouter.patch(
       }
 
       await client.query('COMMIT');
+
+      await recordAuditLog({
+        req,
+        action: 'update',
+        entityType: 'appointments',
+        entityId: id,
+        patientId: appt.patient_id,
+        departmentId: appt.department_id,
+        metadata: {
+          previousStatus: appt.status,
+          newStatus: status || appt.status,
+          rescheduled: Boolean(scheduled_at)
+        }
+      });
 
       res.status(200).json({
         message: 'Appointment status updated',

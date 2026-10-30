@@ -21,6 +21,8 @@ import { priorityRouter } from './modules/priority/routes.js';
 import { appointmentsRouter } from './modules/appointments/routes.js';
 import { patientPortalRouter } from './modules/patient-portal/routes.js';
 import { privacyRouter } from './modules/privacy/routes.js';
+import { datasetRouter } from './modules/dataset/routes.js';
+import { twilioWebhookRouter } from './modules/integrations/sms-provider/webhook.js';
 
 export const app = express();
 
@@ -57,13 +59,13 @@ app.get('/readyz', async (req, res) => {
     const dbRes = await pool.query('SELECT 1');
     dbOk = dbRes.rowCount === 1;
   } catch (err) {
-    logger.error({ err: err.message }, 'Readiness check: DB failed');
+    logger.error({ errorName: err.name }, 'Readiness check: DB failed');
   }
 
   try {
     redisOk = await pingRedis();
   } catch (err) {
-    logger.error({ err: err.message }, 'Readiness check: Redis failed');
+    logger.error({ errorName: err.name }, 'Readiness check: Redis failed');
   }
 
   const isReady = dbOk && redisOk;
@@ -89,6 +91,8 @@ api.use(priorityRouter);
 api.use(appointmentsRouter);
 api.use(patientPortalRouter);
 api.use(privacyRouter);
+api.use(datasetRouter);
+api.use(twilioWebhookRouter);
 
 app.use('/api', api);
 
@@ -117,7 +121,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
 
     server.close(async (err) => {
       if (err) {
-        logger.error({ err: err.message }, 'Error closing HTTP server');
+        logger.error({ errorName: err.name }, 'Error closing HTTP server');
       } else {
         logger.info('HTTP server closed');
       }
@@ -126,14 +130,14 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
         await pool.end();
         logger.info('PostgreSQL pool drained successfully');
       } catch (dbErr) {
-        logger.error({ err: dbErr.message }, 'Error draining PostgreSQL pool');
+        logger.error({ errorName: dbErr.name }, 'Error draining PostgreSQL pool');
       }
 
       try {
         await redis.quit();
         logger.info('Redis connection closed successfully');
       } catch (redisErr) {
-        logger.error({ err: redisErr.message }, 'Error closing Redis connection');
+        logger.error({ errorName: redisErr.name }, 'Error closing Redis connection');
       }
 
       process.exit(0);

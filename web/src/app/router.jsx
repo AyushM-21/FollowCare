@@ -12,8 +12,8 @@ import { createBrowserRouter, Navigate, Outlet } from 'react-router-dom';
 
 import { LoadingSpinner } from '../components/common/LoadingSpinner.jsx';
 import { NotFound } from '../components/common/NotFound.jsx';
-import { RequireAuth, RequirePermission } from '../auth/guards.jsx';
-import { Permissions } from '@followcare/shared';
+import { RequireAuth, RequirePermission, RequireRole } from '../auth/guards.jsx';
+import { Permissions, UserRole } from '@followcare/shared';
 
 // ── Layouts ──────────────────────────────────────────────────────────────────
 import { StaffLayout } from './layouts/StaffLayout.jsx';
@@ -34,6 +34,7 @@ const KanbanBoardPage = lazy(() => import('../features/tasks/KanbanBoardPage.jsx
 const AppointmentsPage = lazy(() => import('../features/appointments/AppointmentsPage.jsx'));
 const PriorityQueuePage = lazy(() => import('../features/priority/PriorityQueuePage.jsx'));
 const PrivacyPage = lazy(() => import('../features/privacy/PrivacyPage.jsx'));
+const DatasetExplorerPage = lazy(() => import('../features/dataset/DatasetExplorerPage.jsx'));
 
 // ── Patient portal pages ──────────────────────────────────────────────────────
 const PatientHomePage = lazy(() => import('../features/patient-portal/PatientHomePage.jsx'));
@@ -109,6 +110,16 @@ export const router = createBrowserRouter([
       },
       { path: 'appointments', element: <AppointmentsPage /> },
       { path: 'priority', element: <PriorityQueuePage /> },
+      {
+        path: 'dataset',
+        element: (
+          <RequireRole allowedRoles={[UserRole.ADMIN, UserRole.COORDINATOR]} fallback="dataset explorer">
+            <RequirePermission permission={Permissions.TASK_WORK} fallback="dataset explorer">
+              <DatasetExplorerPage />
+            </RequirePermission>
+          </RequireRole>
+        )
+      },
       { path: 'privacy', element: <PrivacyPage /> }
     ]
   },

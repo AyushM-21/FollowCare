@@ -8,7 +8,8 @@ export async function recordAuditLog({
   entityId,
   patientId = null,
   departmentId = null,
-  metadata = {}
+  metadata = {},
+  required = false
 }) {
   try {
     const actorId = req?.user?.id || req?.patient?.id || null;
@@ -37,6 +38,7 @@ export async function recordAuditLog({
       ]
     );
   } catch (err) {
-    logger.error({ err: err.message, action, entityType, entityId }, 'Failed to write audit log');
+    logger.error({ errorName: err.name, action, entityType }, 'Failed to write audit log');
+    if (required) throw err;
   }
 }
