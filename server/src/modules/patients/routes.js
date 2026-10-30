@@ -48,11 +48,12 @@ patientsRouter.get(
         params.push(req.departmentIds);
       }
 
-      queryText += ` ORDER BY p.created_at DESC LIMIT 100`;
+      const search = String(req.query.search || '').trim().toLocaleLowerCase();
+      queryText += ` ORDER BY p.created_at DESC${search ? '' : ' LIMIT 100'}`;
 
       const result = await pool.query(queryText, params);
 
-      const patients = result.rows.map(row => {
+      let patients = result.rows.map(row => {
         const fullName = decrypt(row.full_name_enc);
         const rawPhone = decrypt(row.primary_phone_enc);
         return {
@@ -69,6 +70,15 @@ patientsRouter.get(
           status: row.status
         };
       });
+
+      // Names are encrypted at rest, so match them after decryption.
+      // Registration numbers are searchable through the same case-insensitive filter.
+      if (search) {
+        patients = patients.filter(patient =>
+          patient.fullName.toLocaleLowerCase().includes(search) ||
+          patient.hospitalRegNo.toLocaleLowerCase().includes(search)
+        ).slice(0, 100);
+      }
 
       res.status(200).json({ patients });
     } catch (err) {
