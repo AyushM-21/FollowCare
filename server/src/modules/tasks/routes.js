@@ -631,6 +631,27 @@ tasksRouter.post(
         metadata: { outcome, channel, closedFollowUp: Boolean(close_follow_up) }
       });
 
+      if (close_follow_up) {
+        await recordAuditLog({
+          req,
+          action: 'update',
+          entityType: 'tasks',
+          entityId: id,
+          patientId: task.patient_id,
+          departmentId: task.department_id,
+          metadata: { oldStatus: task.status, newStatus: TaskStatus.COMPLETED, action: 'follow_up_closed' }
+        });
+        await recordAuditLog({
+          req,
+          action: 'update',
+          entityType: 'follow_up_plans',
+          entityId: task.plan_id,
+          patientId: task.patient_id,
+          departmentId: task.department_id,
+          metadata: { status: 'completed', action: 'follow_up_closed' }
+        });
+      }
+
       res.status(201).json({
         message: 'Contact attempt recorded',
         contactAttempt: attemptRes.rows[0]
