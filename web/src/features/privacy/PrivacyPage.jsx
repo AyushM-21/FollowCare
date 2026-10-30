@@ -44,7 +44,7 @@ function formatAction(value) {
 
 export default function PrivacyPage() {
   const { data, isLoading, isError, error, refetch, isFetching } = useAuditLogs();
-  const logs = data?.logs || [];
+  const logs = data?.auditLogs || [];
 
   return (
     <div className="mx-auto max-w-7xl space-y-7 p-4 sm:p-6 lg:p-8">
